@@ -1,5 +1,11 @@
 <script>
-
+    import { mapActions } from 'pinia'
+    import { useUserStore } from '../stores/user'
+    export default{
+        methods:{
+            ...mapActions(useUserStore,['handleCredentialResponse'])
+        }
+    }
 </script>
 
 <template>
@@ -22,7 +28,7 @@
                 </div>
     
                 <div class="text-center mb-3">
-                    <!-- <GoogleLogin :callback="handleCredentialResponse" /> -->
+                    <GoogleLogin :callback="handleCredentialResponse" />
                 </div>
     
                 <p class="text-center">or:</p>
