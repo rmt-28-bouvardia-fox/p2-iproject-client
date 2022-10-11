@@ -8,7 +8,8 @@ export default {
     ...mapWritableState(useUserStore, ['isLogin'])
   },
   methods: {
-      ...mapActions(useUserStore, ['logoutAction'])
+    ...mapActions(useUserStore, ['logoutAction']),
+      ...mapActions(usePlayerStore, ['buyPlayer'])
   },
 }
 

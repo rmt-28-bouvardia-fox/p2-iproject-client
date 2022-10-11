@@ -7,7 +7,7 @@ export default {
         PlayerCard
     },
     methods: {
-        ...mapActions(usePlayerStore, ['fetchPlayerStore'])
+        ...mapActions(usePlayerStore, ['fetchPlayerStore', 'buyPlayer'])
     },
     computed: {
       ...mapState(usePlayerStore, ['players'])  
@@ -21,7 +21,7 @@ export default {
 <div id="store" class="d-flex justify-content-center align-items-center">
     <div id="box-store" class="text-bg-light p-4 row border border-3 mt-lg-5">
         <h1>Store</h1>
-        <PlayerCard :player="player" v-for="(player, idx) in players" buttonType="buy"/>
+        <PlayerCard @buttonAction="buyPlayer" :player="player" v-for="(player, idx) in players" buttonType="buy"/>
     </div>
 </div>
 

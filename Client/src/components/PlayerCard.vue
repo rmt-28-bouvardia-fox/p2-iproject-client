@@ -2,6 +2,12 @@
 export default {
     props: ['color', 'buttonType', 'player'],
     emits: ['buttonAction'],
+    methods: {
+        buttonHandler() {
+            console.log(this.player.id);
+            this.$emit('buttonAction', this.player.id)
+        }
+    },
     computed: {
         playerPrice() {
             let price = 500
@@ -42,7 +48,7 @@ export default {
             <p class="card-text"><b>Price: </b></p>
             <p class="card-text">{{playerPrice}}</p>
         </div>
-        <button v-if="buttonType == 'buy'" class="btn btn-success">Buy</button>
+        <button @click="buttonHandler" v-if="buttonType == 'buy'" class="btn btn-success">Buy</button>
     </div>
 </div>
 </template>
