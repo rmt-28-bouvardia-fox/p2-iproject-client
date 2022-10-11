@@ -5,7 +5,7 @@ import { useCounterStore } from '../stores/counter';
   export default {
     data(){
       return {
-        imgUrl : (this.comic.thumbnail.path + '.' + this.comic.thumbnail.extension) == `http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg` ? false : this.comic.thumbnail.path + '.' + this.comic.thumbnail.extension,
+        imgUrl : this.comic.thumbnail.path + '.' + this.comic.thumbnail.extension,
         price : this.comic.prices[0].price > 0 ?  this.comic.prices[0].price : 5
       }
     },
@@ -19,7 +19,7 @@ import { useCounterStore } from '../stores/counter';
       ...mapActions(useCounterStore,['renderComic']),
       comicDetail(comicId){
         this.renderComic(comicId)
-        this.$router.push(`/comic/${comicId}`)
+        this.$router.push(`/comics/${comicId}`)
       }
     }
   }
@@ -30,7 +30,7 @@ import { useCounterStore } from '../stores/counter';
 
   
     <!--Card-->
-    <div class="col-md-4" v-if="imgUrl != false">
+    <div class="col-md-4" >
         <div class="card" style="width: 18rem;">
             <img :src="imgUrl" class="card-img-top" alt="...">
             <div class="card-body">

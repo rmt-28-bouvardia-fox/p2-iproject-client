@@ -26,11 +26,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
-                    
+                    <router-link to="/" href="#" class="nav-item nav-link">Home</router-link>
+                    <router-link to="/comics" href="#" class="nav-item nav-link">Comics</router-link>
                     
                 </div>
                 <div class="navbar-nav ms-auto">
-                    <router-link to="/" href="#" class="nav-item nav-link">Home</router-link>
+                    
                     <router-link to="/cart" href="#" class="nav-item nav-link">Cart</router-link>
                     <router-link to="/" href="#" class="nav-item nav-link">Orders</router-link>
                     <router-link to="/register" href="#" class="nav-item nav-link" v-if="isLoggedIn == false">Register</router-link>

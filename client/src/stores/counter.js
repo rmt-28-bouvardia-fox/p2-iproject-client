@@ -6,13 +6,18 @@ export const useCounterStore = defineStore('counter',  {
   state : () => ({
     basedUrl : `http://localhost:3002`,
     comics : [],
-    comic : {}
+    comic : {},
+    page : 1
   }),
   actions : {
-    async renderHome(){
+    async renderComics(input){
       try {
         const {data} = await axios({
-          url : this.basedUrl + '/comics'
+          url : this.basedUrl + '/comics',
+          params : {
+            page : this.page,
+            title : input
+          }
         })
         this.comics = data
       } catch (error) {
