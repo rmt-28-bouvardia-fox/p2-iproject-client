@@ -18,3 +18,26 @@
         </div>
     </div>
 </template>
+
+<style>
+.card:hover .card-img {
+    transform: scale(1.1);
+}
+
+.card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-custom {
+    width: 100%;
+    height: auto;
+    grid-column: span 8;
+    margin: 10px 0;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .1);
+    overflow: hidden;
+}
+</style>
