@@ -75,7 +75,6 @@ export const useUserStore = defineStore('user', {
     },
     async fetchTeam() {
       try {
-        console.log('masuk');
         const { data } = await axios({
           url: `${this.baseUrl}/teams`,
           method: 'GET',
