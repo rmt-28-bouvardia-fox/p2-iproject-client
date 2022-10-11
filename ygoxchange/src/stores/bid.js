@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import api from "@/helpers/api.js"
 
 import firebase from "../firebase";
 import {
@@ -46,11 +47,32 @@ export const useBidStore = defineStore("bid", {
     unlistenBids() {
       off(q);
     },
-    async addNewBid() {},
+    async addNewBid(newBid) {
+      try {
+        console.log(newBid);
+        // await api({
+        //   url: "/bids",
+        //   method: "POST",
+        //   headers: {
+        //     access_token: localStorage.access_token,
+        //   },
+        //   data: {
+        //     card: newBid.cardId,
+        //     expiredBy: newBid.expiredBy,
+        //     startPrice: newBid.startPrice,
+        //     notes: newBid.notes
+        //   },
+        // });
+
+        this.router.push("/my-bids");
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getAllCardsByIDs(ids) {
       try {
-        const cards = await axios({
-          url: "http://localhost:3000/getCardDetails",
+        const cards = await api({
+          url: "/getCardDetails",
           method: "POST",
           data: {
             ids: ids, //string of ids
@@ -111,8 +133,8 @@ export const useBidStore = defineStore("bid", {
       }
 
       try {
-        const { data } = await axios({
-          url: "http://localhost:3000/searchCard",
+        const { data } = await api({
+          url: "/searchCard",
           method: "GET",
           params: {
             query: query,
@@ -125,7 +147,7 @@ export const useBidStore = defineStore("bid", {
         this.searchQuery.hasPrev = data.meta.hasOwnProperty("previous_page");
         this.searchCardList = data.data;
       } catch (error) {
-        if (error.response.status == 404) {
+        if (error?.response?.status == 404) {
           this.searchNotFound = true;
         }
         console.log(error);

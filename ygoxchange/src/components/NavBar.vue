@@ -1,12 +1,18 @@
 <script>
 import LogoIcon from "./icons/LogoIcon.vue";
+import { useUserStore } from "@/stores/user.js";
+import { mapState, mapActions } from "pinia";
 export default {
   data() {
     return {
       route: "",
+      show: false,
     };
   },
   components: { LogoIcon },
+  computed: {
+    ...mapState(useUserStore, ["access_token", "username"]),
+  },
   watch: {
     $route: {
       handler(newValue) {
@@ -14,6 +20,15 @@ export default {
       },
       deep: true,
       immediate: true,
+    },
+  },
+  methods: {
+    ...mapActions(useUserStore, ["logoutHandler"]),
+    goToLogin() {
+      this.$router.push("/login");
+    },
+    logout() {
+      this.logoutHandler();
     },
   },
 };
@@ -42,9 +57,22 @@ export default {
       <router-link to="/database">Database</router-link>
     </div>
     <div class="w-1/4 text-lg text-center">
-      <div class="flex justify-center items-center gap-4">
+      <div class="flex justify-center items-center gap-4 relative">
         <IconifyIcon icon="bxs:user" />
-        <p>Hello, Yugi Mutou!</p>
+        <p @mouseover="show = true" v-if="username">Hello, {{ username }}!</p>
+        <div
+          v-if="show"
+          @mouseleave="show = false"
+          class="absolute z-50 top-[30px] p-2 rounded-lg w-[150px] bg-white text-black"
+        >
+          <div
+            @click="logout"
+            class="hover:text-white hover:bg-black rounded-lg"
+          >
+            Logout
+          </div>
+        </div>
+        <p @click="goToLogin" v-else-if="!username">Login</p>
       </div>
     </div>
   </div>

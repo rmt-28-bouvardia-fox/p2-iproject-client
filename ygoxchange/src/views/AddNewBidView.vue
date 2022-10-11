@@ -13,14 +13,36 @@ export default {
       query: "",
       step: 1,
       selectedCard: {},
+      input: {
+        price: 0,
+        condition: "new",
+        expiredBy: "",
+        notes: "",
+      },
     };
   },
   computed: {
     ...mapState(useBidStore, ["currency", "searchNotFound", "searchCardList"]),
     ...mapWritableState(useBidStore, ["searchQuery"]),
+    limitDateTime() {
+      let d = new Date();
+      let date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      let minutes = d.getMinutes();
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      let time = d.getHours() + ":" + minutes;
+
+      return date + " " + time;
+    },
   },
   methods: {
-    ...mapActions(useBidStore, ["searchCard", "getCurrency", "clearQuery"]),
+    ...mapActions(useBidStore, [
+      "searchCard",
+      "getCurrency",
+      "clearQuery",
+      "addNewBid",
+    ]),
     searchCardHandler() {
       this.searchQuery.page = 1;
       this.searchQuery.query = this.query;
@@ -39,8 +61,17 @@ export default {
       this.step = 2;
     },
     backStep() {
-      this.selectedCard = {};
       this.step = 1;
+      this.selectedCard = {};
+      this.input = {
+        price: 0,
+        condition: "new",
+        expiredBy: "",
+        notes: "",
+      };
+    },
+    submit() {
+      this.addNewBid(this.input);
     },
   },
   created() {
@@ -120,22 +151,24 @@ export default {
   </div>
   <div v-if="step === 2">
     <div>
-      <div class="pl-5">
-        <div class="font-semibold text-3xl">New Auction</div>
+      <div>
+        <div class="font-semibold text-3xl pb-9">New Auction</div>
+        <CustomButton @click="backStep" :name="'Back'" :active="true" />
       </div>
       <div class="flex pt-9">
         <div class="w-2/3">
           <div class="text-bold text-3xl text-blueTheme pb-6">
             {{ selectedCard.name }}
           </div>
-          <form>
+          <form @submit.prevent="submit">
             <div class="flex pb-2">
               <div class="w-1/2">
-                <label for="price">Price</label>
+                <label for="price">Price (Rp)</label>
               </div>
               <div class="w-1/2">
                 <input
                   required
+                  v-model="input.price"
                   class="border-2 rounded-lg p-1"
                   type="number"
                   id="price"
@@ -149,6 +182,7 @@ export default {
               </div>
               <div class="w-1/2">
                 <select
+                  v-model="input.condition"
                   id="condition"
                   name="condition"
                   class="border-2 rounded-lg p-1"
@@ -164,20 +198,11 @@ export default {
               </div>
               <div class="w-1/2">
                 <input
+                  v-model="input.expiredBy"
                   required
                   class="border-2 rounded-lg p-1"
                   type="datetime-local"
-                  :min="
-                    new Date().getFullYear() +
-                    '-' +
-                    (new Date().getMonth() + 1) +
-                    '-' +
-                    new Date().getDate() +
-                    ' ' +
-                    new Date().getHours() +
-                    ':' +
-                    new Date().getMinutes()
-                  "
+                  :min="limitDateTime"
                   id="expiredBy"
                   name="expiredBy"
                 />
@@ -190,6 +215,7 @@ export default {
               <div class="w-1/2">
                 <textarea
                   required
+                  v-model="input.notes"
                   class="border-2 rounded-lg p-1"
                   id="notes"
                   name="notes"

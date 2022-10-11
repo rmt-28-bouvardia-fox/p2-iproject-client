@@ -56,4 +56,14 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach((to, from, next) => {
+  let isAuthenticated = localStorage.access_token;
+  if (to.path == "/my-bids" || (to.name == "new-bid" && !isAuthenticated)) {
+    next({ name: "home" });
+  } else next();
+  if (to.name == "login" || (to.name == "register" && isAuthenticated)) {
+    next({ name: "home" });
+  } else next();
+});
+
 export default router;
