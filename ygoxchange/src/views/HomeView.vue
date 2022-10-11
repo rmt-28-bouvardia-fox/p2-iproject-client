@@ -1,6 +1,5 @@
 <script>
 import CardList from "@/components/CardList.vue";
-import BidsDataService from "@/services/BidsDataService.js";
 import { mapActions, mapWritableState } from "pinia";
 import { useBidStore } from "@/stores/bid.js";
 export default {
@@ -8,7 +7,7 @@ export default {
     CardList,
   },
   computed: {
-    ...mapWritableState(useBidStore, ['bids']),
+    ...mapWritableState(useBidStore, ["bids"]),
   },
   methods: {
     ...mapActions(useBidStore, ["listenBids", "unlistenBids"]),
@@ -24,6 +23,6 @@ export default {
 
 <template>
   <div class="pb-[10vh]">
-    <CardList :items="bids" />
+    <CardList :items="bids"/>
   </div>
 </template>

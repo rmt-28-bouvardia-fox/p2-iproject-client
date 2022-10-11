@@ -1,4 +1,6 @@
 <script>
+import { mapActions } from "pinia";
+import { useBidStore } from "@/stores/bid.js";
 export default {
   props: ["item"],
   data() {
@@ -20,6 +22,7 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
+    // ...mapActions(useBidStore, ["getNewBids"]),
     runTimer() {
       this.interval = setInterval(() => {
         this.timerFunction();
@@ -39,6 +42,7 @@ export default {
 
       if (time < 0) {
         clearInterval(this.interval);
+        this.expired = true;
       }
     },
   },
@@ -46,19 +50,15 @@ export default {
 </script>
 
 <template>
-  <div class="font-semibold min-w-[250px] shadow-lg">
+  <div v-if="!expired" class="font-semibold min-w-[250px] shadow-lg">
     <div class="flex justify-center item-center py-4">
-      <img
-        :src="item.cardDetail.card_images[0].image_url"
-        width="130"
-        alt=""
-      />
+      <img :src="item.cardDetail.card_images[0].image_url" width="130" alt="" />
     </div>
     <div class="bg-blueTheme text-white p-4 rounded-lg">
-      <div class="truncate">{{item.cardDetail.name}}</div>
+      <div class="truncate">{{ item.cardDetail.name }}</div>
       <div class="flex item-center">
         <p class="w-1/2 text-xs text-greyTheme">Current Bid</p>
-        <p class="w-1/2">{{item.currentPrice}}</p>
+        <p class="w-1/2">{{ item.currentPrice }}</p>
       </div>
       <div class="flex item-center">
         <p class="w-1/2 text-xs text-greyTheme">Created By</p>

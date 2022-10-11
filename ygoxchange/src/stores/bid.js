@@ -14,11 +14,12 @@ import {
 
 const dbRef = ref(firebase, "/bids");
 
-let now = new Date();
-now = now.getTime();
-
 // query
-const q = query(dbRef, orderByChild("expiredBy"), startAfter(now));
+const q = query(
+  dbRef,
+  orderByChild("expiredBy"),
+  startAfter(new Date().getTime())
+);
 
 export const useBidStore = defineStore("bid", {
   state: () => ({
@@ -32,12 +33,7 @@ export const useBidStore = defineStore("bid", {
     unlistenBids() {
       off(q);
     },
-    async getNewBid() {
-      const newData = await get(q);
-
-      this.onBidsChange(newData);
-    },
-    addNewBid() {},
+    async addNewBid() {},
     async getAllCardsByIDs(ids) {
       try {
         const cards = await axios({
@@ -54,6 +50,10 @@ export const useBidStore = defineStore("bid", {
       }
     },
     async onBidsChange(snapshot) {
+      if (!snapshot.val()) {
+        return;
+      }
+
       let _bids = [];
 
       snapshot.forEach((item) => {

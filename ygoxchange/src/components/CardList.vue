@@ -5,13 +5,6 @@ export default {
   components: {
     CardItem,
   },
-  watch: {
-    items: {
-      handler(newValue) {
-        console.log(newValue);
-      },
-    },
-  },
 };
 </script>
 
