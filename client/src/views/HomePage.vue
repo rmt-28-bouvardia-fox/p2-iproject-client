@@ -27,6 +27,8 @@ export default {
     <div class="line"></div>
     <div class="sidebar">
       <div class="rows">
+        <h1 class="sidebar-title">International top articles</h1>
+        <div class="sidebar-line"></div>
         <SidebarComponent
           v-for="(data, index) in getSidebarData"
           :key="index"
@@ -50,12 +52,24 @@ export default {
 }
 
 .line {
-  min-height: 407vh;
+  min-height: 406vh;
   width: 1px;
   background-color: #000;
   margin: 0 1rem;
 }
 .sidebar {
   flex: 0.5;
+}
+
+.sidebar-title {
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.sidebar-line {
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  margin: 1rem 0;
 }
 </style>

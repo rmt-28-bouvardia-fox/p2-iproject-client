@@ -1,15 +1,19 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
+import { useCategoryNewsStore } from "../stores/categoryNews";
 import { useLoginStore } from "../stores/login";
-import { useNewsStore } from "../stores/news";
 
 export default {
   computed: { ...mapWritableState(useLoginStore, ["isLogin"]) },
   methods: {
     ...mapActions(useLoginStore, ["logout"]),
-    ...mapActions(useNewsStore, ["fetchNews"]),
-    newsCategory(cateogry) {
-      this.fetchNews(cateogry);
+    ...mapActions(useCategoryNewsStore, [
+      "fetchCategoryNews",
+      "fetchInternationalCategory",
+    ]),
+    fetchCategory(value) {
+      this.fetchCategoryNews(value);
+      this.fetchInternationalCategory(value);
     },
   },
   created() {
@@ -43,58 +47,53 @@ export default {
     <div class="bottom-wrapper">
       <ul class="link-wrapper">
         <li>
-          <RouterLink
-            to="/"
-            class="link news-category"
-            @click.prevent="fetchNews('')"
-            >Latest News</RouterLink
-          >
+          <RouterLink to="/" class="link news-category">Latest News</RouterLink>
         </li>
         <li>
           <RouterLink
-            to="/"
+            to="/sports"
             class="link news-category"
-            @click.prevent="fetchNews('sports')"
+            @click.prevent="fetchCategory('Sports')"
             >Sports</RouterLink
           >
         </li>
         <li>
           <RouterLink
-            to="/"
+            to="/business"
             class="link news-category"
-            @click.prevent="fetchNews('business')"
+            @click.prevent="fetchCategory('Business')"
             >Business</RouterLink
           >
         </li>
         <li>
           <RouterLink
-            to="/"
+            to="/entertainment"
             class="link news-category"
-            @click.prevent="fetchNews('entertainment')"
+            @click.prevent="fetchCategory('Entertainment')"
             >Entertainment</RouterLink
           >
         </li>
         <li>
           <RouterLink
-            to="/"
+            to="/health"
             class="link news-category"
-            @click.prevent="fetchNews('health')"
+            @click.prevent="fetchCategory('Health')"
             >Health</RouterLink
           >
         </li>
         <li>
           <RouterLink
-            to="/"
+            to="/science"
             class="link news-category"
-            @click.prevent="fetchNews('science')"
+            @click.prevent="fetchCategory('Science')"
             >Science</RouterLink
           >
         </li>
         <li>
           <RouterLink
-            to="/"
+            to="/technology"
             class="link news-category"
-            @click.prevent="fetchNews('technology')"
+            @click.prevent="fetchCategory('Technology')"
             >Technology</RouterLink
           >
         </li>

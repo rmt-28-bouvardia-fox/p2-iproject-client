@@ -1,6 +1,6 @@
 <script>
 export default {
-  props: ["news"],
+  props: ["news", "category"],
   methods: {
     toNews(url) {
       console.log(url);

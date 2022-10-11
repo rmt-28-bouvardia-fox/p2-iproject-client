@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
+import CategoryPage from "../components/CategoryPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,36 @@ const router = createRouter({
       path: "/register",
       name: "Register",
       component: RegisterPage,
+    },
+    {
+      path: "/sports",
+      name: "Sports",
+      component: CategoryPage,
+    },
+    {
+      path: "/business",
+      name: "Business",
+      component: CategoryPage,
+    },
+    {
+      path: "/entertainment",
+      name: "Entertainment",
+      component: CategoryPage,
+    },
+    {
+      path: "/health",
+      name: "Health",
+      component: CategoryPage,
+    },
+    {
+      path: "/science",
+      name: "Science",
+      component: CategoryPage,
+    },
+    {
+      path: "/technology",
+      name: "Technology",
+      component: CategoryPage,
     },
   ],
 });
