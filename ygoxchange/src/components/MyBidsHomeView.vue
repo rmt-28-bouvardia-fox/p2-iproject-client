@@ -13,5 +13,5 @@ export default {
       <CustomButton class="w-full" :name="'Add New Auction'" :active="true"
     /></router-link>
   </div>
-  <div class="bg-greyTheme h-screen border-1 rounded-lg"></div>
+  <div class="bg-lightGreyTheme h-screen border-1 rounded-lg"></div>
 </template>

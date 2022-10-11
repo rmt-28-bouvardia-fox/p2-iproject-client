@@ -24,6 +24,19 @@ const q = query(
 export const useBidStore = defineStore("bid", {
   state: () => ({
     bids: [],
+    searchCardList: [],
+    searchNotFound: false,
+    searchQuery: {
+      query: "",
+      num: 8,
+      page: 1,
+      hasNext: false,
+      hasPrev: false,
+    },
+    currency: {
+      eur: 0,
+      usd: 0,
+    },
   }),
   getters: {},
   actions: {
@@ -87,6 +100,57 @@ export const useBidStore = defineStore("bid", {
       });
 
       this.bids = newBids;
+    },
+    async searchCard() {
+      this.searchNotFound = false;
+      const { num, page, query } = this.searchQuery;
+      const offset = num * (page - 1);
+
+      if (!query) {
+        return;
+      }
+
+      try {
+        const { data } = await axios({
+          url: "http://localhost:3000/searchCard",
+          method: "GET",
+          params: {
+            query: query,
+            num: num,
+            offset: offset,
+          },
+        });
+
+        this.searchQuery.hasNext = data.meta.hasOwnProperty("next_page");
+        this.searchQuery.hasPrev = data.meta.hasOwnProperty("previous_page");
+        this.searchCardList = data.data;
+      } catch (error) {
+        if (error.response.status == 404) {
+          this.searchNotFound = true;
+        }
+        console.log(error);
+      }
+    },
+    clearQuery() {
+      this.searchQuery = {
+        query: "",
+        num: 8,
+        page: 1,
+        hasNext: false,
+        hasPrev: false,
+      };
+    },
+    async getCurrency() {
+      try {
+        const { data } = await axios({
+          url: "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/idr.json",
+          method: "GET",
+        });
+        this.currency.eur = data.idr.eur;
+        this.currency.usd = data.idr.usd;
+      } catch (error) {
+        console.log(error);
+      }
     },
     onError(error) {
       console.log(error);

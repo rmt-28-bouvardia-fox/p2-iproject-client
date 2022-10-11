@@ -13,6 +13,7 @@ module.exports = {
         darkBlueTheme: "#012068",
         goldTheme: "#D4BA52",
         greyTheme: "#CCCCCC",
+        lightGreyTheme: "#F2F2F2",
         darkGreyTheme: "#1D1D1D",
       },
     },
