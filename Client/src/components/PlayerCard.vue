@@ -4,7 +4,6 @@ export default {
     emits: ['buttonAction'],
     methods: {
         buttonHandler() {
-            console.log(this.player.id);
             this.$emit('buttonAction', this.player.id)
         }
     },
