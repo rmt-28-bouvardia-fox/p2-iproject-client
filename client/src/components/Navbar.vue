@@ -46,6 +46,14 @@ export default {
           <RouterLink
             to="/"
             class="link news-category"
+            @click.prevent="fetchNews('')"
+            >Latest News</RouterLink
+          >
+        </li>
+        <li>
+          <RouterLink
+            to="/"
+            class="link news-category"
             @click.prevent="fetchNews('sports')"
             >Sports</RouterLink
           >

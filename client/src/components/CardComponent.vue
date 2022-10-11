@@ -35,6 +35,7 @@ export default {
 }
 
 .left {
+  width: 300px;
   padding: 1rem;
   margin-right: 50px;
 }

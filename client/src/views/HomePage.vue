@@ -3,14 +3,16 @@ import { mapActions, mapState } from "pinia";
 import { useNewsStore } from "../stores/news";
 import CardComponent from "../components/CardComponent.vue";
 import Navbar from "../components/Navbar.vue";
+import SidebarComponent from "../components/SidebarComponent.vue";
 
 export default {
-  methods: { ...mapActions(useNewsStore, ["fetchNews"]) },
-  computed: { ...mapState(useNewsStore, ["getNews"]) },
+  methods: { ...mapActions(useNewsStore, ["fetchNews", "fetchDataSidebar"]) },
+  computed: { ...mapState(useNewsStore, ["getNews", "getSidebarData"]) },
   created() {
     this.fetchNews();
+    this.fetchDataSidebar();
   },
-  components: { CardComponent, Navbar },
+  components: { CardComponent, Navbar, SidebarComponent },
 };
 </script>
 <template>
@@ -23,7 +25,15 @@ export default {
       </div>
     </div>
     <div class="line"></div>
-    <div class="sidebar"></div>
+    <div class="sidebar">
+      <div class="rows">
+        <SidebarComponent
+          v-for="(data, index) in getSidebarData"
+          :key="index"
+          :data="data"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -40,7 +50,7 @@ export default {
 }
 
 .line {
-  min-height: 100%;
+  min-height: 407vh;
   width: 1px;
   background-color: #000;
   margin: 0 1rem;
