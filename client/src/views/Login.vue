@@ -1,3 +1,19 @@
+<script>
+import {mapActions} from 'pinia'
+import { useClientStore } from '../stores/client';
+export default {
+    methods :{
+        ...mapActions(useClientStore,['login'])
+    },
+    data(){
+        return {
+            email : '',
+            password : ''
+        }
+    }
+}
+</script>
+
 <template>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -10,27 +26,27 @@
                                     <img src="../assets/Marvel_Logo.svg.png"
                                     style="width: 185px;" alt="logo">
                                 </div>
-                                <form class="mt-5">
+                                <form @submit.prevent="login({email,password})" class="mt-5">
                                     <p class="text-center">Please login to your account</p>
                                     <div class="form-outline mb-4">
                                         <input type="email" id="form2Example11" class="form-control"
-                                        placeholder="Email address" />
+                                        placeholder="Email address" v-model ="email"/>
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="password" id="form2Example22" class="form-control" 
-                                        placeholder="password"/>
+                                        placeholder="password" v-model="password"/>
                                     </div>
                                     <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Log in</button>
+                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Log in</button>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center pb-4">
                                         <p class="mb-0 me-2">Don't have an account?</p>
-                                        <button type="button" class="btn btn-outline-danger">Create new</button>
+                                        <router-link to="/register" type="button" class="btn btn-outline-danger">Create new</router-link>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        <div class="col-lg-6 d-flex align-items-center gradient-custom-2 border">
+                        <div class="col-lg-6 d-flex align-items-center bg-dark">
                             <img src="../assets/avengers2-movieposter-web_210f6394.jpeg" alt="">
                         </div>
                     </div>

@@ -4,7 +4,6 @@ import axios from 'axios'
 
 export const useCounterStore = defineStore('counter',  {
   state : () => ({
-    isLoggedIn : localStorage.access_token ? true : false,
     basedUrl : `http://localhost:3002`,
     comics : []
   }),
@@ -14,7 +13,6 @@ export const useCounterStore = defineStore('counter',  {
         const {data} = await axios({
           url : this.basedUrl + '/comics'
         })
-        // console.log(data)
         this.comics = data
       } catch (error) {
         console.log(error)

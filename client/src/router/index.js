@@ -16,16 +16,15 @@ const router = createRouter({
 
 
 router.beforeEach((to,from,next) =>{
-  // const isLoggedIn = localStorage.access_token ? true : false 
-  // if(to.name == 'login' && isLoggedIn == true){
-  //   next('/')
-  // } else if(to.name == 'wishlist' && isLoggedIn == false){
-  //   Swal.fire('Please login first')
-  //   next('/login')
-  // } else{
-  //   next()
-  // }
-  next()
+  const isLoggedIn = localStorage.access_token ? true : false 
+  if(to.name == 'login' && isLoggedIn == true){
+    next('/')
+  } else if(to.name == 'wishlist' && isLoggedIn == false){
+    Swal.fire('Please login first')
+    next('/login')
+  } else{
+    next()
+  }
 })
 
 

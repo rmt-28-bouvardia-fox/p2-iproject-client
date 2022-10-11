@@ -1,9 +1,16 @@
 <script>
-    import {mapState} from 'pinia'
-    import {useCounterStore} from '../stores/counter'
+    import {mapWritableState} from 'pinia'
+    import {useClientStore} from '../stores/client'
     export default {
         computed : {
-            ...mapState(useCounterStore, ['isLoggedIn'])
+            ...mapWritableState(useClientStore, ['isLoggedIn'])
+        },
+        methods : {
+            logout(){
+                this.$router.push('/')
+                localStorage.clear()
+                this.isLoggedIn = false
+            }
         }
     }
 </script>
@@ -24,11 +31,12 @@
                 </div>
                 <div class="navbar-nav ms-auto">
                     <router-link to="/" href="#" class="nav-item nav-link">Home</router-link>
-                    <router-link to="/" href="#" class="nav-item nav-link" v-if="isLoggedIn == true">Profile</router-link>
-                    <router-link href="#" class="nav-item nav-link" v-if="isLoggedIn == true">Logout</router-link>
                     <router-link to="/" href="#" class="nav-item nav-link">Cart</router-link>
                     <router-link to="/" href="#" class="nav-item nav-link">Orders</router-link>
+                    <router-link to="/register" href="#" class="nav-item nav-link" v-if="isLoggedIn == false">Register</router-link>
                     <router-link to="/login" href="#" class="nav-item nav-link" v-if="isLoggedIn == false">Login</router-link>
+                    <router-link to="/" href="#" class="nav-item nav-link" v-if="isLoggedIn == true">Profile</router-link>
+                    <a @click.prevent="logout" href="#" class="nav-item nav-link" v-if="isLoggedIn == true">Logout</a>
                 </div>
             </div>
         </div>
