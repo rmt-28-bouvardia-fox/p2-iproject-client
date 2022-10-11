@@ -1,16 +1,17 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
+import { useUserStore } from "./../stores/user";
 
 export default {
   methods: {
     logout() {
       localStorage.clear();
-      this.$router.push("/cust/products");
+      this.$router.push("/");
       this.isLogin = false;
     },
   },
   computed: {
-
+    ...mapWritableState(useUserStore, ["isLogin"]),
   },
   created() {
     if (localStorage.access_token) {
@@ -27,14 +28,10 @@ export default {
         <div class="navbar-left">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
             <li class="nav-item">
-              <RouterLink
-                to="/"
-                class="nav-link"
-                aria-current="page"
-                href="#!"
+              <RouterLink to="/" class="nav-link" aria-current="page" href="#!"
                 >Home</RouterLink
               >
-              </li>
+            </li>
           </ul>
         </div>
       </div>
