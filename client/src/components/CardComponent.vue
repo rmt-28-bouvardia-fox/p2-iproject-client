@@ -1,20 +1,27 @@
 <script>
 export default {
   props: ["news"],
+  methods: {
+    toNews(url) {
+      console.log(url);
+    },
+  },
 };
 </script>
 <template>
-  <div class="card">
-    <div class="left">
-      <h3 class="card-title">{{ news.title }}</h3>
-      <div class="card-desc">
-        {{ news.description }}
+  <a :href="news.url" target="_blank">
+    <div class="card" @click="toNews(news.url)">
+      <div class="left">
+        <h3 class="card-title">{{ news.title }}</h3>
+        <div class="card-desc">
+          {{ news.description }}
+        </div>
+      </div>
+      <div class="right">
+        <img class="card-img" :src="news.urlToImage" alt="news image" />
       </div>
     </div>
-    <div class="right">
-      <img class="card-img" :src="news.urlToImage" alt="" />
-    </div>
-  </div>
+  </a>
 
   <div class="line"></div>
 </template>
@@ -24,6 +31,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  color: black;
 }
 
 .left {

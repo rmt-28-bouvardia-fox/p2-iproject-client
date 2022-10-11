@@ -1,10 +1,17 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
 import { useLoginStore } from "../stores/login";
+import { useNewsStore } from "../stores/news";
 
 export default {
   computed: { ...mapWritableState(useLoginStore, ["isLogin"]) },
-  methods: { ...mapActions(useLoginStore, ["logout"]) },
+  methods: {
+    ...mapActions(useLoginStore, ["logout"]),
+    ...mapActions(useNewsStore, ["fetchNews"]),
+    newsCategory(cateogry) {
+      this.fetchNews(cateogry);
+    },
+  },
   created() {
     if (localStorage.access_token) {
       this.isLogin = true;
@@ -36,24 +43,52 @@ export default {
     <div class="bottom-wrapper">
       <ul class="link-wrapper">
         <li>
-          <RouterLink to="/" class="link news-category">Sports</RouterLink>
+          <RouterLink
+            to="/"
+            class="link news-category"
+            @click.prevent="fetchNews('sports')"
+            >Sports</RouterLink
+          >
         </li>
         <li>
-          <RouterLink to="/" class="link news-category">Business</RouterLink>
+          <RouterLink
+            to="/"
+            class="link news-category"
+            @click.prevent="fetchNews('business')"
+            >Business</RouterLink
+          >
         </li>
         <li>
-          <RouterLink to="/" class="link news-category"
+          <RouterLink
+            to="/"
+            class="link news-category"
+            @click.prevent="fetchNews('entertainment')"
             >Entertainment</RouterLink
           >
         </li>
         <li>
-          <RouterLink to="/" class="link news-category">Health</RouterLink>
+          <RouterLink
+            to="/"
+            class="link news-category"
+            @click.prevent="fetchNews('health')"
+            >Health</RouterLink
+          >
         </li>
         <li>
-          <RouterLink to="/" class="link news-category">Science</RouterLink>
+          <RouterLink
+            to="/"
+            class="link news-category"
+            @click.prevent="fetchNews('science')"
+            >Science</RouterLink
+          >
         </li>
         <li>
-          <RouterLink to="/" class="link news-category">Technology</RouterLink>
+          <RouterLink
+            to="/"
+            class="link news-category"
+            @click.prevent="fetchNews('technology')"
+            >Technology</RouterLink
+          >
         </li>
       </ul>
       <div class="line2-top"></div>
