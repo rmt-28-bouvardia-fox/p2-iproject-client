@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import api from "@/helpers/api.js"
+import api from "@/helpers/api.js";
 
 import firebase from "../firebase";
 import {
@@ -12,6 +12,7 @@ import {
   off,
   get,
 } from "firebase/database";
+import { useSwalStore } from "./swal";
 
 const dbRef = ref(firebase, "/bids");
 
@@ -48,28 +49,31 @@ export const useBidStore = defineStore("bid", {
       off(q);
     },
     async addNewBid(newBid) {
+      const swal = useSwalStore();
       try {
-        console.log(newBid);
-        // await api({
-        //   url: "/bids",
-        //   method: "POST",
-        //   headers: {
-        //     access_token: localStorage.access_token,
-        //   },
-        //   data: {
-        //     card: newBid.cardId,
-        //     expiredBy: newBid.expiredBy,
-        //     startPrice: newBid.startPrice,
-        //     notes: newBid.notes
-        //   },
-        // });
+        await api({
+          url: "/bids",
+          method: "POST",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: {
+            cardId: newBid.cardId,
+            condition: newBid.condition,
+            expiredBy: newBid.expiredBy,
+            startPrice: newBid.price,
+            notes: newBid.notes,
+          },
+        });
 
+        swal.swalInfo("Bid started!");
         this.router.push("/my-bids");
       } catch (error) {
-        console.log(error);
+        swal.errorHandler(error);
       }
     },
     async getAllCardsByIDs(ids) {
+      const swal = useSwalStore();
       try {
         const cards = await api({
           url: "/getCardDetails",
@@ -81,7 +85,7 @@ export const useBidStore = defineStore("bid", {
 
         return cards.data;
       } catch (error) {
-        console.log(error);
+        swal.errorHandler(error);
       }
     },
     async onBidsChange(snapshot) {
@@ -99,6 +103,7 @@ export const useBidStore = defineStore("bid", {
           buyerId: data.buyerId,
           sellerId: data.sellerId,
           currentPrice: data.currentPrice,
+          createdBy: data.createdBy,
           createdAt: data.createdAt,
           expiredBy: data.expiredBy,
           cardId: data.cardId,
@@ -124,6 +129,7 @@ export const useBidStore = defineStore("bid", {
       this.bids = newBids;
     },
     async searchCard() {
+      const swal = useSwalStore();
       this.searchNotFound = false;
       const { num, page, query } = this.searchQuery;
       const offset = num * (page - 1);
@@ -149,8 +155,9 @@ export const useBidStore = defineStore("bid", {
       } catch (error) {
         if (error?.response?.status == 404) {
           this.searchNotFound = true;
+        } else {
+          swal.errorHandler(error);
         }
-        console.log(error);
       }
     },
     clearQuery() {
@@ -163,6 +170,7 @@ export const useBidStore = defineStore("bid", {
       };
     },
     async getCurrency() {
+      const swal = useSwalStore();
       try {
         const { data } = await axios({
           url: "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/idr.json",
@@ -171,11 +179,11 @@ export const useBidStore = defineStore("bid", {
         this.currency.eur = data.idr.eur;
         this.currency.usd = data.idr.usd;
       } catch (error) {
-        console.log(error);
+        swal.errorHandler(error);
       }
     },
     onError(error) {
-      console.log(error);
+      swal.errorHandler(error);
     },
   },
 });

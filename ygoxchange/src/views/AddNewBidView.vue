@@ -71,7 +71,11 @@ export default {
       };
     },
     submit() {
-      this.addNewBid(this.input);
+      const payload = {
+        cardId: this.selectedCard.id,
+        ...this.input,
+      };
+      this.addNewBid(payload);
     },
   },
   created() {
@@ -120,7 +124,7 @@ export default {
               </div>
               <CardPrices :currency="currency" :card="card" />
             </div>
-            <div class="w-1/4 flex flex-col gap-4 sm:text-sm justify-center">
+            <div class="w-1/4 flex flex-col gap-4 sm:text-sm pt-10">
               <CustomButton
                 class=""
                 :name="'Use this card'"

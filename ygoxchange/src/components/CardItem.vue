@@ -22,7 +22,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-    // ...mapActions(useBidStore, ["getNewBids"]),
     runTimer() {
       this.interval = setInterval(() => {
         this.timerFunction();
@@ -57,12 +56,12 @@ export default {
     <div class="bg-blueTheme text-white p-4 rounded-lg">
       <div class="truncate">{{ item.cardDetail.name }}</div>
       <div class="flex item-center">
-        <p class="w-1/2 text-xs text-greyTheme">Current Bid</p>
+        <p class="w-1/2 text-xs text-greyTheme flex items-center">Current Bid</p>
         <p class="w-1/2">{{ item.currentPrice }}</p>
       </div>
       <div class="flex item-center">
-        <p class="w-1/2 text-xs text-greyTheme">Created By</p>
-        <p class="w-1/2">Joe</p>
+        <p class="w-1/2 text-xs text-greyTheme flex items-center">Created By</p>
+        <p class="w-1/2">{{ item.createdBy }}</p>
       </div>
       <div class="flex item-center">
         <div class="flex-1">
