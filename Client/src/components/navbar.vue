@@ -8,7 +8,8 @@ export default {
     ...mapWritableState(useUserStore, ['isLogin'])
   },
   methods: {
-      ...mapActions(useUserStore, ['logoutAction'])
+    ...mapActions(useUserStore, ['logoutAction']),
+      ...mapActions(usePlayerStore, ['buyPlayer'])
   },
 }
 
@@ -27,7 +28,7 @@ export default {
 <style scoped>
 
 #navbar {
-    background-color: #2192FF;
+    background-color: #c50700;
     box-shadow: 2px 2px 6px 1px black;
 }
 
