@@ -9,6 +9,8 @@ import EditTeam from '../views/EditTeam.vue'
 import ListPlayers from '../views/PlayersPage.vue'
 import PlayerDetail from '../views/PlayerDetail.vue'
 import Formation from '../views/Formation.vue'
+import Store from '../views/BuyPlayer.vue'
+import RandomBuy from '../views/randomBuy.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +65,16 @@ const router = createRouter({
       name: 'playerDetail',
       component: PlayerDetail
     },
+    {
+      path: '/store',
+      name: 'store',
+      component: Store
+    },
+    {
+      path: '/randomBuy',
+      name: 'randomBuy',
+      component: RandomBuy
+    }
   ]
 })
 
