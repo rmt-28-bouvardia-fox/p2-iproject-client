@@ -12,12 +12,10 @@ export const useCounterStore = defineStore('counter',  {
     async renderHome(){
       try {
         const {data} = await axios({
-          url : this.basedUrl 
+          url : this.basedUrl + '/comics'
         })
         // console.log(data)
         this.comics = data
-        console.log(data)
-        console.log(this.comics, `<~~~`)
       } catch (error) {
         console.log(error)
       }
