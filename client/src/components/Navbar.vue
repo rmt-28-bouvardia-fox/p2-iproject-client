@@ -1,14 +1,34 @@
-<script></script>
+<script>
+import { mapActions, mapWritableState } from "pinia";
+import { useLoginStore } from "../stores/login";
+
+export default {
+  computed: { ...mapWritableState(useLoginStore, ["isLogin"]) },
+  methods: { ...mapActions(useLoginStore, ["logout"]) },
+  created() {
+    if (localStorage.access_token) {
+      this.isLogin = true;
+    } else {
+      this.isLogin = false;
+    }
+  },
+};
+</script>
 <template>
-  <div class="container">
+  <div class="nav-container">
     <div class="top-wrapper">
       <h1 class="logo">The Hacktiv Times</h1>
       <ul class="link-wrapper">
-        <li>
+        <li v-if="!isLogin">
           <RouterLink to="/login" class="link user-btn">Login</RouterLink>
         </li>
-        <li>
+        <li v-if="!isLogin">
           <RouterLink to="/register" class="link user-btn">Register</RouterLink>
+        </li>
+        <li v-if="isLogin">
+          <RouterLink to="/login" @click.prevent="logout" class="link user-btn"
+            >Logout</RouterLink
+          >
         </li>
       </ul>
     </div>
@@ -44,7 +64,7 @@
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 
-.container {
+.nav-container {
   width: 100%;
   padding: 1rem 8rem;
 }
