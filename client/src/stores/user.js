@@ -69,6 +69,42 @@ export const useUserStore = defineStore('user', {
           text:`${err.response.data.message}`
           })
       }
+    },
+    checkAccessToken(){
+      if(localStorage.access_token){
+        this.isLogin = true
+      }
+      else{
+        this.isLogin = false
+      }
+    },
+    async handleCredentialResponse(response){
+      try {
+        const { data } = await axios({
+          method:'post',
+          url:`${this.url}/auth/googleLogin`,
+          headers:{
+            google_token:response.credential
+          }
+        })
+        localStorage.setItem('access_token',data.access_token)
+        localStorage.setItem('email',data.email)
+        localStorage.setItem('status',data.status)
+        localStorage.setItem('id',data.id)
+        this.isLogin = true
+        this.router.push('/')
+        Swal.fire({
+          icon:"success",
+          title:"gotcha",
+          timer:1500
+        })
+      } catch (err) {
+        Swal.fire({
+          icon:"error",
+          title:"Oops...",
+          text:`${err.response.data.message}`
+        })
+      }
     }
   },
 })
