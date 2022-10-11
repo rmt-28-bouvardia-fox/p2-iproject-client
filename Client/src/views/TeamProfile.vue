@@ -44,7 +44,7 @@ export default {
 </template>
 <style scoped>
 #profil{
-    height: 100vh;
+    height: 90vh;
 }
 
 #box-profile{

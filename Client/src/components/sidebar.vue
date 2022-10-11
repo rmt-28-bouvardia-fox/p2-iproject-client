@@ -28,11 +28,11 @@ export default {
         <div class="d-flex justify-content-center">
             <img :src="myTeam.logo" width="100" alt="">
         </div>
-        <div>
+        <div class="d-flex justify-content-center">
             <h2 class="m-4" id="nav-dashboard">{{myTeam.name}}</h2>
         </div>
         <div>
-            <h4 class="mx-4 mt-5" id="nav-movie">Coach: {{coach}}</h4>
+            <h4 class="mx-4 mt-3" id="nav-movie">Coach: {{coach}}</h4>
         </div>
         <ul id="sidebar-link" class="nav flex-column mx-2" style="margin-top: 18%;">
             <li class="nav-item">
@@ -45,9 +45,9 @@ export default {
                 <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Recruit a Player
                 </a>
-                <ul class="dropdown-menu mx-3" style="font-size: 19px;">
+                <ul class="dropdown-menu mx-3" style="font-size: 19px; width: 85%;">
                     <li><RouterLink class="dropdown-item" to="/store" id="nav-dashboard">Buy a Player</RouterLink></li>
-                    <!-- <li><RouterLink class="dropdown-item" to="/randomBuy">Random player</RouterLink></li> -->
+                    <li><RouterLink class="dropdown-item" to="/randomBuy">Random player</RouterLink></li>
                 </ul>
             </li>
         </ul>
@@ -61,7 +61,7 @@ export default {
     background-color: #150050;
     box-shadow: 2px 2px 5px black;
     color: white;
-    width: 18%;
+    width: 16%;
 }
 
 .sidebar {
@@ -75,7 +75,7 @@ export default {
 }
 
 .sidebar .nav-link {
-    font-size: 130%;
+    font-size: 120%;
     font-weight: 500;
     color: #333;
 }

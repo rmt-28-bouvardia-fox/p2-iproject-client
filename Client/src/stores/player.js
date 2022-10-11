@@ -28,7 +28,6 @@ export const usePlayerStore = defineStore('player', {
             }
         },
         async buyPlayer(id) {
-            console.log('masuk');
             try {
                 const { data } = await axios({
                     url: `${this.baseUrl}/teams/${id}`,
@@ -40,6 +39,21 @@ export const usePlayerStore = defineStore('player', {
                 console.log(data);
             } catch (error) {
                 console.log(error);
+            }
+        },
+        async randomBuy() {
+            try {
+                console.log('masuk random');
+                const { data } = await axios({
+                    url: `${this.baseUrl}/teams/randomBuy`,
+                    method: 'POST',
+                    headers: {
+                        access_token: localStorage.access_token
+                    }
+                })
+                console.log(data);
+            } catch (error) {
+                console.log(error.response.data);
             }
         }
     },
