@@ -179,7 +179,6 @@ input:focus::-webkit-input-placeholder
     box-shadow: none;
     color: white;
     -webkit-box-shadow: none;
-    -webkit-user-select: none;
     transition: none; 
 }
 .btn:hover{

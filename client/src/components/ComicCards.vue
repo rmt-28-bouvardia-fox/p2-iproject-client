@@ -1,5 +1,7 @@
-
 <script>
+import { mapActions } from 'pinia';
+import { useCounterStore } from '../stores/counter';
+
   export default {
     data(){
       return {
@@ -11,6 +13,13 @@
     computed : {
       shownPrice(){
         return this.price.toLocaleString("en-US", {style:"currency", currency:"USD"})
+      }
+    },
+    methods : {
+      ...mapActions(useCounterStore,['renderComic']),
+      comicDetail(comicId){
+        this.renderComic(comicId)
+        this.$router.push(`/comic/${comicId}`)
       }
     }
   }
@@ -27,7 +36,7 @@
             <div class="card-body">
               <h5 class="card-title">{{comic.title}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Price : {{ shownPrice }}</h6>
-              <a href="#" class="btn btn-primary mr-2 ms-3 me-3"><i class="fas fa-link"></i> See details</a>
+              <a @click.prevent="comicDetail(comic.id)" href="#" class="btn btn-primary mr-2 ms-3 me-3"><i class="fas fa-link"></i> See details</a>
               <a href="#" class="btn btn-primary"><i class="fab fa-github"></i> Add to cart</a>
             </div>
         </div>
