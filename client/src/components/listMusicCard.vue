@@ -1,5 +1,10 @@
 <script>
-
+    import Button from '../components/button.vue'
+    export default{
+        components:{
+            Button
+        }
+    }
 </script>
 
 <template>
@@ -11,8 +16,8 @@
             <div class="card-body">
                 <h5 class="card-title">title</h5>
                 <div class="container">
-                    <!-- <Button @click.prevent="movieDetail(movie.id)" :variant="'btn btn-primary'" :name="'See Detail'"
-                        :type="'button'"></Button> -->
+                    <Button :variant="'btn btn-primary'" :name="'See Detail'"
+                        :type="'button'"></Button>
                 </div>
             </div>
         </div>
