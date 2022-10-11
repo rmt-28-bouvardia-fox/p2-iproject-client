@@ -69,6 +69,14 @@ export const useUserStore = defineStore('user', {
           text:`${err.response.data.message}`
           })
       }
+    },
+    checkAccessToken(){
+      if(localStorage.access_token){
+        this.isLogin = true
+      }
+      else{
+        this.isLogin = false
+      }
     }
   },
 })
