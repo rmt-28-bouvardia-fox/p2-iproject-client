@@ -33,7 +33,7 @@
 
 .background {
   background-repeat: no-repeat;
-  background-size:auto;
+  background-size: cover;
 }
 
 .circle {
@@ -44,5 +44,5 @@
   color: #000;
   font-size: small;
   text-align: center;
-  background: aliceblue
+  background: aliceblue;
 }

@@ -2,6 +2,7 @@
 import { mapActions, mapState } from "pinia";
 import { useInvitationStore } from "../stores/invitation";
 import CardTemplate from "./../components/CardTemplate.vue";
+import Navbar from "./../components/Navbar.vue";
 
 export default {
   methods: {
@@ -12,6 +13,7 @@ export default {
   },
   components: {
     CardTemplate,
+    Navbar
   },
   created() {
     this.getTemplate();
@@ -23,6 +25,7 @@ export default {
 </script>
 
 <template>
+<Navbar/>
   <div>
     <div class="template">
       <img

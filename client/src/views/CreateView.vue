@@ -1,6 +1,7 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
 import { useInvitationStore } from "./../stores/invitation";
+import Navbar from "./../components/Navbar.vue";
 
 export default {
   methods: {
@@ -19,10 +20,14 @@ export default {
       "TemplateId"
     ]),
   },
+  components: {
+    Navbar,
+  },
 };
 </script>
 
 <template>
+<Navbar/>
   <div>
     <div class="create">
       <img

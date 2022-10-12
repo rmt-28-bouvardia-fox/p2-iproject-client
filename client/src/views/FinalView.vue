@@ -5,6 +5,13 @@ import { mapState, mapActions } from "pinia";
 export default {
   methods: {
     ...mapActions(useInvitationStore, ["fetchInvitation"]),
+    getDate(datetime) {
+      let date = new Date(datetime);
+      let dateString = `${date.getFullYear}/${date.getMonth() + 1}/${
+        date.getDate
+      }`;
+      return date;
+    },
   },
   computed: {
     ...mapState(useInvitationStore, ["invitation"]),
@@ -37,10 +44,11 @@ export default {
           <br />
         </div>
         <div class="date">
-          {{ invitation.weddingDate }}
           <br />
+          {{ getDate(invitation.weddingDate) }}
         </div>
         <div class="location">
+          <br />
           {{ invitation.weddingLocation }}
           <br />
         </div>
@@ -52,6 +60,21 @@ export default {
           <br />
           —Dr. Seuss
           <br />
+        </div>
+        <!-- Maps -->
+        <div clss="maps">
+          <br />
+          <br />
+          <iframe
+            width="300px"
+            height="200px"
+            style="border: 0"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            :src="invitation.maps"
+          >
+          </iframe>
         </div>
       </div>
     </div>
