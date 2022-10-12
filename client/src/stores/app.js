@@ -114,7 +114,7 @@ export const useAppStore = defineStore("app", {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Movie added to your Watch List",
+          title: "added to your Bid List",
           showConfirmButton: false,
           timer: 1500,
         });
