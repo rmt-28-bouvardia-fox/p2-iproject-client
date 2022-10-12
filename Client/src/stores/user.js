@@ -94,7 +94,11 @@ export const useUserStore = defineStore('user', {
         this.myTeam = data
         this.router.push('/home')
       } catch (error) {
-        console.log(error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data
+        })
       }
     },
     async fetchTeam() {
@@ -108,7 +112,11 @@ export const useUserStore = defineStore('user', {
         })
         this.myTeam = data
       } catch (error) {
-        console.log(error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data
+        })
       }
     }
   },

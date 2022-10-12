@@ -32,7 +32,30 @@ export const usePlayerStore = defineStore('player', {
                 })
                 this.players = data
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
+            }
+        },
+        async refresh() {
+            try {
+                const { data } = await axios({
+                    url: `${this.baseUrl}/players?page=${this.page}`,
+                    method: 'GET',
+                    headers: {
+                        access_token: localStorage.access_token
+                    }
+                })
+                this.players = data
+                this.playerSearch = ''
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }
         },
         async fetchAllPlayers() {
@@ -47,7 +70,11 @@ export const usePlayerStore = defineStore('player', {
                 this.totalPlayers = data.length
                 this.totalPages = Math.ceil(this.totalPlayers / 12)
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }
         },
         async fetchMyPlayers() {
@@ -61,7 +88,11 @@ export const usePlayerStore = defineStore('player', {
                 })
                 this.myPlayers = data
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }  
         },
         async buyPlayer(id) {
@@ -107,9 +138,19 @@ export const usePlayerStore = defineStore('player', {
                         access_token: localStorage.access_token
                     }
                 })
-                console.log(data);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1800
+                })
             } catch (error) {
-                console.log(error.response.data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }
         },
         async sellPlayer(id) {
@@ -160,7 +201,11 @@ export const usePlayerStore = defineStore('player', {
                 this.player = data
                 this.router.push(`/playerDetail/${id}`)
             } catch (error) {
-                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }
         },
         async fetchOpponents() {
@@ -174,7 +219,11 @@ export const usePlayerStore = defineStore('player', {
                 })
                 this.opponents = data
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                });
             }
         },
         async playGame(id) {

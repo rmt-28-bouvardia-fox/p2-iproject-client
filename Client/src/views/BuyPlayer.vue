@@ -13,7 +13,7 @@ export default {
         PlayerCard
     },
     methods: {
-        ...mapActions(usePlayerStore, ['fetchPlayerStore', 'buyPlayer', 'fetchAllPlayers']),
+        ...mapActions(usePlayerStore, ['fetchPlayerStore', 'buyPlayer', 'fetchAllPlayers', 'refresh']),
         nextPage() {
             this.page++
             this.fetchPlayerStore()
@@ -21,7 +21,7 @@ export default {
         previousPage() {
             this.page--
             this.fetchPlayerStore()
-        }
+        },
     },
     computed: {
         ...mapState(usePlayerStore, ['players', 'totalPages']),
@@ -45,6 +45,7 @@ export default {
                 <input v-model="playerSearch" type="text" class="form-control" placeholder="Player's username" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button @click="searchName" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
             </div>
+            <button style="width: 100px; height: 40px;" @click="refresh" class="btn btn-outline-secondary mx-3" type="button" id="">Clear</button>
             <div style="width:15%;">
                 <button class="mx-3 btn btn-primary" v-if="page != 0" @click="previousPage">PREVIOUS</button>
             </div>
