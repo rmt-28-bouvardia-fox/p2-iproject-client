@@ -1,6 +1,21 @@
 <script>
+import { mapActions, mapWritableState } from 'pinia';
+import { useAppointmentStore } from '../stores/appointment';
+
 export default {
-  name: "PatientDetail"
+  name: "PatientDetail",
+  computed: {
+    ...mapWritableState(useAppointmentStore, ["patientDetail"])
+  },
+  methods: {
+    ...mapActions(useAppointmentStore, ["fetchPatientDetails"])
+  },
+  created() {
+    this.fetchPatientDetails();
+    if(this.patientDetail.name === undefined) {
+      this.$router.push("/patientDetails")
+    }
+  }
 }
 </script>
 <template>
@@ -9,24 +24,22 @@ export default {
       <div class="flex w-[60%] border rounded-lg shadow-2xl bg-sky-200 bg-opacity-70 mx-auto">
         <div class="p-20 text-sky-900">
           <div class="flex border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Name:</h2><span class="text-2xl text-thin ml-4">Achmad Fahmi</span>
+            <h2 class="text-2xl font-semibold">Name:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.name}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Birth Date:</h2><span class="text-2xl text-thin ml-4">08/06/1997</span>
+            <h2 class="text-2xl font-semibold">Birth Date:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.birthDate}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Address:</h2><span class="text-2xl text-thin ml-4">Jalan Merdeka
-              No.17</span>
+            <h2 class="text-2xl font-semibold">Address:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.address}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Gender:</h2><span class="text-2xl text-thin ml-4">Male</span>
+            <h2 class="text-2xl font-semibold">Gender:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.gender}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Blood type:</h2><span class="text-2xl text-thin ml-4">B</span>
+            <h2 class="text-2xl font-semibold">Blood type:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.bloodType}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Disease history:</h2><span class="text-2xl text-thin ml-4">Not
-              submitted</span>
+            <h2 class="text-2xl font-semibold">Disease history:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.diseaseHistory}}</span>
           </div>
         </div>
       </div>

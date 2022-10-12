@@ -1,5 +1,5 @@
 <script>
-import { mapWritableState } from "pinia";
+import { mapActions, mapWritableState } from "pinia";
 import NavBar from "./components/NavBar.vue"
 import { useAppointmentStore } from "./stores/appointment";
 export default {
@@ -8,6 +8,9 @@ export default {
   },
   computed: {
     ...mapWritableState(useAppointmentStore, ["isLogin"]),
+  },
+  methods: {
+    
   },
   created() {
     if (localStorage.access_token) {

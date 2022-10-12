@@ -1,7 +1,28 @@
 <script>
-  export default {
-    name: "FormPatientDetail"
+import { mapActions } from 'pinia';
+import { useAppointmentStore } from '../stores/appointment';
+
+export default {
+  name: "FormPatientDetail",
+  methods: {
+    ...mapActions(useAppointmentStore, ["createPatientDetail"]),
+    createPD() {
+      this.createPatientDetail(this.patientData)
+    }
+  },
+  data() {
+    return {
+      patientData: {
+        name: "",
+        birthDate: "",
+        address: "",
+        gender: "",
+        bloodType: "",
+        diseaseHistory: "",
+      }
+    }
   }
+}
 </script>
 <template>
   <section class="flex container mx-auto h-screen">
@@ -17,7 +38,7 @@
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Name
                 </span>
-                <input type="text" id="name" placeholder="Enter your name..."
+                <input type="text" id="name" placeholder="Enter your name..." v-model="patientData.name"
                   class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
               </label>
             </div>
@@ -26,7 +47,7 @@
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Birth Date
                 </span>
-                <input type="date" id="birthDate"
+                <input type="date" id="birthDate" v-model="patientData.birthDate"
                   class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
               </label>
             </div>
@@ -35,7 +56,7 @@
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Address
                 </span>
-                <input type="text" id="address" placeholder="Enter your address..."
+                <input type="text" id="address" placeholder="Enter your address..." v-model="patientData.address"
                   class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
               </label>
             </div>
@@ -44,7 +65,7 @@
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Gender
                 </span>
-                <select name="" id="">
+                <select name="" id="" v-model="patientData.gender">
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
@@ -55,7 +76,7 @@
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Blood type
                 </span>
-                <select name="" id="">
+                <select name="" id="" v-model="patientData.bloodType">
                   <option value="a">A</option>
                   <option value="b">B</option>
                   <option value="ab">AB</option>
@@ -68,12 +89,12 @@
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Disease History
                 </span>
-                <textarea id="diseaseHistory" placeholder="Enter your disease history..." cols="10" rows="5"
+                <textarea id="diseaseHistory" placeholder="Enter your disease history..." cols="10" rows="5" v-model="patientData.diseaseHistory"
                   class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
               </label>
             </div>
             <div class="mt-5">
-              <button type="submit"
+              <button type="submit" @click.prevent="createPD"
                 class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300">
                 Submit
               </button>

@@ -4,6 +4,7 @@ export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
     baseUrl: "http://localhost:3000",
     isLogin: false,
+    patientDetail: {},
   }),
   getters: {},
   actions: {
@@ -51,6 +52,35 @@ export const useAppointmentStore = defineStore("appointment", {
       localStorage.clear();
       this.isLogin = false;
       this.router.push("/");
+    },
+    async fetchPatientDetails() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/patients/patientdetails",
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.patientDetail = data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async createPatientDetail(patientData) {
+      try {
+        await axios ({
+          method: "post",
+          url: this.baseUrl + "/patients/patientdetails",
+          data: patientData,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.router.push("/patients")
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 });
