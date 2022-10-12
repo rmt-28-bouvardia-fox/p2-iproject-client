@@ -10,7 +10,6 @@ import {
   orderByChild,
   startAfter,
   off,
-  get,
 } from "firebase/database";
 import { useSwalStore } from "./swal";
 
@@ -25,14 +24,7 @@ const q = query(
 
 export const useBidStore = defineStore("bid", {
   state: () => ({
-    days: [
-      "Sunday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ],
+    days: ["Sunday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     months: [
       "January",
       "February",
@@ -153,12 +145,15 @@ export const useBidStore = defineStore("bid", {
         let card = {
           key: key,
           buyerId: data.buyerId,
+          condition: data.condition,
           sellerId: data.sellerId,
           currentPrice: data.currentPrice,
+          startPrice: data.startPrice,
           createdBy: data.createdBy,
           createdAt: data.createdAt,
           expiredBy: data.expiredBy,
           cardId: data.cardId,
+          note: data.note,
         };
 
         _bids.push(card);
@@ -229,6 +224,58 @@ export const useBidStore = defineStore("bid", {
         });
         this.winningBids = data;
       } catch (error) {
+        if (error?.response?.status == 404) {
+          this.searchNotFound = true;
+        } else {
+          swal.errorHandler(error);
+        }
+      }
+    },
+    async payment(payload) {
+      const swal = useSwalStore();
+      try {
+        const { data } = await api({
+          url: "/my-bid/payment",
+          method: "POST",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: {
+            payload: payload,
+          },
+        });
+
+        function success() {
+          api({
+            url: "/my-bid/payment-callback",
+            method: "POST",
+            headers: {
+              access_token: localStorage.access_token,
+            },
+            data: {
+              id: data.id,
+            },
+          }).then(() => {
+            this.router.push("/");
+            swal.swalInfo("Your payment is successful", null, 10000);
+          });
+        }
+
+        window.snap.pay(data.token, {
+          onSuccess: success,
+          onPending: function () {
+            swal.swalInfo("Your payment is pending", null, 10000);
+          },
+          onError: function (result) {
+            swal.errorHandler(result);
+          },
+          onClose: function () {
+            swal.errorHandler({
+              message: "Payment is canceled because popup closing",
+            });
+          },
+        });
+      } catch (error) {
         swal.errorHandler(error);
       }
     },
@@ -244,7 +291,11 @@ export const useBidStore = defineStore("bid", {
         });
         this.sellingBids = data;
       } catch (error) {
-        swal.errorHandler(error);
+        if (error?.response?.status == 404) {
+          this.searchNotFound = true;
+        } else {
+          swal.errorHandler(error);
+        }
       }
     },
     clearQuery() {
@@ -311,7 +362,7 @@ export const useBidStore = defineStore("bid", {
       const year = d.getFullYear();
       const hour = d.getHours();
       const minute = d.getMinutes();
-      return `${day}, ${date} ${month} ${year} ( ${hour}:${minute} )`;
+      return `${day}, ${date} ${month} ${year} (${hour}:${minute})`;
     },
   },
 });

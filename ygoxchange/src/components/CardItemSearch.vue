@@ -33,6 +33,9 @@ export default {
     goToCardDatabase(id) {
       this.$emit("handleSecondary", id);
     },
+    payment(details) {
+      this.$emit("handlePrimary", id);
+    },
   },
 };
 </script>
@@ -55,7 +58,7 @@ export default {
         :active="true"
         @click="selectCard(card)"
       />
-      <!-- <CustomButton class="" :name="'Check detail'" :active="true" /> -->
+      <!-- <CustomButton class="" @click="goToCardDatabase(card.id)" :name="'Check detail'" :active="true" /> -->
     </div>
   </div>
   <div v-if="listType == 'database'" class="flex pb-8">
@@ -115,7 +118,8 @@ export default {
       <div class="pb-8">
         <div class="flex">
           <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
-            Current Price
+            <p v-if="listType == 'winning'">Amount to pay</p>
+            <p v-else>Current Price</p>
           </div>
           <div class="w-3/4">{{ card.currentPrice }}</div>
         </div>
@@ -129,20 +133,29 @@ export default {
 
         <div class="flex">
           <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
-            Current Price
-          </div>
-          <div class="w-3/4">{{ card.currentPrice }}</div>
-        </div>
-
-        <div class="flex">
-          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
             Auction End Time
           </div>
           <div class="w-3/4">
             {{ msToDate(card.expiredBy) }}
           </div>
         </div>
+
+        <div class="flex">
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Notes
+          </div>
+          <div class="w-3/4">
+            {{ card.note }}
+          </div>
+        </div>
       </div>
+      <CustomButton
+        v-if="listType == 'winning'"
+        class=""
+        :name="'Checkout with this card'"
+        :active="true"
+        @click="selectCard(card)"
+      />
     </div>
   </div>
 </template>

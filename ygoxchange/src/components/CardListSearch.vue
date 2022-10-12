@@ -68,5 +68,8 @@ export default {
       @handlePrimary="handlePrimary"
       @handleSecondary="handleSecondary"
     />
+    <div v-if="searchNotFound" class="text-center">
+      No item available
+    </div>
   </div>
 </template>

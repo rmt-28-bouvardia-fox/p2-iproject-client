@@ -9,13 +9,14 @@ export default {
     CardListSearch,
   },
   computed: {
-    ...mapWritableState(useBidStore, ["sellingBids"]),
+    ...mapWritableState(useBidStore, ["sellingBids", "searchNotFound"]),
   },
   methods: {
-    ...mapActions(useBidStore, ["sellingBid"]),
+    ...mapActions(useBidStore, ["sellingBid", "clearQuery"]),
   },
   created() {
     this.sellingBids = [];
+    this.clearQuery();
     this.sellingBid();
   },
 };
@@ -27,5 +28,9 @@ export default {
       <CustomButton class="w-full" :name="'Add New Auction'" :active="true"
     /></router-link>
   </div>
-  <CardListSearch :cardList="sellingBids" :listType="'selling'" />
+  <CardListSearch
+    :searchNotFound="searchNotFound"
+    :cardList="sellingBids"
+    :listType="'selling'"
+  />
 </template>

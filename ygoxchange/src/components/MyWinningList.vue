@@ -9,13 +9,14 @@ export default {
     CardListSearch,
   },
   computed: {
-    ...mapWritableState(useBidStore, ["winningBids"]),
+    ...mapWritableState(useBidStore, ["winningBids", "searchNotFound"]),
   },
   methods: {
-    ...mapActions(useBidStore, ["winningBid"]),
+    ...mapActions(useBidStore, ["winningBid", "payment", "clearQuery"]),
   },
   created() {
     this.winningBids = [];
+    this.clearQuery();
     this.winningBid();
   },
 };
@@ -23,6 +24,11 @@ export default {
 
 <template>
   <div class="pt-10 pb-8">
-    <CardListSearch :cardList="winningBids" :listType="'winning'" />
+    <CardListSearch
+      :cardList="winningBids"
+      :listType="'winning'"
+      :searchNotFound="searchNotFound"
+      @handlePrimary="payment"
+    />
   </div>
 </template>
