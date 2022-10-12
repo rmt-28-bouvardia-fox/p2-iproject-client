@@ -7,6 +7,7 @@ import FormPatientDetail from "../views/FormPatientDetail.vue";
 import FormAppointment from "../views/FormAppointment.vue";
 import FormConsultReport from "../views/FormConsultReport.vue";
 import AppointmentList from "../views/AppointmentList.vue";
+import DoctorList from "../views/DoctorList.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -44,6 +45,11 @@ const router = createRouter({
       path: "/consultReports",
       name: "FormConsultReport",
       component: FormConsultReport,
+    },
+    {
+      path: "/doctors",
+      name: "DoctorList",
+      component: DoctorList,
     },
     {
       path: "/doctorAppointments",

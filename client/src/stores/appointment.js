@@ -14,6 +14,10 @@ export const useAppointmentStore = defineStore("appointment", {
     appointmentId: "",
     diagnoses: [],
     transactionToken: "",
+    page: {
+      number: 1,
+      size: 8,
+    }
   }),
   getters: {},
   actions: {
@@ -94,10 +98,15 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async fetchDoctors() {
+      let query = {};
+      if (this.page.number !== 1 || this.page.size !== 8) {
+        query.page = this.page;
+      }
       try {
         const { data } = await axios({
           method: "get",
           url: this.baseUrl + "/doctors",
+          params: query,
         });
         this.doctors = data;
       } catch (error) {

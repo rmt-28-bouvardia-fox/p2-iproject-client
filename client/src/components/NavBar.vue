@@ -29,6 +29,10 @@ export default {
           class="mx-4 text-sm sm:text-lg font-semibold text-sky-600 hover:underline decoration-slate-400 rounded-sm p-1">
           <RouterLink to="/">Home</RouterLink>
         </div>
+        <div
+          class="mx-4 text-sm sm:text-lg font-semibold text-sky-900 hover:underline decoration-slate-400 rounded-sm p-1">
+          <RouterLink to="/doctors">Doctors</RouterLink>
+        </div>
         <div v-if="!isLogin"
           class="mx-4 text-sm sm:text-lg font-semibold text-slate-700 hover:underline decoration-slate-400 rounded-sm p-1">
           <RouterLink to="/login">Login</RouterLink>
