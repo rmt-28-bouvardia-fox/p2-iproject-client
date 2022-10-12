@@ -1,9 +1,17 @@
 <script>
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { mapActions, mapWritableState } from 'pinia';
+import { useAppointmentStore } from '../stores/appointment';
 export default {
   name: "NavBar",
   components: {
     Menu, MenuButton, MenuItem, MenuItems
+  },
+  methods: {
+    ...mapActions(useAppointmentStore, ["logoutHandler"])
+  },
+  computed: {
+    ...mapWritableState(useAppointmentStore, ["isLogin"])
   }
 }
 </script>
@@ -21,7 +29,7 @@ export default {
         </div>
         <div
           class="mx-4 text-sm sm:text-lg font-semibold text-slate-700 hover:underline decoration-slate-400 rounded-sm p-1">
-          <RouterLink to="/doctors">Doctors</RouterLink>
+          <RouterLink to="/">Doctors</RouterLink>
         </div>
         <div v-if="!isLogin"
           class="mx-4 text-sm sm:text-lg font-semibold text-slate-700 hover:underline decoration-slate-400 rounded-sm p-1">
