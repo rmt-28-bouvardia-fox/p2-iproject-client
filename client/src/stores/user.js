@@ -107,6 +107,9 @@ export const useUserStore = defineStore('user', {
           text:`${err.response.data.message}`
         })
       }
+    },
+    changePage(page){
+      this.page = page
     }
   },
 })

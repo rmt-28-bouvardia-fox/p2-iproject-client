@@ -1,5 +1,12 @@
 <script>
-
+    export default{
+        emits:['changePage'],
+        methods:{
+            changePage(page){
+                this.$emit('changePage',page)
+            }
+        }
+    }
 </script>
 
 <template>
@@ -15,10 +22,10 @@
                 <RouterLink to="#">Home</RouterLink>
             </li>
             <li>
-                <RouterLink to="#">Search</RouterLink>
+                <RouterLink @click.prevent="changePage('music')" to="#">Play</RouterLink>
             </li>
             <li>
-                <RouterLink to="#">My List</RouterLink>
+                <RouterLink @click.prevent="changePage('list')" to="#">My List</RouterLink>
             </li>
             <li>
                 <RouterLink to="#">Log Out</RouterLink>

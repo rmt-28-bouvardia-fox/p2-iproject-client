@@ -12,7 +12,8 @@
             MusicPlayer
         },
         methods:{
-            ...mapActions(useMusicStore,['fetchMusic'])
+            ...mapActions(useMusicStore,['fetchMusic']),
+            ...mapActions(useUserStore,['changePage'])
         },
         computed:{
             ...mapWritableState(useUserStore,['page']),
@@ -28,7 +29,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <Sidebar />
+                <Sidebar 
+                @changePage="changePage"
+                />
             </div>
             <div class="col-md-9">
                 <MusicPlayer v-if="this.page == 'music'"/>
