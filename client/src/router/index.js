@@ -52,5 +52,15 @@ const router = createRouter({
     },
   ],
 });
-
+router.beforeEach((to, from, next) => {
+  if ((to.name === 'LoginPage' || to.name === 'RegisterPage') && localStorage.access_token){
+    next({ name: 'HomePage' })
+  } else if ((to.name === 'PatientDetail' || to.name === 'FormPatientDetail' || to.name === 'FormAppointment') && localStorage.role === 'Doctor') {
+    next({ name: 'HomePage' })
+  } else if ((to.name === 'FormConsultReport' || to.name === 'AppointmentList') && localStorage.role === 'Patient') {
+    next({ name: 'HomePage' })
+  } else {
+    next()
+  }
+})
 export default router;
