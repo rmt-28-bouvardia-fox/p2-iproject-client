@@ -63,8 +63,51 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.access_token;
+  const status = localStorage.subscriber;
   if (to.name === "Home" && !isAuthenticated) {
     next({ name: "Login" });
+  } else if (
+    to.name === "Sports" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
+  } else if (
+    to.name === "Business" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
+  } else if (
+    to.name === "Entertainment" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
+  } else if (
+    to.name === "Health" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
+  } else if (
+    to.name === "Science" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
+  } else if (
+    to.name === "Technology" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
+  } else if (
+    to.name === "Weather" &&
+    status !== "subscriber" &&
+    isAuthenticated
+  ) {
+    next({ name: "Home" });
   } else if (
     (to.name === "Login" && isAuthenticated) ||
     (to.name === "Register" && isAuthenticated)

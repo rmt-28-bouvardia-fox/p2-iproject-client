@@ -76,6 +76,8 @@ export const useNewsStore = defineStore("news", {
           access_token: localStorage.access_token,
         },
       });
+
+      localStorage.setItem("subscriber", "subscriber");
     },
   },
 });

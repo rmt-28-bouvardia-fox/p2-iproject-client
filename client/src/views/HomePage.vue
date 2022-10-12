@@ -26,7 +26,6 @@ export default {
         <CardComponent v-for="news in getNews" :key="news.id" :news="news" />
       </div>
     </div>
-    <div class="line"></div>
     <div class="sidebar">
       <div class="rows">
         <h1 class="sidebar-title">International top articles</h1>
@@ -53,14 +52,9 @@ export default {
   flex: 1.2;
 }
 
-.line {
-  min-height: 406vh;
-  width: 1px;
-  background-color: #000;
-  margin: 0 1rem;
-}
 .sidebar {
   flex: 0.5;
+  margin-left: 2rem;
 }
 
 .sidebar-title {

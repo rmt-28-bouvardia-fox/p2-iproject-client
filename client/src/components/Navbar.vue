@@ -4,6 +4,7 @@ import { useCategoryNewsStore } from "../stores/categoryNews";
 import { useLoginStore } from "../stores/login";
 import { useWeatherStore } from "../stores/weather";
 import { useNewsStore } from "../stores/news";
+import Swal from "sweetalert2";
 
 export default {
   computed: {
@@ -20,8 +21,12 @@ export default {
     ]),
     ...mapActions(useNewsStore, ["getTransactionToken", "subscribe"]),
     fetchCategory(value) {
-      this.fetchCategoryNews(value);
-      this.fetchInternationalCategory(value);
+      if (localStorage.subscriber === "subscriber") {
+        this.fetchCategoryNews(value);
+        this.fetchInternationalCategory(value);
+      } else {
+        Swal.fire("Please subscribe to see this content");
+      }
     },
     ...mapActions(useWeatherStore, ["currentLocation"]),
     async orderToken(orderId) {
@@ -47,8 +52,6 @@ export default {
     } else {
       this.isLogin = false;
     }
-
-    console.log(localStorage.subscriber == "subscriber");
 
     if (localStorage.subscriber === "subscriber") {
       this.isSubsribe = true;
@@ -165,11 +168,12 @@ export default {
         @click.prevent="
           orderToken((Math.random() + 1).toString(10).substring(2))
         "
+        class="subscribe"
         v-if="!isSubsribe"
       >
         Subscribe
       </button>
-      <p v-else-if="isSubsribe">Subscriber</p>
+      <p class="subscribe" v-else-if="isSubsribe">Subscriber</p>
       <div class="line2-top"></div>
       <div class="line2-bottom"></div>
     </div>
@@ -270,5 +274,14 @@ export default {
 }
 .city {
   font-size: 10px;
+}
+
+.subscribe {
+  width: 115px;
+  border: none;
+  background-color: #000;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 20px;
 }
 </style>
