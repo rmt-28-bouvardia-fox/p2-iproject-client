@@ -10,6 +10,7 @@ export const useAppointmentStore = defineStore("appointment", {
     specialists: [],
     patientAppointments: [],
     doctorAppointments: [],
+    appointmentId: "",
   }),
   getters: {},
   actions: {
@@ -171,7 +172,7 @@ export const useAppointmentStore = defineStore("appointment", {
             access_token: localStorage.access_token,
           },
         });
-        this.patientAppointments = data
+        this.patientAppointments = data;
       } catch (error) {
         console.log(error);
       }
@@ -185,7 +186,22 @@ export const useAppointmentStore = defineStore("appointment", {
             access_token: localStorage.access_token,
           },
         });
-        this.doctorAppointments = data
+        this.doctorAppointments = data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async createConsultReport(consultReportData) {
+      try {
+        await axios({
+          method: "post",
+          url: this.baseUrl + `/appointments/consultationReports/${this.appointmentId.toString()}`,
+          data: consultReportData,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.router.push("/doctors");
       } catch (error) {
         console.log(error);
       }
