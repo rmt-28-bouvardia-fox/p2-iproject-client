@@ -15,10 +15,14 @@ export default {
     this.fetchMyBid();
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchMyBid", "deleteBidList"]),
+    ...mapActions(useAppStore, ["fetchMyBid", "deleteBidList", "fetchOneProduct"]),
     handleRemove(id) {
       this.deleteBidList(id)
     },
+    handleDetail(id) {
+      this.fetchOneProduct(id)
+      this.$router.push(`/detail/${id}`)
+    }
   },
 };
 </script>
@@ -60,6 +64,7 @@ export default {
                         --bs-btn-padding-x: 0.5rem;
                         --bs-btn-font-size: 0.75rem;
                       "
+                      @click.prevent="handleDetail(bidList.Product.id)"
                     >
                       See Detail
                     </button>

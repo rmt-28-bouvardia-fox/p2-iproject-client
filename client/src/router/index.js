@@ -29,7 +29,7 @@ const router = createRouter({
       component: MyList
     },
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'detail',
       component: Detail
     }

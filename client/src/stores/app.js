@@ -7,7 +7,8 @@ export const useAppStore = defineStore("app", {
     userData: {},
     isLogin: localStorage.access_token ? true : false,
     products: [],
-    bidLists: []
+    bidLists: [],
+    product: {}
   }),
   getters: {},
   actions: {
@@ -79,6 +80,21 @@ export const useAppStore = defineStore("app", {
           }
         })
         this.products = data
+        // console.log(data)
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
+    },
+    async fetchOneProduct(id) {
+      try {
+        const {data} = await axios({
+          url: this.baseUrl + `/products/${id}`,
+          method: 'get',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.product = data
         // console.log(data)
       } catch (error) {
         Swal.fire(error.response.data.message);
