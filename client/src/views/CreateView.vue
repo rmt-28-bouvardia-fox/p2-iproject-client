@@ -16,6 +16,7 @@ export default {
       "motherBride",
       "weddingDate",
       "weddingLocation",
+      "TemplateId"
     ]),
   },
 };
@@ -162,6 +163,23 @@ export default {
                 class="form-control"
                 placeholder="Type Wedding Location"
                 v-model="weddingLocation"
+              />
+            </div>
+          </div>
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="TemplateId" class="col-form-label"
+                >Choose Template</label
+              >
+              <label class="text-danger text-end fw-bold">*</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                id="TemplateId"
+                class="form-control"
+                placeholder="Type Wedding Location"
+                v-model="TemplateId"
               />
             </div>
           </div>

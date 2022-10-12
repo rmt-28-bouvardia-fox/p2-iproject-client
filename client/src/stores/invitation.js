@@ -13,11 +13,13 @@ export const useInvitationStore = defineStore({
     motherBride: "",
     weddingDate: "",
     weddingLocation: "",
+    templates: [],
+    TemplateId: "",
   }),
   actions: {
     async createInvitation() {
       try {
-        const register = await axios({
+        const invitation = await axios({
           method: "post",
           url: this.baseUrl + "/create",
           data: {
@@ -29,19 +31,19 @@ export const useInvitationStore = defineStore({
             motherBride: this.motherBride,
             weddingDate: this.weddingDate,
             weddingLocation: this.weddingLocation,
+            TemplateId:this.TemplateId
           },
           headers: {
             access_token: localStorage.access_token,
           },
         });
-        this.router.push("/template");
+        this.router.push(`/${invitation.data.coupleName}/journey`);
         Swal.fire({
           title: "Success!",
           icon: "success",
           confirmButtonText: "Cool",
         });
       } catch (error) {
-        console.log(error);
         Swal.fire({
           title: "Error!",
           text: `${error.response.data.message}`,
@@ -49,7 +51,33 @@ export const useInvitationStore = defineStore({
           confirmButtonText: "Cool",
         });
       } finally {
-        (this.username = ""), (this.email = ""), (this.password = "");
+        (this.groomName = ""),
+          (this.fatherGroom = ""),
+          (this.motherGroom = ""),
+          (this.BrideName = ""),
+          (this.fatherBride = ""),
+          (this.motherBride = ""),
+          (this.weddingDate = ""),
+          (this.weddingLocation = "");
+      }
+    },
+    async getTemplate() {
+      try {
+        const template = await axios({
+          method: "get",
+          url: this.baseUrl + "/template",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.templates = template.data;
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "Cool",
+        });
       }
     },
   },
