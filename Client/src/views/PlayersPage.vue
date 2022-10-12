@@ -1,18 +1,22 @@
 <script>
+import { mapActions, mapState } from 'pinia';
 import PlayerCard from '../components/PlayerCard.vue'
+import { usePlayerStore } from '../stores/player';
 export default {
     components: {
         PlayerCard
     },
-    data() {
-        return {
-            players: ['tes', 'tes', 'tes']
-        }
+    computed: {
+        ...mapState(usePlayerStore, ['myPlayers', 'player'])  
     },
     methods: {
-        playerDetailHandler() {
-            this.$router.push('/playerDetail/1')
+        ...mapActions(usePlayerStore, ['fetchMyPlayers', 'findOnePlayer']),
+        playerDetailHandler(id) {
+            this.findOnePlayer(id)
         }
+    },
+    created() {
+        this.fetchMyPlayers()
     }
 }
 </script>
@@ -39,7 +43,7 @@ export default {
                 </ul>
             </nav>
         </div>
-        <PlayerCard class="pCard" @click="playerDetailHandler" v-for="(player, idx) in players" :key="idx" />
+        <PlayerCard class="pCard" @click="playerDetailHandler(player.id)" v-for="(player, idx) in myPlayers" :key="idx" :player="player" />
 
     </div>
 </div>
