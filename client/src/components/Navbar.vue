@@ -32,6 +32,11 @@ export default {
                 >Home</RouterLink
               >
             </li>
+            <li class="nav-item">
+              <RouterLink to="/template" class="nav-link" aria-current="page" href="#!"
+                >Template</RouterLink
+              >
+            </li>
           </ul>
         </div>
       </div>
