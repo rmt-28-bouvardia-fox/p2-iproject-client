@@ -46,11 +46,13 @@ export default {
           </div>
         </a>
       </div>
-      <div class="headline">
-        <img :src="headline.urlToImage" class="headline-img" alt="" />
-        <h1 class="headline-title">{{ headline.title }}</h1>
-        <p class="headline-desc">{{ headline.description }}</p>
-      </div>
+      <a :href="headline.url" target="_blank" class="card-link">
+        <div class="headline">
+          <img :src="headline.urlToImage" class="headline-img" alt="" />
+          <h1 class="headline-title">{{ headline.title }}</h1>
+          <p class="headline-desc">{{ headline.description }}</p>
+        </div>
+      </a>
     </div>
     <div class="line"></div>
 

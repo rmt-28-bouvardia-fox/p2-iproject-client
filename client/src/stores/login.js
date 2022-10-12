@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const useLoginStore = defineStore("login", {
   state: () => ({ login: { email: "", password: "" }, isLogin: false }),
@@ -22,8 +23,16 @@ export const useLoginStore = defineStore("login", {
         this.login.email = "";
         this.login.password = "";
         this.router.push("/");
+        Swal.fire({
+          icon: "success",
+          text: `Success login to your account`,
+        });
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
       }
     },
     logout() {

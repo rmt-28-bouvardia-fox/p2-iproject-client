@@ -173,7 +173,7 @@ export default {
       >
         Subscribe
       </button>
-      <p class="subscribe" v-else-if="isSubsribe">Subscriber</p>
+      <p class="subscribed" v-else-if="isSubsribe">Subscriber</p>
       <div class="line2-top"></div>
       <div class="line2-bottom"></div>
     </div>
@@ -276,12 +276,24 @@ export default {
   font-size: 10px;
 }
 
-.subscribe {
+.subscribe,
+.subscribed {
   width: 115px;
-  border: none;
+  border: 1px solid #000;
   background-color: #000;
   padding: 0.5rem 1rem;
   color: #fff;
   border-radius: 20px;
+}
+
+.subscribe {
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  border: 1px solid #000;
+}
+
+.subscribe:hover {
+  background-color: transparent;
+  color: #000;
 }
 </style>
