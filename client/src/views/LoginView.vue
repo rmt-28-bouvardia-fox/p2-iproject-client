@@ -1,6 +1,7 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
 import { useUserStore } from "./../stores/user";
+import Navbar from "./../components/Navbar.vue";
 
 export default {
   methods: {
@@ -16,10 +17,14 @@ export default {
       this.isLogin = false;
     }
   },
+  components: {
+    Navbar,
+  },
 };
 </script>
 
 <template>
+<Navbar/>
   <div>
     <div class="login">
       <img

@@ -1,6 +1,7 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
 import { useUserStore } from "./../stores/user";
+import Navbar from "./../components/Navbar.vue";
 
 export default {
   methods: {
@@ -9,10 +10,14 @@ export default {
   computed: {
     ...mapWritableState(useUserStore, ["username", "email", "password"]),
   },
+  components: {
+    Navbar,
+  },
 };
 </script>
 
 <template>
+<Navbar/>
   <div>
     <div class="register">
       <img
