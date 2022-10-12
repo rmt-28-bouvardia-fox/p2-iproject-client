@@ -6,7 +6,7 @@
             ...mapActions(useMusicStore, ['play', 'generateTime', 'updateBar', 'clickProgress', 'prevTrack', 'nextTrack', 'resetPlayer','favorite'])
         },
         computed:{
-            ...mapWritableState(useMusicStore,['audio','bandwith','circleLeft','currentTime','duration','isTimerPlaying','tracks'])
+            ...mapWritableState(useMusicStore,['audio','bandwith','circleLeft','currentTime','duration','isTimerPlaying','tracks','currentTrack','currentTrackIndex','transitionName'])
         },
         created() {
         let vm = this;
