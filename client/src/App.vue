@@ -1,16 +1,16 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
-import NavBar from "./components/NavBar.vue"
+import NavBar from "./components/NavBar.vue";
 import { useAppointmentStore } from "./stores/appointment";
 export default {
   components: {
-    NavBar
+    NavBar,
   },
   computed: {
     ...mapWritableState(useAppointmentStore, ["isLogin"]),
   },
   methods: {
-    ...mapActions(useAppointmentStore, ["fetchDoctors"])
+    ...mapActions(useAppointmentStore, ["fetchDoctors"]),
   },
   created() {
     if (localStorage.access_token) {
@@ -18,8 +18,7 @@ export default {
       this.fetchDoctors();
     }
   },
-}
-
+};
 </script>
 
 <template>
@@ -29,6 +28,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
