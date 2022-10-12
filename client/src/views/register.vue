@@ -1,5 +1,18 @@
 <script>
-
+    import { mapActions,mapWritableState } from 'pinia'
+    import { useUserStore } from '../stores/user'
+    import Button from '../components/button.vue'
+    export default{
+        methods:{
+            ...mapActions(useUserStore,['registerHandler'])
+        },
+        computed:{
+            ...mapWritableState(useUserStore,['registerData'])
+        },
+        components:{
+            Button
+        }
+    }
 </script>
 
 <template>
@@ -19,26 +32,26 @@
             <form>
                 <!-- Username input -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="registerUsername" class="form-control" />
+                    <input type="text" id="registerUsername" class="form-control" v-model="registerData.username" />
                     <label class="form-label" for="registerUsername">Username</label>
                 </div>
             
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="registerEmail" class="form-control" />
+                    <input type="email" id="registerEmail" class="form-control" v-model="registerData.email" />
                     <label class="form-label" for="registerEmail">Email</label>
                 </div>
             
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                    <input type="password" id="registerPassword" class="form-control"  />
+                    <input type="password" id="registerPassword" class="form-control" v-model="registerData.password" />
                     <label class="form-label" for="registerPassword">Password</label>
                 </div>
             
                 <div class="row mb-4">
                     <div class="col-md-6 d-flex align-self-center">
                         <!-- Submit button -->
-                        <!-- <Button :variant="'btn btn-primary'" :name="'Sign In'" :type="'submit'"></Button> -->
+                        <Button @submit.prevent="registerHandler" :variant="'btn btn-primary'" :name="'Sign In'" :type="'submit'"></Button>
                     </div>
                 </div>
             </form>
