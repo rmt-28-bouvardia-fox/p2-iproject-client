@@ -6,6 +6,8 @@ export const useAppStore = defineStore("app", {
     baseUrl: "http://localhost:3000",
     userData: {},
     isLogin: localStorage.access_token ? true : false,
+    products: [],
+    bidList: []
   }),
   getters: {},
   actions: {
@@ -66,6 +68,24 @@ export const useAppStore = defineStore("app", {
         showConfirmButton: false,
         timer: 1500,
       });
+    },
+    async fetchProduct() {
+      try {
+        const {data} = await axios({
+          url: this.baseUrl + '/products',
+          method: 'get',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.products = data
+        console.log(data)
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
+    },
+    async fetchMyBid() {
+
     }
   },
 });

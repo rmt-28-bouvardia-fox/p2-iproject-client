@@ -52,7 +52,7 @@ export default {
         <span class="px-3">Hai, {{ username }}</span>
         <button
           type="button"
-          class="btn btn-outline-danger"
+          class="btn btn-outline-danger btn-sm"
           @click.prevent="handleLogout"
         >
           Sign-Out
