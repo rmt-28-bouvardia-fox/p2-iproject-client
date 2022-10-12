@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Swal from "sweetalert2";
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
     baseUrl: "http://localhost:3000",
     isLogin: false,
+    isLoading: false,
     role: "",
     patientDetail: {},
     doctors: [],
@@ -17,23 +19,36 @@ export const useAppointmentStore = defineStore("appointment", {
     page: {
       number: 1,
       size: 8,
-    }
+    },
   }),
   getters: {},
   actions: {
     async registerHandler(registerData) {
+      this.isLoading = true
       try {
         await axios({
           url: this.baseUrl + "/patients/register",
           method: "post",
           data: registerData,
         });
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your account has been created",
+          toast: true,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
         this.router.push("/login");
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async loginHandlerPatient(loginData) {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "post",
@@ -44,11 +59,24 @@ export const useAppointmentStore = defineStore("appointment", {
         localStorage.setItem("role", "Patient");
         this.isLogin = true;
         this.router.push("/");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login success!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async loginHandlerDoctor(loginData) {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "post",
@@ -59,16 +87,51 @@ export const useAppointmentStore = defineStore("appointment", {
         localStorage.setItem("role", "Doctor");
         this.isLogin = true;
         this.router.push("/");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login success!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     logoutHandler() {
-      localStorage.clear();
-      this.isLogin = false;
-      this.router.push("/");
+      Swal.fire({
+        title: "Are you sure want to log out?",
+        text: "You need to log in again to make appointment!",
+        icon: "warning",
+        showCancelButton: true,
+        background: "#e3f2fd",
+        confirmButtonColor: "#4fc3f7",
+        cancelButtonColor: "#f48fb1",
+        confirmButtonText: "Yes, log me out!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.clear();
+          this.isLogin = false;
+          this.role = "";
+          this.router.push("/");
+          Swal.fire({
+            icon: "success",
+            title: "Logged out!",
+            text: "Stay safe and stay healthy.",
+            iconColor: "#4fc3f7",
+            background: "#e3f2fd",
+            confirmButtonColor: "#4fc3f7",
+          });
+        }
+      });
     },
     async fetchPatientDetails() {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -79,10 +142,13 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.patientDetail = data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async createPatientDetail(patientData) {
+      this.isLoading = true
       try {
         await axios({
           method: "post",
@@ -93,11 +159,24 @@ export const useAppointmentStore = defineStore("appointment", {
           },
         });
         this.router.push("/patients");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Patient detail has been created!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchDoctors() {
+      this.isLoading = true
       let query = {};
       if (this.page.number !== 1 || this.page.size !== 8) {
         query.page = this.page;
@@ -110,10 +189,13 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.doctors = data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchSymptoms() {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -124,10 +206,13 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.symptoms = data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchSpecialists(symptoms) {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -139,7 +224,6 @@ export const useAppointmentStore = defineStore("appointment", {
             symptoms: `[${symptoms}]`,
           },
         });
-        console.log(data);
         let arrayId = [];
         data.forEach((el) => {
           arrayId.push(el.ID);
@@ -157,13 +241,15 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.specialists = doctors.data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async createAppointment(appointmentData) {
+      this.isLoading = true
       try {
         appointmentData.symptom = appointmentData.symptom.join(",");
-        console.log(appointmentData);
         await axios({
           method: "post",
           url: this.baseUrl + "/appointments",
@@ -173,11 +259,24 @@ export const useAppointmentStore = defineStore("appointment", {
           data: appointmentData,
         });
         this.router.push("/patients");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Appointment has been created!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchPatientAppointments() {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -188,10 +287,13 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.patientAppointments = data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchDoctorAppointments() {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -202,10 +304,13 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.doctorAppointments = data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async createConsultReport(consultReportData) {
+      this.isLoading = true
       try {
         await axios({
           method: "post",
@@ -217,12 +322,25 @@ export const useAppointmentStore = defineStore("appointment", {
             access_token: localStorage.access_token,
           },
         });
-        this.router.push("/doctors");
+        this.router.push("/doctorAppointments");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Consultation report has been created!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async fetchDiagnoses() {
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -236,11 +354,13 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.diagnoses = data;
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async midtransHandler(appointmentId, cost) {
-      console.log(appointmentId, cost);
+      this.isLoading = true
       try {
         const { data } = await axios({
           method: "get",
@@ -276,10 +396,13 @@ export const useAppointmentStore = defineStore("appointment", {
           },
         });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
     },
     async updateStatus(appointmentId) {
+      this.isLoading = true
       try {
         await axios({
           method: "patch",
@@ -290,9 +413,30 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.fetchPatientAppointments();
         this.router.push("/patients");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Payment completed now appointment have been archived!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } catch (error) {
-        console.log(error);
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
       }
+    },
+    errorHandler(error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}!`,
+        background: "#e3f2fd",
+        confirmButtonColor: "#4fc3f7",
+      });
     },
   },
 });
