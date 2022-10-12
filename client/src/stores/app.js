@@ -7,7 +7,7 @@ export const useAppStore = defineStore("app", {
     userData: {},
     isLogin: localStorage.access_token ? true : false,
     products: [],
-    bidList: []
+    bidLists: []
   }),
   getters: {},
   actions: {
@@ -79,13 +79,29 @@ export const useAppStore = defineStore("app", {
           }
         })
         this.products = data
-        console.log(data)
+        // console.log(data)
       } catch (error) {
         Swal.fire(error.response.data.message);
       }
     },
     async fetchMyBid() {
-
+      try {
+        const {data} = await axios({
+          url: this.baseUrl + '/myBidList',
+          method: 'get',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.bidLists = data
+        // console.log(data)
+      } catch (error) {
+        // console.log(error)
+        Swal.fire(error.response.data.message);
+      }
+    },
+    async deleteBidList() {
+      
     }
   },
 });
