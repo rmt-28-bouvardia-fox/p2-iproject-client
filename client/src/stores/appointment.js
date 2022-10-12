@@ -5,6 +5,7 @@ export const useAppointmentStore = defineStore("appointment", {
     baseUrl: "http://localhost:3000",
     isLogin: false,
     patientDetail: {},
+    doctors: [],
   }),
   getters: {},
   actions: {
@@ -78,6 +79,17 @@ export const useAppointmentStore = defineStore("appointment", {
           }
         })
         this.router.push("/patients")
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async fetchDoctors() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/doctors"
+        })
+        this.doctors = data
       } catch (error) {
         console.log(error)
       }
