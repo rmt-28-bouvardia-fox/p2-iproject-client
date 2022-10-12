@@ -48,6 +48,7 @@ export default {
                         </div>
                     </div>    
                     <div class="row border-top border-bottom">
+                        <div v-if="cartItems.length == 0">Your cart is empty</div>
                         <ComicCartItems v-for="item in cartItems" :key="item.id" :item="item"/>
                     </div>
                     <div class="back-to-shop"><router-link to="/comics" href="#">&leftarrow;</router-link><span class="text-muted">Back to Home</span></div>

@@ -4,7 +4,8 @@ import axios from 'axios'
 export const useClientStore = defineStore('client',  {
     state : () => ({
         basedUrl : `http://localhost:3002`,
-        isLoggedIn : localStorage.access_token ? true : false
+        isLoggedIn : localStorage.access_token ? true : false,
+        user : {}
     }),
     actions : {
         async login(inputBody){
@@ -22,7 +23,6 @@ export const useClientStore = defineStore('client',  {
             }
         },
         async register(inputBody){
-            console.log(inputBody)
             try {
                 const {data} = await axios({
                     url : this.basedUrl + '/clients/register',
@@ -30,6 +30,21 @@ export const useClientStore = defineStore('client',  {
                     data : inputBody
                 })
                 this.router.push('/login')
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async renderProfile(){
+            try {
+                const {data} = await axios({
+                    url : this.basedUrl + `/orders/profile`,
+                    method : 'get',
+                    headers : {
+                        access_token : localStorage.access_token
+                    }
+                })
+                this.user = data
+                console.log(data)
             } catch (error) {
                 console.log(error)
             }
