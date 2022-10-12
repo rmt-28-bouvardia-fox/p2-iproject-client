@@ -31,6 +31,9 @@ export const useBidStore = defineStore("bid", {
     searchCardList: [],
     searchNotFound: false,
     searchQuery: {
+      type: "",
+      attribute: "",
+      race: "",
       query: "",
       num: 8,
       page: 1,
@@ -156,22 +159,27 @@ export const useBidStore = defineStore("bid", {
     async searchCard() {
       const swal = useSwalStore();
       this.searchNotFound = false;
-      const { num, page, query } = this.searchQuery;
+      const { num, page, query, type, attribute, race } = this.searchQuery;
       const offset = num * (page - 1);
 
       if (!query) {
         return;
       }
 
+      let params = {
+        type: type,
+        attribute: attribute,
+        race: race,
+        query: query,
+        num: num,
+        offset: offset,
+      };
+
       try {
         const { data } = await api({
           url: "/searchCard",
           method: "GET",
-          params: {
-            query: query,
-            num: num,
-            offset: offset,
-          },
+          params,
         });
 
         this.searchQuery.hasNext = data.meta.hasOwnProperty("next_page");
@@ -187,12 +195,17 @@ export const useBidStore = defineStore("bid", {
     },
     clearQuery() {
       this.searchQuery = {
+        type: "",
+        attribute: "",
+        race: "",
         query: "",
         num: 8,
         page: 1,
         hasNext: false,
         hasPrev: false,
       };
+      this.searchCardList = [];
+      this.searchNotFound = false;
     },
     async getCurrency() {
       const swal = useSwalStore();
@@ -224,7 +237,7 @@ export const useBidStore = defineStore("bid", {
         swal.swalInfo(
           data.message,
           "Check My Winning List frequently to check if you win this bid",
-          8000,
+          8000
         );
 
         return true;

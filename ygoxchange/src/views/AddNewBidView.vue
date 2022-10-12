@@ -1,11 +1,13 @@
 <script>
 import CustomButton from "@/components/CustomButton.vue";
+import CardListSearch from "@/components/CardListSearch.vue";
 import CardPrices from "@/components/CardPrices.vue";
 import { useBidStore } from "@/stores/bid";
 import { mapState, mapActions, mapWritableState } from "pinia";
 export default {
   components: {
     CustomButton,
+    CardListSearch,
     CardPrices,
   },
   data() {
@@ -22,8 +24,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(useBidStore, ["currency", "searchNotFound", "searchCardList"]),
-    ...mapWritableState(useBidStore, ["searchQuery"]),
+    ...mapState(useBidStore, ["currency"]),
+    ...mapWritableState(useBidStore, [
+      "searchQuery",
+      "searchNotFound",
+      "searchCardList",
+    ]),
     limitDateTime() {
       let d = new Date();
       let date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -79,10 +85,8 @@ export default {
     },
   },
   created() {
-    this.getCurrency();
-  },
-  beforeDestroy() {
     this.clearQuery();
+    this.getCurrency();
   },
 };
 </script>
@@ -108,50 +112,17 @@ export default {
         </button>
       </form>
     </div>
-    <div class="bg-lightGreyTheme border-1 rounded-lg px-24 py-8">
-      <div v-if="searchNotFound" class="text-center">Card not found</div>
-      <div v-if="!searchNotFound">
-        <div v-for="card in searchCardList" :key="card.id">
-          <div class="flex pb-5">
-            <img
-              class="w-1/4"
-              :src="card.card_images[0].image_url"
-              :alt="card.name"
-            />
-            <div class="w-2/4 px-4">
-              <div class="text-semibold text-2xl text-blueTheme pb-6">
-                {{ card.name }}
-              </div>
-              <CardPrices :currency="currency" :card="card" />
-            </div>
-            <div class="w-1/4 flex flex-col gap-4 sm:text-sm pt-10">
-              <CustomButton
-                class=""
-                :name="'Use this card'"
-                :active="true"
-                @click="selectCard(card)"
-              /><CustomButton class="" :name="'Check detail'" :active="true" />
-            </div>
-          </div>
-        </div>
-        <div class="flex justify-end gap-6">
-          <CustomButton
-            v-if="searchQuery.hasPrev"
-            @click="searchCardPrevHandler"
-            :name="'Previous'"
-            :active="true"
-            class="min-w-[105px]"
-          />
-          <CustomButton
-            v-if="searchQuery.hasNext"
-            @click="searchCardNextHandler"
-            :name="'Next'"
-            :active="true"
-            class="min-w-[105px]"
-          />
-        </div>
-      </div>
-    </div>
+
+    <CardListSearch
+      :cardList="searchCardList"
+      :searchNotFound="searchNotFound"
+      :searchQuery="searchQuery"
+      :currency="currency"
+      :listType="'addBid'"
+      @nextHandler="searchCardNextHandler"
+      @prevHandler="searchCardPrevHandler"
+      @handlePrimary="selectCard"
+    />
   </div>
   <div v-if="step === 2">
     <div>

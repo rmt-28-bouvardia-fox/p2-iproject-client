@@ -10,8 +10,8 @@ export default {
 
 <template>
   <div
-    class="text-semibold"
-    :class="detail == true ? 'text-semibold text-2xl text-blueTheme pb-3' : ''"
+    class="font-semibold"
+    :class="detail == true ? 'font-semibold text-2xl text-blueTheme pb-3' : ''"
   >
     {{ detail == true ? "Card Prices References" : "Card Prices :" }}
   </div>
