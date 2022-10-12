@@ -1,9 +1,6 @@
 <script>
-    import Button from '../components/button.vue'
     export default{
-        components:{
-            Button
-        }
+        props:['track']
     }
 </script>
 
@@ -14,11 +11,7 @@
                 <img src="https://i1.sndcdn.com/avatars-000228887415-y11o4w-t500x500.jpg" class="img-fluid card-img" />
             </div>
             <div class="card-body">
-                <h5 class="card-title">title</h5>
-                <div class="container">
-                    <Button :variant="'btn btn-primary'" :name="'See Detail'"
-                        :type="'button'"></Button>
-                </div>
+                <h5 class="card-title">{{ track.name }}</h5>
             </div>
         </div>
     </div>

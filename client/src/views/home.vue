@@ -2,8 +2,9 @@
     import Sidebar from '../components/sidebar.vue'
     import ListMusicCard from '../components/listMusicCard.vue'
     import MusicPlayer from '../components/musicplayer.vue'
-    import { mapActions } from 'pinia'
+    import { mapActions,mapWritableState } from 'pinia'
     import { useMusicStore } from '../stores/music'
+    import { useUserStore } from '../stores/user'
     export default{
         components:{
             Sidebar,
@@ -11,7 +12,12 @@
             MusicPlayer
         },
         methods:{
-            ...mapActions(useMusicStore,['fetchMusic'])
+            ...mapActions(useMusicStore,['fetchMusic']),
+            ...mapActions(useUserStore,['changePage','logOut'])
+        },
+        computed:{
+            ...mapWritableState(useUserStore,['page']),
+            ...mapWritableState(useMusicStore,['tracks'])
         },
         created(){
             this.fetchMusic()
@@ -20,9 +26,21 @@
 </script>
 
 <template>
-    <!-- <Sidebar /> -->
-
-    <!-- <ListMusicCard /> -->
-
-    <MusicPlayer />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <Sidebar 
+                @changePage="changePage"
+                @logOut="logOut"
+                />
+            </div>
+            <div class="col-md-9">
+                <MusicPlayer v-if="this.page == 'music'"/>
+            </div>
+            <ListMusicCard v-if="this.page == 'list'"
+            v-for="track in tracks" :key="track.id"
+            :track="track"
+            />
+        </div>
+    </div>
 </template>

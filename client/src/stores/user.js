@@ -14,7 +14,8 @@ export const useUserStore = defineStore('user', {
       email:'',
       password:''
     },
-    url:`http://localhost:3000`
+    url:`http://localhost:3000`,
+    page:'list'
   }),
   getters: {},
   actions: {
@@ -106,6 +107,9 @@ export const useUserStore = defineStore('user', {
           text:`${err.response.data.message}`
         })
       }
+    },
+    changePage(page){
+      this.page = page
     },
     logOut(){
       localStorage.clear()
