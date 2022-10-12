@@ -16,9 +16,10 @@ export const useAppStore = defineStore("app", {
           url: this.baseUrl + "/login",
           data: payload,
         });
-        console.log(data);
+        // console.log(data);
         this.userData = data;
         localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("username", data.username);
         this.isLogin = true;
         Swal.fire({
           position: "top-end",
@@ -53,5 +54,18 @@ export const useAppStore = defineStore("app", {
         Swal.fire(error.response.data.message);
       }
     },
+    async logout() {
+      localStorage.clear();
+      this.userData = {};
+      this.router.push("/login");
+      this.isLogin = false;
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Bye bye!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   },
 });

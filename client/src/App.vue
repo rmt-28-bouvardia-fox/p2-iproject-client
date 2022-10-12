@@ -7,6 +7,13 @@ export default {
   components: {
     Navbar,
   },
+  created() {
+    if(!localStorage.access_token){
+      this.$router.push('/login')
+    }else {
+      this.$router.push('/')
+    }
+  },
   computed: {
     ...mapState(useAppStore, ["isLogin"]),
   },
