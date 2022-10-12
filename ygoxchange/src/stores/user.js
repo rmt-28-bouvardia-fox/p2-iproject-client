@@ -117,6 +117,7 @@ export const useUserStore = defineStore("user", {
           },
         });
         localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("username", data.username);
         this.setAccessToken();
         swal.swalInfo("Login Success!");
         this.router.push("/");

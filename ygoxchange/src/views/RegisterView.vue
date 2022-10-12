@@ -16,7 +16,7 @@ export default {
 
 <template>
   <div class="flex justify-center pb-16">
-    <div class="min-w-[35%] bg-white rounded-lg">
+    <div class="min-w-[35%] bg-white rounded-lg p-4">
       <div class="text-center font-semibold text-4xl mt-5 pl-3 mb-8">Sign Up</div>
       <form
         class="flex-1 bg-white py-5 px-5 rounded-lg"

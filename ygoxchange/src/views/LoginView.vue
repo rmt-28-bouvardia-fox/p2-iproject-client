@@ -12,26 +12,26 @@ export default {
     },
   },
   mounted() {
-    // const callback = this.loginGoogleHandler;
-    // window.google.accounts.id.initialize({
-    //   client_id:
-    //     "315110986809-b6e6gj1gncg1l64v7eju112uj4im8i5s.apps.googleusercontent.com",
-    //   callback: callback,
-    // });
-    // window.google.accounts.id.renderButton(
-    //   document.getElementById("google-button-login"),
-    //   {
-    //     theme: "light",
-    //     size: "large",
-    //   }
-    // );
+    const callback = this.loginGoogleHandler;
+    window.google.accounts.id.initialize({
+      client_id:
+        "56563606716-0lnc5sqk8ekgkrp6kk7jquu2kfd8i5jq.apps.googleusercontent.com",
+      callback: callback,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("google-button-login"),
+      {
+        theme: "light",
+        size: "large",
+      }
+    );
   },
 };
 </script>
 
 <template>
   <div class="flex justify-center pb-16">
-    <div class="min-w-[35%] bg-white rounded-lg">
+    <div class="min-w-[35%] bg-white rounded-lg p-4">
       <div class="text-center font-semibold text-4xl mt-5 pl-3 mb-8">Sign In</div>
       <form
         class="flex-1 bg-white py-5 px-5 rounded-lg"
@@ -87,7 +87,7 @@ export default {
       <div class="mt-8 text-center text-slate-600">
         <p>or login with</p>
       </div>
-      <div class="mt-8">
+      <div class="mt-8 mb-8">
         <div
           id="google-button-login"
           class="w-full p-3 flex justify-center items-center"
