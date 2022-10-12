@@ -8,7 +8,7 @@ export const useAppStore = defineStore("app", {
     isLogin: localStorage.access_token ? true : false,
     products: [],
     bidLists: [],
-    product: {}
+    product: {},
   }),
   getters: {},
   actions: {
@@ -23,6 +23,7 @@ export const useAppStore = defineStore("app", {
         this.userData = data;
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("username", data.username);
+        localStorage.setItem("id", data.id)
         this.isLogin = true;
         Swal.fire({
           position: "top-end",
@@ -72,14 +73,14 @@ export const useAppStore = defineStore("app", {
     },
     async fetchProduct() {
       try {
-        const {data} = await axios({
-          url: this.baseUrl + '/products',
-          method: 'get',
+        const { data } = await axios({
+          url: this.baseUrl + "/products",
+          method: "get",
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
-        this.products = data
+            access_token: localStorage.access_token,
+          },
+        });
+        this.products = data;
         // console.log(data)
       } catch (error) {
         Swal.fire(error.response.data.message);
@@ -87,14 +88,14 @@ export const useAppStore = defineStore("app", {
     },
     async fetchOneProduct(id) {
       try {
-        const {data} = await axios({
+        const { data } = await axios({
           url: this.baseUrl + `/products/${id}`,
-          method: 'get',
+          method: "get",
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
-        this.product = data
+            access_token: localStorage.access_token,
+          },
+        });
+        this.product = data;
         // console.log(data)
       } catch (error) {
         Swal.fire(error.response.data.message);
@@ -102,14 +103,14 @@ export const useAppStore = defineStore("app", {
     },
     async fetchMyBid() {
       try {
-        const {data} = await axios({
-          url: this.baseUrl + '/myBidList',
-          method: 'get',
+        const { data } = await axios({
+          url: this.baseUrl + "/myBidList",
+          method: "get",
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
-        this.bidLists = data
+            access_token: localStorage.access_token,
+          },
+        });
+        this.bidLists = data;
         // console.log(data)
       } catch (error) {
         // console.log(error)
@@ -144,6 +145,21 @@ export const useAppStore = defineStore("app", {
         // console.log(error);
       }
     },
+    async startBidding(id) {
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + `/startBid/${id}`,
+          method: "patch",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        await this.fetchProduct();
+        this.router.push(`/detail/${id}`);
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
+    },
     async deleteBidList(id) {
       // console.log('ke hit', id)
       try {
@@ -166,6 +182,6 @@ export const useAppStore = defineStore("app", {
       } catch (error) {
         Swal.fire(error.response.data.message);
       }
-    }
+    },
   },
 });

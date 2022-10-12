@@ -1,24 +1,32 @@
 <script>
-import { mapActions, mapState } from 'pinia';
-import { useAppStore } from '../stores/app';
+import { mapActions, mapState } from "pinia";
+import { useAppStore } from "../stores/app";
 
 export default {
+  data() {
+    return {
+      BidderId: localStorage.id,
+    };
+  },
   computed: {
-    ...mapState(useAppStore, ["product"])
+    ...mapState(useAppStore, ["product"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchOneProduct"])
+    ...mapActions(useAppStore, ["fetchOneProduct", "startBidding"]),
+    handleBid(id) {
+      this.startBidding(id);
+    },
   },
   watch: {
-    '$route.params' : {
+    "$route.params": {
       handler(params) {
-        const id = params.id
-        this.fetchOneProduct(id)
+        const id = params.id;
+        this.fetchOneProduct(id);
       },
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+  },
+};
 </script>
 
 <template>
@@ -28,35 +36,67 @@ export default {
         <div class="card mb-1">
           <div class="row">
             <div class="col-md-6">
-              <img
-                :src="product.imgUrl"
-                class="card-img-top"
-                alt="..."
-              />
+              <img :src="product.imgUrl" class="card-img-top" alt="..." />
             </div>
             <div class="col-md-6 d-flex align-items-center">
               <div class="card-body">
                 <div class="col-12 col-md-6 offset-md-3">
-                  <h5 class="card-title">{{product.name}}</h5>
+                  <h5 class="card-title">{{ product.name }}</h5>
                   <div class="card-body">
-                    <p class="card-text">Type: {{product.description}}</p>
-                    <p class="card-text">Highest Price: {{product.price}}</p>
-                    <p class="card-text">Last Bidder: {{product.BidderProduct? product.BidderProduct.username : ''}}</p>
+                    <p class="card-text">Type: {{ product.description }}</p>
+                    <p class="card-text">Highest Price: {{ product.price }}</p>
+                    <p class="card-text">
+                      Last Bidder:
+                      {{
+                        product.BidderProduct
+                          ? product.BidderProduct.username
+                          : ""
+                      }}
+                    </p>
                     <div class="d-flex justify-content-evenly">
-                      <div>
-                        <button
-                          type="button"
-                          class="btn btn-outline-success"
-                          style="
-                            --bs-btn-padding-y: 0.25rem;
-                            --bs-btn-padding-x: 0.5rem;
-                            --bs-btn-font-size: 0.75rem;
-                          "
-                        >
-                          BID NOW!
-                        </button>
-                      </div>
-                      <button
+                        <div v-if="product.status == 'open'">
+                          <button
+                            type="button"
+                            class="btn btn-outline-success"
+                            style="
+                              --bs-btn-padding-y: 0.25rem;
+                              --bs-btn-padding-x: 0.5rem;
+                              --bs-btn-font-size: 0.75rem;
+                            "
+                            @click.prevent="handleBid(product.id)"
+                          >
+                            BID NOW!
+                          </button>
+                        </div>
+                        <div v-if="product.status == 'close'">
+                          <div v-show="product.BidderProduct.id === BidderId">
+                            <button
+                              type="button"
+                              class="btn btn-outline-success"
+                              style="
+                                --bs-btn-padding-y: 0.25rem;
+                                --bs-btn-padding-x: 0.5rem;
+                                --bs-btn-font-size: 0.75rem;
+                              "
+                            >
+                              PAY!
+                            </button>
+                          </div>
+                          <div v-show="product.BidderProduct.id !== BidderId">
+                            <button
+                              type="button"
+                              class="btn btn-outline-success disabled"
+                              style="
+                                --bs-btn-padding-y: 0.25rem;
+                                --bs-btn-padding-x: 0.5rem;
+                                --bs-btn-font-size: 0.75rem;
+                              "
+                            >
+                              PAY!
+                            </button>
+                          </div>
+                        </div>
+                      <RouterLink
                         type="button"
                         class="btn btn-success"
                         style="
@@ -64,9 +104,10 @@ export default {
                           --bs-btn-padding-x: 0.5rem;
                           --bs-btn-font-size: 0.75rem;
                         "
+                        to="/mylist"
                       >
                         Back
-                      </button>
+                      </RouterLink>
                     </div>
                   </div>
                 </div>
