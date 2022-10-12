@@ -97,12 +97,12 @@ export default {
                 <th>#</th>
                 <th>Chief Complaint</th>
                 <th>Appointment Date</th>
-                <th>Status</th>
+                <th>Doctor</th>
                 <th v-if="detail">Diagnosis</th>
                 <th v-if="detail">Need Surgical Actions</th>
                 <th v-if="detail">Need Medical Drug</th>
                 <th v-if="detail">Cost</th>
-                <th>Doctor</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>

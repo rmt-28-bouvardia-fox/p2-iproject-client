@@ -13,6 +13,7 @@ export const useAppointmentStore = defineStore("appointment", {
     doctorAppointments: [],
     appointmentId: "",
     diagnoses: [],
+    transactionToken: "",
   }),
   getters: {},
   actions: {
@@ -225,6 +226,61 @@ export const useAppointmentStore = defineStore("appointment", {
           },
         });
         this.diagnoses = data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async midtransHandler(appointmentId, cost) {
+      console.log(appointmentId, cost);
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/appointments/transactions",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          params: {
+            appointmentId,
+            cost,
+          },
+        });
+        this.transactionToken = data.transactionToken;
+        let cb = () => {
+          this.updateStatus(appointmentId);
+        };
+        window.snap.pay(this.transactionToken, {
+          onSuccess: function (result) {
+            /* You may add your own implementation here */
+            cb();
+            console.log(result);
+          },
+          onPending: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+          },
+          onError: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+          },
+          onClose: function () {
+            /* You may add your own implementation here */
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateStatus(appointmentId) {
+      try {
+        await axios({
+          method: "patch",
+          url: this.baseUrl + `/appointments/${appointmentId}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.fetchPatientAppointments();
+        this.router.push("/patients");
       } catch (error) {
         console.log(error);
       }
