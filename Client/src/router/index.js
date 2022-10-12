@@ -5,7 +5,6 @@ import RegisterPage from '../views/Register.vue'
 import CreateTeam from '../views/CreateTeam.vue'
 import HomePage from '../views/Home.vue'
 import TeamProfile from '../views/TeamProfile.vue'
-import EditTeam from '../views/EditTeam.vue'
 import ListPlayers from '../views/PlayersPage.vue'
 import PlayerDetail from '../views/PlayerDetail.vue'
 import Formation from '../views/Formation.vue'
@@ -50,11 +49,6 @@ const router = createRouter({
       path: '/formation',
       name: 'formation',
       component: Formation
-    },
-    {
-      path: '/editTeam',
-      name: 'editTeam',
-      component: EditTeam
     },
     {
       path: '/myPlayers',

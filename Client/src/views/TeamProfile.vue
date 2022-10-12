@@ -33,7 +33,6 @@ export default {
             <img :src="myTeam.logo" width="200" alt="">
         </div>
         <div>
-            <RouterLink to="/editTeam" class="btn btn-success mx-3" style="width: 14%;">Edit</RouterLink>
             <RouterLink to="/myPlayers" class="btn btn-danger mx-3" style="width: 14%;">Players</RouterLink>
             <RouterLink to="/formation" class="btn btn-primary mx-3" style="width: 17%;">Formation</RouterLink>
         </div>

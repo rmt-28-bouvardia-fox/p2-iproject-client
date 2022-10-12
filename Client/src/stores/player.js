@@ -14,7 +14,8 @@ export const usePlayerStore = defineStore('player', {
             playerSearch: '',
             totalPages: 0,
             player: {},
-            opponents: []
+            opponents: [],
+            match: {}
         }),
     getters: {
         doubleCount: (state) => state.count * 2,
@@ -65,16 +66,36 @@ export const usePlayerStore = defineStore('player', {
         },
         async buyPlayer(id) {
             try {
-                const { data } = await axios({
-                    url: `${this.baseUrl}/players/${id}`,
-                    method: 'POST',
-                    headers: {
-                        access_token: localStorage.access_token
-                    }
+                let result = await Swal.fire({
+                    title: 'Are you sure want to buy this player ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: `Yes, I'm sure!`
                 })
-                console.log(data);
+                if (result.isConfirmed) {
+                    const { data } = await axios({
+                        url: `${this.baseUrl}/players/${id}`,
+                        method: 'POST',
+                        headers: {
+                            access_token: localStorage.access_token
+                        }
+                    })                  
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
             } catch (error) {
-                console.log(error.response.data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }
         },
         async randomBuy() {
@@ -93,18 +114,38 @@ export const usePlayerStore = defineStore('player', {
         },
         async sellPlayer(id) {
             try {
-                const { data } = await axios({
-                    url: `${this.baseUrl}/players/myPlayers/${id}`,
-                    method: 'DELETE',
-                    headers: {
-                        access_token: localStorage.access_token
-                    }
+                let result = await Swal.fire({
+                    title: 'Are you sure sell this player ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: `Yes, I'm sure!`
                 })
-                this.router.push('/myPlayers')
-                this.fetchMyPlayers()
-                console.log(data);
+                if (result.isConfirmed) {
+                    let { data } = await axios({
+                        url: `${this.baseUrl}/players/myPlayers/${id}`,
+                        method: 'DELETE',
+                        headers: {
+                            access_token: localStorage.access_token
+                        }
+                    })
+                    this.router.push('/myPlayers')
+                    this.fetchMyPlayers()
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: error.response.data
+                })
             }
         },
         async findOnePlayer(id) {
@@ -138,17 +179,69 @@ export const usePlayerStore = defineStore('player', {
         },
         async playGame(id) {
             try {
-                const { data } = await axios({
-                    url: `${this.baseUrl}/opponents/${id}`,
-                    method: 'GET',
-                    headers: {
-                        access_token: localStorage.access_token
-                    }
+                let result = await Swal.fire({
+                    title: 'Are you sure want <br> to against this club ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: `Yes, I'm sure!`
                 })
-                console.log(data);
+                if (result.isConfirmed) {
+                    let timerInterval = 0
+                    Swal.fire({
+                        title: 'Match in progress!',
+                        width: 800,
+                        background: '#fff url(/ images / trees.png)',
+                        backdrop: `
+                                rgba(0,0,0,0.7)
+                                url("/images/nyan-cat.gif")
+                                left top
+                                no-repeat
+                            `,
+                        imageUrl: 'https://news.motability.co.uk/wp-content/uploads/2017/09/thumbnail-6a7a7e916f7922880d413497f8f79362-1140x618.jpeg',
+                        imageHeight: 400,
+                        html: 'Match will end in <b></b> milliseconds.',
+                        timer: 4000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: async () => {
+                            clearInterval(timerInterval)
+                            const { data } = await axios({
+                                url: `${this.baseUrl}/opponents/${id}`,
+                                method: 'GET',
+                                headers: {
+                                    access_token: localStorage.access_token
+                                }
+                            })
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: data.result,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                text: data.score
+                            })
+                            this.match.result = data.result
+                            this.match.score = data.score
+                        }
+                    })
+                }
             } catch (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: `Cannot play`,
+                    text: error.response.data
+                })
             }
         }
     },
 })
+

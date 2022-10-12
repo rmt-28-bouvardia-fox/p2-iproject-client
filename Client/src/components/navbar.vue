@@ -19,6 +19,10 @@ export default {
 </script>
 <template>
 <header v-if="isLogin" class="navbar sticky-top p-2 d-flex justify-content-between" style="height: 70px;" id="navbar">
+  <div style="margin-left: 20px;" class="d-flex">
+    <img src="../assets/eFootball.jpg" width="40" alt="">
+    <h4 class="mx-3 mt-1 text-light">Dream Football</h4>
+  </div>
   <div class="d-flex text-light" style="width: 50%; margin-left: 100px;" >
     <RouterLink to="/home" class="nav-button btn">Home</RouterLink>
   </div>
@@ -30,14 +34,13 @@ export default {
 <style scoped>
 
 #navbar {
-    background-color: #c50700;
+    background-color: #620038;
     box-shadow: 2px 2px 6px 1px black;
 }
 
 .nav-button {
     height: 40px;
-    color: white;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
     border-radius: 20%;
     width: 150px;
     margin: 0 200px;

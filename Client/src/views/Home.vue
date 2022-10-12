@@ -5,6 +5,11 @@ import { useUserStore } from '../stores/user';
 export default {
   computed: {
     ...mapState(useUserStore, ['coach'])
+  },
+  methods: {
+    playHandler() {
+      this.$router.push('/match')
+    }
   }
 }
 </script>
@@ -17,6 +22,9 @@ export default {
   </div>
   <div id="welcome-coach" class="py-2 rounded-pill d-flex justify-content-center" >
     <h1>Welcome Coach {{coach}}!</h1>
+  </div>
+  <div style="margin-left: 120px;" class="mt-3 d-flex justify-content-center">
+    <button @click="playHandler" style="border: 4px solid black; background-color: darkred; width: 200px; height: 50px;" class="btn text-light">Play a Match</button>
   </div>
 </template>
 
