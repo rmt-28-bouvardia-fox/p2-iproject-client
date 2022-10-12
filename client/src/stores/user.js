@@ -105,6 +105,11 @@ export const useUserStore = defineStore('user', {
           text:`${err.response.data.message}`
         })
       }
+    },
+    logOut(){
+      localStorage.clear()
+      this.router.push('/login')
+      this.isLogin = false
     }
   },
 })
