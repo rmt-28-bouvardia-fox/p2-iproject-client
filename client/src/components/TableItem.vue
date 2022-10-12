@@ -1,5 +1,5 @@
 <script>
-import { mapWritableState } from "pinia";
+import { mapActions, mapWritableState } from "pinia";
 import { useAppointmentStore } from "../stores/appointment";
 
 export default {
@@ -32,10 +32,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useAppointmentStore, ["midtransHandler"]),
     createConsultReport() {
       this.appointmentId = this.doctorAppointment.id;
       this.$router.push("/consultReports");
     },
+    payBill() {
+      this.midtransHandler(this.appointment.id, this.appointment.ConsultationReport.cost)
+    }
   },
 };
 </script>
@@ -44,17 +48,38 @@ export default {
     <td>{{ index + 1 }}</td>
     <td>{{ appointment.chiefComplaint }}</td>
     <td>{{ formatDate }}</td>
-    <td>{{ appointment.status }}</td>
-    <td v-if="appointment.status != 'Uncomplete'">
-      {{ appointment.ConsultationReport.diagnosis }}</td>
-    <td v-if="appointment.status != 'Uncomplete'">
-      {{ appointment.ConsultationReport.needSurgicalAction }}</td>
-    <td v-if="appointment.status != 'Uncomplete'">
-      {{ appointment.ConsultationReport.needMedicalDrug }}</td>
-    <td v-if="appointment.status != 'Uncomplete'">
-      {{ formatPrice }}</td>
-    <td v-if="appointment.status != 'Uncomplete'">
-      {{ appointment.Doctor.name }}</td>
+    <td>
+      {{ appointment.Doctor.name }}
+    </td>
+    <td>
+      <span v-if="appointment.ConsultationReport">
+        {{ appointment.ConsultationReport.diagnosis }}
+      </span>
+    </td>
+    <td>
+      <span v-if="appointment.ConsultationReport">
+        {{ appointment.ConsultationReport.needSurgicalAction }}
+      </span>
+    </td>
+    <td>
+      <span v-if="appointment.ConsultationReport">
+        {{ appointment.ConsultationReport.needMedicalDrug }}
+      </span>
+    </td>
+    <td >
+      <span v-if="appointment.ConsultationReport">
+        {{ formatPrice }}
+      </span>
+    </td>
+    <td>
+      <span v-if="appointment.status !== 'Complete'">
+        {{ appointment.status }}
+      </span>
+      <span v-if="appointment.status === 'Complete'">
+        <button @click.prevent="payBill" class="text-slate-900 bg-rose-300 hover:bg-rose-400 rounded p-1 shadow-lg">Pay
+          Hospital Bill</button>
+      </span>
+    </td>
   </tr>
   <tr class="border-b border-sky-900" v-if="doctorAppointment">
     <td>{{ index + 1 }}</td>
