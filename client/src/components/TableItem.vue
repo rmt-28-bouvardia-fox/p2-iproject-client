@@ -53,7 +53,8 @@ export default {
       {{ appointment.ConsultationReport.needMedicalDrug }}</td>
     <td v-if="appointment.status != 'Uncomplete'">
       {{ formatPrice }}</td>
-    <td>{{ appointment.Doctor.name }}</td>
+    <td v-if="appointment.status != 'Uncomplete'">
+      {{ appointment.Doctor.name }}</td>
   </tr>
   <tr class="border-b border-sky-900" v-if="doctorAppointment">
     <td>{{ index + 1 }}</td>
