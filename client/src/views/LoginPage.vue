@@ -1,6 +1,25 @@
 <script>
+import { mapActions } from "pinia";
+import { useAppointmentStore } from "../stores/appointment";
 export default {
-  name: "LoginPage"
+  name: "LoginPage",
+  data() {
+    return {
+      loginData: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    ...mapActions(useAppointmentStore, ["loginHandlerPatient", "loginHandlerDoctor"]),
+    loginPatient() {
+      this.loginHandlerPatient(this.loginData);
+    },
+    loginDoctor() {
+      this.loginHandlerDoctor(this.loginData);
+    },
+  },
 }
 </script>
 <template>
@@ -28,7 +47,7 @@ export default {
               <span class="block text-xs md:text-lg font-semibold mb-1 after:content-['*'] after:text-red-500">
                 Email
               </span>
-              <input type="email" id="email" placeholder="Enter your email..."
+              <input type="email" id="email" placeholder="Enter your email..." v-model="loginData.email"
                 class="md:p-1 border rounded w-full block text-sm text-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-red-500 invalid:focus:ring-red-500 invalid:focus:border-red-500" />
             </label>
           </div>
@@ -37,23 +56,29 @@ export default {
               <span class="block text-xs md:text-lg font-semibold mb-1 after:content-['*'] after:text-red-500">
                 Password
               </span>
-              <input type="password" id="password" placeholder="Enter your password..."
+              <input type="password" id="password" placeholder="Enter your password..." v-model="loginData.password"
                 class="md:p-1 border rounded w-full block text-sm text-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-red-500 invalid:focus:ring-red-500 invalid:focus:border-red-500" />
             </label>
           </div>
           <div class="mt-5">
-            <button type="submit" @click.prevent="login"
+            <button type="submit" @click.prevent="loginPatient"
               class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300">
-              Login
+              Login as Patient
+            </button>
+          </div>
+          <div class="mt-3">
+            <button type="submit" @click.prevent="loginDoctor"
+              class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300">
+              Login as Doctor
             </button>
           </div>
         </form>
         <div class="text-center text-md font-semibold md:mb-4">
           <h1>Or Sign In with Google</h1>
         </div>
-        <div class="mb-4 justify-center">
+        <!-- <div class="mb-4 justify-center">
           <GoogleButton />
-        </div>
+        </div> -->
         <div class="text-center text-md md:text-2xl font-semibold md:mb-2">
           <h1>New Patient</h1>
         </div>
