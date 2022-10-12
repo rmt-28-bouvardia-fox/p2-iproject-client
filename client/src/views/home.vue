@@ -1,10 +1,12 @@
 <script>
     import Sidebar from '../components/sidebar.vue'
     import ListMusicCard from '../components/listMusicCard.vue'
+    import MusicPlayer from '../components/musicplayer.vue'
     export default{
         components:{
             Sidebar,
-            ListMusicCard
+            ListMusicCard,
+            MusicPlayer
         }
     }
 </script>
@@ -13,4 +15,6 @@
     <Sidebar />
 
     <ListMusicCard />
+
+    <MusicPlayer />
 </template>
