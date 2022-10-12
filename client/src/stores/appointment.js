@@ -8,6 +8,8 @@ export const useAppointmentStore = defineStore("appointment", {
     doctors: [],
     symptoms: [],
     specialists: [],
+    patientAppointments: [],
+    doctorAppointments: [],
   }),
   getters: {},
   actions: {
@@ -156,6 +158,34 @@ export const useAppointmentStore = defineStore("appointment", {
           data: appointmentData,
         });
         this.router.push("/patients");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchPatientAppointments() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/appointments/patients",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.patientAppointments = data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchDoctorAppointments() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/appointments/doctors",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.doctorAppointments = data
       } catch (error) {
         console.log(error);
       }
