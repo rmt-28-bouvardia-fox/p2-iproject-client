@@ -11,6 +11,7 @@ export const useAppointmentStore = defineStore("appointment", {
     patientAppointments: [],
     doctorAppointments: [],
     appointmentId: "",
+    diagnoses: [],
   }),
   getters: {},
   actions: {
@@ -195,13 +196,32 @@ export const useAppointmentStore = defineStore("appointment", {
       try {
         await axios({
           method: "post",
-          url: this.baseUrl + `/appointments/consultationReports/${this.appointmentId.toString()}`,
+          url:
+            this.baseUrl +
+            `/appointments/consultationReports/${this.appointmentId.toString()}`,
           data: consultReportData,
           headers: {
             access_token: localStorage.access_token,
           },
         });
         this.router.push("/doctors");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchDiagnoses() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/appointments/diagnoses",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          params: {
+            appointmentId: this.appointmentId
+          }
+        });
+        this.diagnoses = data;
       } catch (error) {
         console.log(error);
       }
