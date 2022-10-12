@@ -24,7 +24,7 @@ export const useCounterStore = defineStore('counter',  {
         })
         this.comics = data
       } catch (error) {
-        console.log(error)
+        Swal.fire(error.response.data.message)
       }
     },
     async renderComic(comicId){
@@ -32,10 +32,9 @@ export const useCounterStore = defineStore('counter',  {
         const {data} = await axios({
           url : this.basedUrl + `/comics/${comicId}`
         })
-        // console.log(data)
         this.comic = data
       } catch (error) {
-        console.log(error)
+        Swal.fire(error.response.data.message)
       }
     },
     async addToCart(input){
@@ -48,9 +47,9 @@ export const useCounterStore = defineStore('counter',  {
             access_token : localStorage.access_token
           }
         })
-        console.log(data)
+        Swal.fire(`Success add ${data.added.comicName} to cart`)
       } catch (error) {
-        console.log(error)
+        Swal.fire(error.response.data.message)
       }
     },
     async renderCart(){
@@ -64,7 +63,7 @@ export const useCounterStore = defineStore('counter',  {
         })
         this.cartItems = data
       } catch (error) {
-        console.log(error)
+        Swal.fire(error.response.data.message)
       }
     },
     async payment (inputPrice){
@@ -82,7 +81,7 @@ export const useCounterStore = defineStore('counter',  {
         this.transactionToken = data.transactionToken
 
       } catch (error) {
-        console.log(error)
+        Swal.fire(error.response.data.message)
       }
     },
     async editStatus(order_id){
@@ -98,7 +97,7 @@ export const useCounterStore = defineStore('counter',  {
           }
         })
       } catch (error) {
-        
+        Swal.fire(error.response.data.message)
       }
     },
     async renderHome(){
@@ -109,7 +108,7 @@ export const useCounterStore = defineStore('counter',  {
         })
         this.characters = data
       } catch (error) {
-        console.log(error)
+        Swal.fire(error.response.data.message)
       }
     }
   }
