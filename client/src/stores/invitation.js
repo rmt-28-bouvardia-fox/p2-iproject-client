@@ -59,6 +59,7 @@ export const useInvitationStore = defineStore({
           (this.motherBride = ""),
           (this.weddingDate = ""),
           (this.weddingLocation = "");
+          (this.TemplateId = "");
       }
     },
     async getTemplate() {
