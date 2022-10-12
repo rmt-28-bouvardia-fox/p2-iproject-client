@@ -33,7 +33,7 @@ import {useChatStore} from '../stores/chat'
                     <ul class="m-b-0">                        
                         <li class="clearfix" v-for="message in messages">
                             <div class="message-data">
-                                <span class="message-data-time">{{message.user}}</span>
+                                <span class="message-data-user">{{message.user}}</span>
                             </div>
                             <div class="message my-message">{{message.message}}</div>                                    
                         </li>                               
@@ -174,7 +174,7 @@ body{
     width: 40px
 }
 
-.chat .chat-history .message-data-time {
+.chat .chat-history .message-data-user {
     color: #434651;
     padding-left: 6px
 }

@@ -19,8 +19,9 @@ export const useClientStore = defineStore('client',  {
                 localStorage.setItem('username', data.username)
                 this.isLoggedIn = true
                 this.router.push('/')
+                Swal.fire('Login success')
             } catch (error) {
-                console.log(error)
+                Swal.fire(error.response.data.message)
             }
         },
         async register(inputBody){
@@ -32,7 +33,7 @@ export const useClientStore = defineStore('client',  {
                 })
                 this.router.push('/login')
             } catch (error) {
-                console.log(error)
+                Swal.fire(error.response.data.message)
             }
         },
         async renderProfile(){
@@ -45,9 +46,8 @@ export const useClientStore = defineStore('client',  {
                     }
                 })
                 this.user = data
-                console.log(data)
             } catch (error) {
-                console.log(error)
+                Swal.fire(error.response.data.message)
             }
         }
     }

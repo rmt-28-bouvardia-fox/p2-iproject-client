@@ -33,6 +33,8 @@ router.beforeEach((to,from,next) =>{
     next('/login')
   } else if(to.name == 'profile' && isLoggedIn == false){
     next('/login')
+  } else if(to.name == 'chat' && isLoggedIn == false){
+    next('/login')
   } else{
     next()
   }

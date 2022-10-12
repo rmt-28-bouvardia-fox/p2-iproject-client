@@ -44,7 +44,7 @@ export default {
                 <button @click="search" type="button" class="btn btn-outline-primary">search</button>
             </div>
             <div class="row mb-5">
-                <div class="container mx-auto mt-3 border border-3">
+                <div class="container mx-auto mt-3 ">
                     <div class="row mt-5 ms-2">
                         <ComicCards v-for="comic in comics" :key="comic.id" :comic="comic" />
                     </div>

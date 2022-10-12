@@ -37,11 +37,11 @@ export default {
               /* You may add your own implementation here */
                 cb2(result.order_id)
                 cb()
-                console.log(result);
+                Swal.fire('Payment success, you will receive your order in your email soon!!');
             },
             onPending: function(result){
               /* You may add your own implementation here */
-                console.log(result);
+                Swal.fire('Payment Unsuccessful');
             },
             onError: function(result){
               /* You may add your own implementation here */
@@ -49,8 +49,7 @@ export default {
             },
             onClose: function(){
             /* You may add your own implementation here */
-                cb()
-                console.log('salah woi salah')
+                Swal.fire(`Uhh Ohh!!, you haven't done your payment, yet`)
             }
         });
         // customer will be redirected after completing payment pop-up

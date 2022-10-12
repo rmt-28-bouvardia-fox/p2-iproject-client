@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import db from '../firebase'
-import {ref,limitToFirst, get, query, set} from 'firebase/database'
+import {ref,limitToFirst, get, query, set, orderByChild} from 'firebase/database'
 export const useChatStore = defineStore('chat', {
     state : () =>({
         message : '',
@@ -8,32 +8,31 @@ export const useChatStore = defineStore('chat', {
     }),
     actions : {
         fetchMessages(){
-            const que = query(ref(db, "Messages"))
+            const que = query(ref(db, "Messages2"), orderByChild("createdAt"))
 
             get(que)
             .then((snapshot) =>{
                 snapshot.forEach(childSnapshot =>{
-                    this.messages.push(childSnapshot.val(), limitToFirst(30))
+                    this.messages.push(childSnapshot.val())
                 })
             })
             .catch((error) =>{
-                console.log(error)
+                Swal.fire('server error')
             })
         },
 
         sendMessage(){
-            const date = new Date()
-            set(ref(db, "Messages/" + this.message), {
+            const date = new Date().getTime()
+            set(ref(db, "Messages2/" + this.message), {
                 message : this.message,
                 user : localStorage.username,
                 createdAt : date
             })
             .then(() =>{
-                console.log('success')
                 this.message = ''
             })
             .catch((error) =>{
-                console.log(error)
+                Swal.fire('server error')
             })
         }
     }
