@@ -9,7 +9,8 @@ export const useCounterStore = defineStore('counter',  {
     comic : {},
     page : 1,
     cartItems : [],
-    transactionToken : ''
+    transactionToken : '',
+    characters : []
   }),
   actions : {
     async renderComics(input){
@@ -98,6 +99,17 @@ export const useCounterStore = defineStore('counter',  {
         })
       } catch (error) {
         
+      }
+    },
+    async renderHome(){
+      try {
+        const {data} = await axios({
+          url : this.basedUrl + '/characters',
+          method : 'get'
+        })
+        this.characters = data
+      } catch (error) {
+        console.log(error)
       }
     }
   }

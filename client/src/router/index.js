@@ -29,7 +29,7 @@ router.beforeEach((to,from,next) =>{
     next('/')
   } else if(to.name == 'cart' && isLoggedIn == false){
     next('/login')
-  } else if(to.name == 'wishlist' && isLoggedIn == false){
+  } else if(to.name == 'profile' && isLoggedIn == false){
     next('/login')
   } else{
     next()

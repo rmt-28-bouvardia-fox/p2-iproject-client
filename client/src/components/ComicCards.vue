@@ -35,7 +35,9 @@ import { useCounterStore } from '../stores/counter';
     <!--Card-->
     <div class="col-md-4" >
         <div class="card" style="width: 18rem;">
-            <img :src="imgUrl" class="card-img-top" alt="...">
+            <div class="col-12">
+              <img :src="imgUrl" class="card-img-top" style="object-fit:cover; width:25mh;height:25vh" alt="...">
+            </div>
             <div class="card-body">
               <h5 class="card-title">{{comic.title}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Price : {{ shownPrice }}</h6>
