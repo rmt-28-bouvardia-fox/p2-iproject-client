@@ -1,5 +1,30 @@
 <script>
-
+    import { mapActions,mapWritableState } from 'pinia'
+    import { useMusicStore } from '../stores/music'
+    export default{
+        methods:{
+            ...mapActions(useMusicStore, ['play', 'generateTime', 'updateBar', 'clickProgress', 'prevTrack', 'nextTrack', 'resetPlayer','favorite'])
+        },
+        computed:{
+            ...mapWritableState(useMusicStore,['audio','bandwith','circleLeft','currentTime','duration','isTimerPlaying','tracks'])
+        },
+        created() {
+        let vm = this;
+        this.currentTrack = this.tracks[0];
+        this.audio = new Audio();
+        this.audio.src = this.currentTrack.source;
+        this.audio.ontimeupdate = function () {
+            vm.generateTime();
+        };
+        this.audio.onloadedmetadata = function () {
+            vm.generateTime();
+        };
+        this.audio.onended = function () {
+            vm.nextTrack();
+            this.isTimerPlaying = true;
+        };
+        }
+    }
 </script>
 
 <template>
