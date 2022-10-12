@@ -11,18 +11,26 @@ export default {
         };
     },
     computed: {
-        ...mapWritableState(useCounterStore, ["cartItems"]),
+        ...mapWritableState(useCounterStore, ["cartItems", "transactionToken"]),
         displayTotalPrice() {
             return this.totalPrice.toLocaleString("id-Id", { style: "currency", currency: "IDR" });
         }
     },
     methods: {
-        ...mapActions(useCounterStore, ["renderCart"]),
+        ...mapActions(useCounterStore, ["renderCart", 'payment']),
         shownTotalPrice() {
             const prices = this.cartItems.map(el => {
                 return el.price;
             });
             this.totalPrice = prices.reduce((previousValue, currentValue) => previousValue + currentValue, 1);
+        },
+        async checkout(){
+            await this.payment(this.totalPrice)
+            var payButton = document.getElementById('pay-button');
+      
+        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+            window.snap.pay(this.transactionToken);
+        // customer will be redirected after completing payment pop-up
         }
     },
     async created() {
@@ -44,9 +52,10 @@ export default {
                     <div class="title">
                         <div class="row">
                             <div class="col"><h4><b>Shopping Cart</b></h4></div>
-                            <div class="col align-self-center text-right text-muted">{{cartItems.length}} Items</div>
+                            
                         </div>
                     </div>    
+                    <div class="col align-self-center text-right text-muted">{{cartItems.length}} Items</div>
                     <div class="row border-top border-bottom">
                         <ComicCartItems v-for="item in cartItems" :key="item.id" :item="item"/>
                     </div>
@@ -63,7 +72,7 @@ export default {
                         <div class="col">TOTAL PRICE</div>
                         <div class="col text-right">{{displayTotalPrice}}</div>
                     </div>
-                    <button class="btn">CHECKOUT</button>
+                    <button @click="checkout" id="button-pay" class="btn">CHECKOUT</button>
                 </div>
             </div>
             
