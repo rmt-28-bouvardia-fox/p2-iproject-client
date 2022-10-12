@@ -13,7 +13,7 @@
         },
         methods:{
             ...mapActions(useMusicStore,['fetchMusic']),
-            ...mapActions(useUserStore,['changePage'])
+            ...mapActions(useUserStore,['changePage','logOut'])
         },
         computed:{
             ...mapWritableState(useUserStore,['page']),
@@ -31,6 +31,7 @@
             <div class="col-md-4">
                 <Sidebar 
                 @changePage="changePage"
+                @logOut="logOut"
                 />
             </div>
             <div class="col-md-9">

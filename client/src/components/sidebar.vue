@@ -1,9 +1,12 @@
 <script>
     export default{
-        emits:['changePage'],
+        emits:['changePage','logOut'],
         methods:{
             changePage(page){
                 this.$emit('changePage',page)
+            },
+            logOut(){
+                this.$emit('logOut')
             }
         }
     }
@@ -28,7 +31,7 @@
                 <RouterLink @click.prevent="changePage('list')" to="#">My List</RouterLink>
             </li>
             <li>
-                <RouterLink to="#">Log Out</RouterLink>
+                <RouterLink @click.prevent="logOut" to="#">Log Out</RouterLink>
             </li>
         </ul>
     </div>
