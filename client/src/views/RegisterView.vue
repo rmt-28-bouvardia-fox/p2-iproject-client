@@ -5,7 +5,10 @@ import Navbar from "./../components/Navbar.vue";
 
 export default {
   methods: {
-    ...mapActions(useUserStore, ["registerHandler"]),
+    ...mapActions(useUserStore, [
+      "registerHandler",
+      "handleCredentialResponse",
+    ]),
   },
   computed: {
     ...mapWritableState(useUserStore, ["username", "email", "password"]),
@@ -13,11 +16,23 @@ export default {
   components: {
     Navbar,
   },
+  mounted() {
+    const cb = this.handleCredentialResponse;
+    google.accounts.id.initialize({
+      client_id:
+        "450593059360-cnkdesakn2gsarj75n1phoal630ec63f.apps.googleusercontent.com",
+      callback: cb,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-button-login"),
+      { theme: "outline", size: "large" } // customization attributes
+    );
+  },
 };
 </script>
 
 <template>
-<Navbar/>
+  <Navbar />
   <div>
     <div class="register">
       <img
@@ -70,6 +85,9 @@ export default {
             Submit
           </button>
         </form>
+        <hr />
+        <h6 class="text-center">Register with</h6>
+        <div id="google-button-login"></div>
       </div>
     </div>
   </div>
