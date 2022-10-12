@@ -9,13 +9,28 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAppStore, ["product"]),
+    ...mapState(useAppStore, ["product", "transaction_token"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchOneProduct", "startBidding",'mailer']),
+    ...mapActions(useAppStore, [
+      "fetchOneProduct",
+      "startBidding",
+      "mailer",
+      "midtrans",
+    ]),
     handleBid(id) {
       this.startBidding(id);
-      this.mailer()
+      this.mailer();
+    },
+    async handlePay(price) {
+      await this.midtrans(price);
+      window.snap.pay(this.transaction_token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          alert("payment success!");
+          console.log(result);
+        },
+      });
     },
   },
   watch: {
@@ -55,7 +70,22 @@ export default {
                       }}
                     </p>
                     <div class="d-flex justify-content-evenly">
-                        <div v-if="product.status == 'open'">
+                      <div v-if="product.status == 'open'">
+                        <button
+                          type="button"
+                          class="btn btn-outline-success"
+                          style="
+                            --bs-btn-padding-y: 0.25rem;
+                            --bs-btn-padding-x: 0.5rem;
+                            --bs-btn-font-size: 0.75rem;
+                          "
+                          @click.prevent="handleBid(product.id)"
+                        >
+                          BID NOW!
+                        </button>
+                      </div>
+                      <div v-if="product.status == 'close'">
+                        <div v-show="product.BidderProduct.id == BidderId">
                           <button
                             type="button"
                             class="btn btn-outline-success"
@@ -64,39 +94,25 @@ export default {
                               --bs-btn-padding-x: 0.5rem;
                               --bs-btn-font-size: 0.75rem;
                             "
-                            @click.prevent="handleBid(product.id)"
+                            @click.prevent="handlePay(product.price)"
                           >
-                            BID NOW!
+                            PAY!
                           </button>
                         </div>
-                        <div v-if="product.status == 'close'">
-                          <div v-show="product.BidderProduct.id === BidderId">
-                            <button
-                              type="button"
-                              class="btn btn-outline-success"
-                              style="
-                                --bs-btn-padding-y: 0.25rem;
-                                --bs-btn-padding-x: 0.5rem;
-                                --bs-btn-font-size: 0.75rem;
-                              "
-                            >
-                              PAY!
-                            </button>
-                          </div>
-                          <div v-show="product.BidderProduct.id !== BidderId">
-                            <button
-                              type="button"
-                              class="btn btn-outline-success disabled"
-                              style="
-                                --bs-btn-padding-y: 0.25rem;
-                                --bs-btn-padding-x: 0.5rem;
-                                --bs-btn-font-size: 0.75rem;
-                              "
-                            >
-                              PAY!
-                            </button>
-                          </div>
+                        <div v-show="product.BidderProduct.id != BidderId">
+                          <button
+                            type="button"
+                            class="btn btn-outline-success disabled"
+                            style="
+                              --bs-btn-padding-y: 0.25rem;
+                              --bs-btn-padding-x: 0.5rem;
+                              --bs-btn-font-size: 0.75rem;
+                            "
+                          >
+                            PAY!
+                          </button>
                         </div>
+                      </div>
                       <RouterLink
                         type="button"
                         class="btn btn-success"

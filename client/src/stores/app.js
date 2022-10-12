@@ -9,6 +9,7 @@ export const useAppStore = defineStore("app", {
     products: [],
     bidLists: [],
     product: {},
+    transaction_token: "",
   }),
   getters: {},
   actions: {
@@ -23,7 +24,7 @@ export const useAppStore = defineStore("app", {
         this.userData = data;
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("username", data.username);
-        localStorage.setItem("id", data.id)
+        localStorage.setItem("id", data.id);
         this.isLogin = true;
         Swal.fire({
           position: "top-end",
@@ -164,11 +165,11 @@ export const useAppStore = defineStore("app", {
       try {
         await axios({
           url: this.baseUrl + "/biddingHit",
-          method: 'get',
+          method: "get",
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
+            access_token: localStorage.access_token,
+          },
+        });
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -176,6 +177,23 @@ export const useAppStore = defineStore("app", {
           showConfirmButton: false,
           timer: 1500,
         });
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
+    },
+    async midtrans(price) {
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + "/pay",
+          method: "post",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: {
+            gross_amount: price
+          }
+        });
+        this.transaction_token = data
       } catch (error) {
         Swal.fire(error.response.data.message);
       }
