@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 
 export const useMusicStore = defineStore('music',{
     state: () => ({
+        url:`http://localhost:3000`,
         audio:'',
         circleLeft:'',
         bandwith:'',
@@ -130,6 +131,17 @@ export const useMusicStore = defineStore('music',{
       this.tracks[this.currentTrackIndex].favorited = !this.tracks[
         this.currentTrackIndex
       ].favorited;
+    },
+    async fetchMusic(){
+      try {
+        const { data } = await axios({
+          method:'get',
+          url:`${this.url}/music`
+        })
+        this.tracks = data
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 })
