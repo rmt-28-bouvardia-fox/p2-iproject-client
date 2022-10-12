@@ -16,7 +16,7 @@ export const useWeatherStore = defineStore("weather", {
         }
 
         const { data } = await axios({
-          url: "http://localhost:3000/weather",
+          url: "https://hacktive-times.herokuapp.com/weather",
           method: "get",
           params: {
             city: this.getCity,
@@ -42,7 +42,7 @@ export const useWeatherStore = defineStore("weather", {
     async fetchCurrentWeather(city) {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/weather",
+          url: "https://hacktive-times.herokuapp.com/weather",
           method: "get",
           params: {
             city,
@@ -68,7 +68,7 @@ export const useWeatherStore = defineStore("weather", {
         const location = `${lat},${long}`;
 
         const { data } = await axios({
-          url: "http://localhost:3000/weather/geolocations",
+          url: "https://hacktive-times.herokuapp.com/weather/geolocations",
           method: "get",
           params: {
             location,

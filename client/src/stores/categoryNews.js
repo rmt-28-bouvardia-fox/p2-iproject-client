@@ -7,7 +7,7 @@ export const useCategoryNewsStore = defineStore("categoryNews", {
     async fetchCategoryNews(category) {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/news",
+          url: "https://hacktive-times.herokuapp.com/news",
           method: "get",
           params: {
             country: "id",
@@ -28,7 +28,7 @@ export const useCategoryNewsStore = defineStore("categoryNews", {
     async fetchInternationalCategory(category) {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/news",
+          url: "https://hacktive-times.herokuapp.com/news",
           method: "get",
           params: {
             country: "us",

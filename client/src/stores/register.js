@@ -8,7 +8,7 @@ export const useRegisterUser = defineStore("register", {
     async registerUser() {
       try {
         await axios({
-          url: "http://localhost:3000/users/register",
+          url: "https://hacktive-times.herokuapp.com/users/register",
           method: "post",
           data: this.register,
         });

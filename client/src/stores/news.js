@@ -12,7 +12,7 @@ export const useNewsStore = defineStore("news", {
     async fetchNews(category) {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/news",
+          url: "https://hacktive-times.herokuapp.com/news",
           method: "get",
           params: {
             country: "id",
@@ -33,7 +33,7 @@ export const useNewsStore = defineStore("news", {
     async fetchDataSidebar() {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/news",
+          url: "https://hacktive-times.herokuapp.com/news",
           method: "get",
           params: {
             country: "us",
@@ -53,7 +53,7 @@ export const useNewsStore = defineStore("news", {
     async getTransactionToken(orderId) {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/news/midtrans",
+          url: "https://hacktive-times.herokuapp.com/news/midtrans",
           method: "post",
           params: {
             orderId,
@@ -70,7 +70,7 @@ export const useNewsStore = defineStore("news", {
     },
     async subscribe() {
       await axios({
-        url: "http://localhost:3000/news/status",
+        url: "https://hacktive-times.herokuapp.com/news/status",
         method: "patch",
         headers: {
           access_token: localStorage.access_token,

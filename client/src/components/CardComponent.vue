@@ -1,16 +1,11 @@
 <script>
 export default {
   props: ["news", "category"],
-  methods: {
-    toNews(url) {
-      console.log(url);
-    },
-  },
 };
 </script>
 <template>
   <a :href="news.url" target="_blank">
-    <div class="card" @click="toNews(news.url)">
+    <div class="card">
       <div class="left">
         <h3 class="card-title">{{ news.title }}</h3>
         <div class="card-desc">

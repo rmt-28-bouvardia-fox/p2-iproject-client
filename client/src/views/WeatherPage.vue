@@ -61,9 +61,8 @@ export default {
           />
         </div>
         <div class="bottom">
-          <!-- <img :src="`../assets/icons/1.svg`" alt="" srcset="" /> -->
           <h4 class="weather-text">{{ getWeather.weatherText }}</h4>
-          <p class="city-title">City</p>
+          <p class="city-title">Location</p>
           <h1 class="city">{{ getWeather.name }}</h1>
           <div class="temperature">
             <h3 class="temperature-title">Temperature</h3>

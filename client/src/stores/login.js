@@ -8,7 +8,7 @@ export const useLoginStore = defineStore("login", {
     async loginUser() {
       try {
         const { data } = await axios({
-          url: "http://localhost:3000/users/login",
+          url: "https://hacktive-times.herokuapp.com/users/login",
           method: "post",
           data: this.login,
         });
