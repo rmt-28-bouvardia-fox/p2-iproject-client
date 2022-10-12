@@ -18,35 +18,40 @@ export default {
         }
     },
     methods: {
-        ...mapActions(useCounterStore, ["renderCart", 'payment']),
+        ...mapActions(useCounterStore, ["renderCart", 'payment', 'editStatus']),
         shownTotalPrice() {
             const prices = this.cartItems.map(el => {
                 return el.price;
             });
             this.totalPrice = prices.reduce((previousValue, currentValue) => previousValue + currentValue, 1);
         },
+        moveToProfile(){
+            this.$router.push('/profile')
+        }, 
         async checkout(){
             await this.payment(this.totalPrice)
-            var payButton = document.getElementById('pay-button');
-      
+            const cb = this.moveToProfile
+            const cb2 = this.editStatus
             window.snap.pay(this.transactionToken, {
-          onSuccess: function(result){
+            onSuccess: function(result){
+              /* You may add your own implementation here */
+                cb2(result.order_id)
+                cb()
+                console.log(result);
+            },
+            onPending: function(result){
+              /* You may add your own implementation here */
+                console.log(result);
+            },
+            onError: function(result){
+              /* You may add your own implementation here */
+                console.log(result);
+            },
+            onClose: function(){
             /* You may add your own implementation here */
-            this.router.push('/profile')
-            console.log(result);
-          },
-          onPending: function(result){
-            /* You may add your own implementation here */
-            alert("wating your payment!"); console.log(result);
-          },
-          onError: function(result){
-            /* You may add your own implementation here */
-            alert("payment failed!"); console.log(result);
-          },
-          onClose: function(){
-            /* You may add your own implementation here */
-            alert('you closed the popup without finishing the payment');
-          }
+                cb()
+                console.log('salah woi salah')
+            }
         });
         // customer will be redirected after completing payment pop-up
         }

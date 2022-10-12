@@ -13,7 +13,6 @@ const routes = [
   {path : '/register', name : 'register', component : Register},
   {path : '/cart', name : 'cart', component : Cart},
   {path : '/profile', name : 'profile', component : Profile},
-  {path : '/payment', name : 'payment', component : Payment},
   {path : '/comics', name : 'comics', component : Comic},
   {path : '/comics/:id', name : 'comicdetail', component : ComicDetail}
 ]

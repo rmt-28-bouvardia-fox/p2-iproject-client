@@ -83,6 +83,22 @@ export const useCounterStore = defineStore('counter',  {
       } catch (error) {
         console.log(error)
       }
+    },
+    async editStatus(order_id){
+      try {
+        const {data} = await axios({
+          url : this.basedUrl + '/orders',
+          method : 'patch',
+          headers : {
+            access_token : localStorage.access_token
+          },
+          data : {
+            order_id : order_id
+          }
+        })
+      } catch (error) {
+        
+      }
     }
   }
 })
