@@ -6,7 +6,7 @@ import { useUserStore } from "../stores/user";
 export default {
   props: ["templates"],
   methods: {
-    ...mapActions(useInvitationStore, ["template"]),
+    ...mapActions(useInvitationStore, ["getTemplate"]),
   },
   computed: {
     ...mapWritableState(useUserStore, ["isLogin"]),

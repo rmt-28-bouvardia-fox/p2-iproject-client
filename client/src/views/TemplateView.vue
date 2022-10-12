@@ -5,17 +5,19 @@ import CardTemplate from "./../components/CardTemplate.vue";
 
 export default {
   methods: {
-    ...mapActions(useInvitationStore, ["getTemplate", "chooseTemplate"]),
+    ...mapActions(useInvitationStore, ["getTemplate"]),
   },
   computed: {
-    ...mapState(useInvitationStore, ["templates", "TemplateId"]),
+    ...mapState(useInvitationStore, ["templates"]),
   },
   components: {
     CardTemplate,
   },
   created() {
     this.getTemplate();
-    // this.chooseTemplate();
+    if (localStorage.access_token) {
+      this.isLogin = true;
+    }
   },
 };
 </script>
@@ -35,26 +37,15 @@ export default {
             :key="templates.id"
           />
         </div>
-        <form>
-        <div class="mb-3">
-            <label for="TemplateId" class="form-label">Choose Template</label>
-            <label class="text-danger text-end fw-bold">*</label>
-            <input
-              type="number"
-              class="form-control"
-              id="TemplateId"
-              placeholder="Type your Template"
-              v-model="TemplateId"
-            />
-          </div>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            @click.prevent="chooseTemplate"
-          >
-            Submit
-          </button>
-        </form>
+        <RouterLink
+          to="/create"
+          button
+          type="submit"
+          class="btn btn-primary"
+          v-if="isLogin"
+        >
+          Next
+        </RouterLink>
       </div>
     </div>
   </div>

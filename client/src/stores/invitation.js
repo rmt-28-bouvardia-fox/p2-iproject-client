@@ -31,12 +31,13 @@ export const useInvitationStore = defineStore({
             motherBride: this.motherBride,
             weddingDate: this.weddingDate,
             weddingLocation: this.weddingLocation,
+            TemplateId:this.TemplateId
           },
           headers: {
             access_token: localStorage.access_token,
           },
         });
-        this.router.push(`${invitation.data.coupleName}`);
+        this.router.push(`/${invitation.data.coupleName}/journey`);
         Swal.fire({
           title: "Success!",
           icon: "success",
@@ -60,38 +61,16 @@ export const useInvitationStore = defineStore({
           (this.weddingLocation = "");
       }
     },
-    async getTemplate(coupleName) {
+    async getTemplate() {
       try {
         const template = await axios({
           method: "get",
-          url: this.baseUrl + `/${coupleName}`,
+          url: this.baseUrl + "/template",
           headers: {
             access_token: localStorage.access_token,
           },
         });
         this.templates = template.data;
-      } catch (error) {
-        Swal.fire({
-          title: "Error!",
-          text: `${error.response.data.message}`,
-          icon: "error",
-          confirmButtonText: "Cool",
-        });
-      }
-    },
-    async chooseTemplate(coupleName) {
-      try {
-        const choose = await axios({
-            method: "patch",
-            url: this.baseUrl + `/${coupleName}`,
-          headers: {
-            access_token: localStorage.access_token,
-          },
-          data: {
-            TemplateId: this.TemplateId,
-          },
-        });
-        this.router.push(`/${choose.data.coupleName}/journey`);
       } catch (error) {
         Swal.fire({
           title: "Error!",
