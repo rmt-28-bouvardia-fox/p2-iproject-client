@@ -23,13 +23,25 @@ export const useUserStore = defineStore('user', {
           method: 'POST',
           data: this.userLogin
         })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Success',
+          text: "Success Login",
+          showConfirmButton: false,
+          timer: 1000
+        })
         this.isLogin = true
         this.coach = data.name
         this.router.push('/home')
         localStorage.name = data.name
         localStorage.access_token = data.access_token
       } catch (error) {
-        console.log(error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data
+        })
       }
     },
     async registerAction() {
@@ -39,13 +51,25 @@ export const useUserStore = defineStore('user', {
           method: 'POST',
           data: this.newUser
         })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Success',
+          text: "Success Register",
+          showConfirmButton: false,
+          timer: 1000
+        })
         this.isLogin = true
         this.coach = data.name
         this.router.push('/createTeam')
         localStorage.name = data.name
         localStorage.access_token = data.access_token
       } catch (error) {
-        console.log(error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data
+        })
       }
     },
     logoutAction() {
@@ -70,7 +94,11 @@ export const useUserStore = defineStore('user', {
         this.myTeam = data
         this.router.push('/home')
       } catch (error) {
-        console.log(error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data
+        })
       }
     },
     async fetchTeam() {
@@ -84,7 +112,11 @@ export const useUserStore = defineStore('user', {
         })
         this.myTeam = data
       } catch (error) {
-        console.log(error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data
+        })
       }
     }
   },

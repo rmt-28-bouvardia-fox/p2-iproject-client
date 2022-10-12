@@ -41,7 +41,7 @@ export default {
 }
 
 #box-gatcha{
-    background-color: sandybrown;
+    background-color: rgb(144, 8, 8);
     width: 120vh;
     border-radius: 5%;
     height: 480px;

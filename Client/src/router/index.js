@@ -5,12 +5,12 @@ import RegisterPage from '../views/Register.vue'
 import CreateTeam from '../views/CreateTeam.vue'
 import HomePage from '../views/Home.vue'
 import TeamProfile from '../views/TeamProfile.vue'
-import EditTeam from '../views/EditTeam.vue'
 import ListPlayers from '../views/PlayersPage.vue'
 import PlayerDetail from '../views/PlayerDetail.vue'
 import Formation from '../views/Formation.vue'
 import Store from '../views/BuyPlayer.vue'
 import RandomBuy from '../views/randomBuy.vue'
+import Match from '../views/Match.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,11 +51,6 @@ const router = createRouter({
       component: Formation
     },
     {
-      path: '/editTeam',
-      name: 'editTeam',
-      component: EditTeam
-    },
-    {
       path: '/myPlayers',
       name: 'myPlayers',
       component: ListPlayers
@@ -74,6 +69,11 @@ const router = createRouter({
       path: '/randomBuy',
       name: 'randomBuy',
       component: RandomBuy
+    },
+    {
+      path: '/match',
+      name: 'match',
+      component: Match
     }
   ]
 })
