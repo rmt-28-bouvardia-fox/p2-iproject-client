@@ -16,19 +16,40 @@ export const useAppStore = defineStore("app", {
           url: this.baseUrl + "/login",
           data: payload,
         });
-        console.log(data)
+        console.log(data);
         this.userData = data;
         localStorage.setItem("access_token", data.access_token);
         this.isLogin = true;
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: `Welcome, ${data.username}`,
+          title: `Happy Bidding, ${data.username}`,
           showConfirmButton: false,
           timer: 1500,
         });
         this.router.push("/");
       } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
+    },
+    async register(paylaod) {
+      // console.log(paylaod, "masuk store")
+      try {
+        const { data } = await axios({
+          method: "post",
+          url: this.baseUrl + "/register",
+          data: paylaod,
+        });
+        this.router.push("/login");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Welcome, new User!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.log(error);
         Swal.fire(error.response.data.message);
       }
     },

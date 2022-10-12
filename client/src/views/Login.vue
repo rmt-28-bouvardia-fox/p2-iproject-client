@@ -72,7 +72,7 @@ export default {
                   </form>
                   <div class="mt-2">
                     <span>Didn't have an account? </span>
-                    <a href="">Sign-Up</a>
+                    <RouterLink href="" to="/register">Sign-Up</RouterLink>
                   </div>
                 </div>
               </div>
