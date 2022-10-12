@@ -15,6 +15,7 @@ export const useInvitationStore = defineStore({
     weddingLocation: "",
     templates: [],
     TemplateId: "",
+    invitation:"",
   }),
   actions: {
     async createInvitation() {
@@ -81,5 +82,21 @@ export const useInvitationStore = defineStore({
         });
       }
     },
+    async fetchInvitation(coupleName){
+      try {
+        const getInvitation = await axios({
+          method: "get",
+          url: this.baseUrl +`/${coupleName}/journey`
+        })
+        this.invitation = getInvitation.data
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "Cool",
+        });
+      }
+    }
   },
 });

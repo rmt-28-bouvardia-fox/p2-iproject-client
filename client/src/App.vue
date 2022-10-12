@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <Navbar />
+  <Navbar v-if!="final"/>
   <RouterView />
 </template>
 
