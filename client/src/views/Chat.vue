@@ -1,11 +1,23 @@
 <script>
-import { mapWritableState } from 'pinia';
+import { mapActions, mapWritableState } from 'pinia';
 import {useChatStore} from '../stores/chat'
 
 
     export default {
         computed :{
-            ...mapWritableState(useChatStore, ['messages'])
+            ...mapWritableState(useChatStore, ['message','messages'])
+        },
+        methods : {
+            ...mapActions(useChatStore, ['sendMessage', 'fetchMessages']),
+            async onSend(){
+                await this.sendMessage()
+                this.messages = []
+                this.fetchMessages()
+            }
+        },
+        async created(){
+            this.messages = []
+            this.fetchMessages()
         }
     }
 </script>
@@ -19,26 +31,21 @@ import {useChatStore} from '../stores/chat'
             <div class="chat">
                 <div class="chat-history">
                     <ul class="m-b-0">                        
-                        <li class="clearfix">
+                        <li class="clearfix" v-for="message in messages">
                             <div class="message-data">
-                                <span class="message-data-time">10:12 AM, Today</span>
+                                <span class="message-data-time">{{message.user}}</span>
                             </div>
-                            <div class="message my-message">Are we meeting today?</div>                                    
+                            <div class="message my-message">{{message.message}}</div>                                    
                         </li>                               
-                        <li class="clearfix">
-                            <div class="message-data">
-                                <span class="message-data-time">10:15 AM, Today</span>
-                            </div>
-                            <div class="message my-message">Project has been already finished and I have results to show you.</div>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div class="chat-message clearfix">
                     <div class="input-group mb-0">
+                        <input v-model="message" type="text" class="form-control" placeholder="Enter text here...">  
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-send"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Enter text here...">                                    
+                            <button class="btn btn-primary" @click.prevent="onSend">Send message</button>
+                        </div>                                  
                     </div>
                 </div>
             </div>
