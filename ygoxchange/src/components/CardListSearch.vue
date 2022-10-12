@@ -26,7 +26,10 @@ export default {
 </script>
 
 <template>
-  <div class="bg-lightGreyTheme border-1 rounded-lg px-24 py-8">
+  <div
+    v-if="listType == 'addBid' || listType == 'database'"
+    class="bg-lightGreyTheme border-1 rounded-lg px-24 py-8"
+  >
     <div v-if="searchNotFound" class="text-center">Card not found</div>
     <div v-if="!searchNotFound">
       <CardItemSearch
@@ -55,5 +58,15 @@ export default {
         />
       </div>
     </div>
+  </div>
+  <div v-else class="bg-lightGreyTheme border-1 rounded-lg px-24 py-8">
+    <CardItemSearch
+      v-for="card in cardList"
+      :listType="listType"
+      :card="card"
+      :key="card.id"
+      @handlePrimary="handlePrimary"
+      @handleSecondary="handleSecondary"
+    />
   </div>
 </template>

@@ -25,6 +25,30 @@ const q = query(
 
 export const useBidStore = defineStore("bid", {
   state: () => ({
+    days: [
+      "Sunday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    months: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    winningBids: [],
+    sellingBids: [],
     bids: [],
     bid: {},
     bidPageLoader: false,
@@ -76,7 +100,7 @@ export const useBidStore = defineStore("bid", {
       const swal = useSwalStore();
       try {
         await api({
-          url: "/bids",
+          url: "/my-bid",
           method: "POST",
           headers: {
             access_token: localStorage.access_token,
@@ -104,7 +128,7 @@ export const useBidStore = defineStore("bid", {
       const swal = useSwalStore();
       try {
         const cards = await api({
-          url: "/getCardDetails",
+          url: "/card/details",
           method: "POST",
           data: {
             ids: ids, //string of ids
@@ -177,7 +201,7 @@ export const useBidStore = defineStore("bid", {
 
       try {
         const { data } = await api({
-          url: "/searchCard",
+          url: "/card/search",
           method: "GET",
           params,
         });
@@ -191,6 +215,36 @@ export const useBidStore = defineStore("bid", {
         } else {
           swal.errorHandler(error);
         }
+      }
+    },
+    async winningBid() {
+      const swal = useSwalStore();
+      try {
+        const { data } = await api({
+          url: "/my-bid/winning",
+          method: "GET",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.winningBids = data;
+      } catch (error) {
+        swal.errorHandler(error);
+      }
+    },
+    async sellingBid() {
+      const swal = useSwalStore();
+      try {
+        const { data } = await api({
+          url: "/my-bid/selling",
+          method: "GET",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.sellingBids = data;
+      } catch (error) {
+        swal.errorHandler(error);
       }
     },
     clearQuery() {
@@ -224,7 +278,7 @@ export const useBidStore = defineStore("bid", {
       const swal = useSwalStore();
       try {
         const { data } = await api({
-          url: `/bid/${payload.id}`,
+          url: `/my-bid/${payload.id}`,
           method: "PATCH",
           headers: {
             access_token: localStorage.access_token,
@@ -246,7 +300,18 @@ export const useBidStore = defineStore("bid", {
       }
     },
     onError(error) {
+      const swal = useSwalStore();
       swal.errorHandler(error);
+    },
+    msToDate(ms) {
+      const d = new Date(ms);
+      const day = this.days[d.getDay()];
+      const date = d.getDate();
+      const month = this.months[d.getMonth()];
+      const year = d.getFullYear();
+      const hour = d.getHours();
+      const minute = d.getMinutes();
+      return `${day}, ${date} ${month} ${year} ( ${hour}:${minute} )`;
     },
   },
 });

@@ -1,4 +1,6 @@
 <script>
+import { mapActions } from "pinia";
+import { useBidStore } from "@/stores/bid.js";
 import CustomButton from "@/components/CustomButton.vue";
 import CardPrices from "@/components/CardPrices.vue";
 export default {
@@ -24,6 +26,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useBidStore, ["msToDate"]),
     selectCard(card) {
       this.$emit("handlePrimary", card);
     },
@@ -65,7 +68,9 @@ export default {
       </div>
       <div class="pb-8">
         <div class="flex">
-          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">Type</div>
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Type
+          </div>
           <div class="w-3/4">{{ card.type }}</div>
         </div>
         <div class="flex">
@@ -74,13 +79,19 @@ export default {
           </div>
           <div class="w-3/4">{{ card.race }}</div>
         </div>
-        <div class="flex">
+        <div v-if="subtypeCategory == 'Race'" class="flex">
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Attribute
+          </div>
+          <div class="w-3/4">{{ card.attribute }}</div>
+        </div>
+        <div v-if="subtypeCategory == 'Race'" class="flex">
           <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
             ATK
           </div>
           <div class="w-3/4">{{ card.atk }}</div>
         </div>
-        <div class="flex">
+        <div v-if="subtypeCategory == 'Race'" class="flex">
           <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
             DEF
           </div>
@@ -88,6 +99,50 @@ export default {
         </div>
       </div>
       <div>{{ card.desc }}</div>
+    </div>
+  </div>
+  <div v-if="listType == 'winning' || listType == 'selling'" class="flex pb-8">
+    <div class="w-1/4">
+      <img
+        :src="card.cardDetail.card_images[0].image_url"
+        :alt="card.cardDetail.name"
+      />
+    </div>
+    <div class="w-3/4 px-4">
+      <div class="font-semibold text-2xl text-blueTheme pb-6">
+        {{ card.cardDetail.name }}
+      </div>
+      <div class="pb-8">
+        <div class="flex">
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Current Price
+          </div>
+          <div class="w-3/4">{{ card.currentPrice }}</div>
+        </div>
+
+        <div class="flex">
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Condition
+          </div>
+          <div class="w-3/4">{{ card.condition }}</div>
+        </div>
+
+        <div class="flex">
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Current Price
+          </div>
+          <div class="w-3/4">{{ card.currentPrice }}</div>
+        </div>
+
+        <div class="flex">
+          <div class="w-1/4 min-w-[125px] font-semibold text-blueTheme">
+            Auction End Time
+          </div>
+          <div class="w-3/4">
+            {{ msToDate(card.expiredBy) }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

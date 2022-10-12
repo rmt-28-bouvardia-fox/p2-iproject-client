@@ -4,7 +4,7 @@ export default {
   components: { CustomButton },
   data() {
     return {
-      render: "my-bids-home",
+      render: this.$route.name,
     };
   },
   watch: {

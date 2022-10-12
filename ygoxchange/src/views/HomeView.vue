@@ -23,6 +23,6 @@ export default {
 
 <template>
   <div class="pb-[10vh]">
-    <CardList :items="bids"/>
+    <CardList :items="bids" />
   </div>
 </template>

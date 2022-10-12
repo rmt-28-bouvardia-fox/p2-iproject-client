@@ -9,28 +9,6 @@ export default {
   },
   data() {
     return {
-      days: [
-        "Sunday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
       interval: null,
       expired: false,
       timer: {
@@ -49,18 +27,8 @@ export default {
     ...mapState(useBidStore, ["bid", "bidPageLoader"]),
   },
   methods: {
-    ...mapActions(useBidStore, ["getBid", "submitBid"]),
+    ...mapActions(useBidStore, ["getBid", "submitBid", "msToDate"]),
     ...mapActions(useUserStore, ["getUser"]),
-    msToDate(ms) {
-      const d = new Date(ms);
-      const day = this.days[d.getDay()];
-      const date = d.getDate();
-      const month = this.months[d.getMonth()];
-      const year = d.getFullYear();
-      const hour = d.getHours();
-      const minute = d.getMinutes();
-      return `${day}, ${date} ${month} ${year} ( ${hour}:${minute} )`;
-    },
     runTimer() {
       this.interval = setInterval(() => {
         this.timerFunction(this.bid.expiredBy);
