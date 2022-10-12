@@ -20,6 +20,16 @@ export default {
         return "";
       }
     },
+    formatPrice() {
+      if (this.appointment.ConsultationReport.cost) {
+        return this.appointment.ConsultationReport.cost.toLocaleString("id-ID", {
+          style: "currency",
+          currency: "IDR",
+        });
+      } else {
+        return "";
+      }
+    },
   },
   methods: {
     createConsultReport() {
@@ -35,13 +45,15 @@ export default {
     <td>{{ appointment.chiefComplaint }}</td>
     <td>{{ formatDate }}</td>
     <td>{{ appointment.status }}</td>
-    <div v-if="appointment.status != 'Uncomplete'">
-      <td>{{ appointment.chiefComplaint }}</td>
-      <td>{{ appointment.chiefComplaint }}</td>
-      <td>{{ appointment.chiefComplaint }}</td>
-      <td>{{ appointment.chiefComplaint }}</td>
-      <td>{{ appointment.chiefComplaint }}</td>
-    </div>
+    <td v-if="appointment.status != 'Uncomplete'">
+      {{ appointment.ConsultationReport.diagnosis }}</td>
+    <td v-if="appointment.status != 'Uncomplete'">
+      {{ appointment.ConsultationReport.needSurgicalAction }}</td>
+    <td v-if="appointment.status != 'Uncomplete'">
+      {{ appointment.ConsultationReport.needMedicalDrug }}</td>
+    <td v-if="appointment.status != 'Uncomplete'">
+      {{ formatPrice }}</td>
+    <td>{{ appointment.Doctor.name }}</td>
   </tr>
   <tr class="border-b border-sky-900" v-if="doctorAppointment">
     <td>{{ index + 1 }}</td>
@@ -50,10 +62,7 @@ export default {
     <td>{{ formatDate }}</td>
     <div v-if="doctorAppointment.status == 'Uncomplete'">
       <td class="flex justify-center">
-        <button
-          class="p-0.5 rounded-lg shadow-md bg-sky-700"
-          @click.prevent="createConsultReport"
-        >
+        <button class="p-0.5 rounded-lg shadow-md bg-sky-700" @click.prevent="createConsultReport">
           <span class="text-neutral-200">Start Appointment</span>
         </button>
       </td>
