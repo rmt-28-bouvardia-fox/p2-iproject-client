@@ -41,8 +41,14 @@ import { useCounterStore } from '../stores/counter';
             <div class="card-body">
               <h5 class="card-title">{{comic.title}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Price : {{ shownPrice }}</h6>
-              <a @click.prevent="comicDetail(comic.id)" href="#" class="btn btn-primary mr-2 ms-3 me-3"><i class="fas fa-link"></i> See details</a>
-              <a @click.prevent="addToCartHandler" href="#" class="btn btn-primary"><i class="fab fa-github"></i> Add to cart</a>
+              <div class="row">
+                <div class="col-6">
+                  <button style="font-size:10px" @click.prevent="comicDetail(comic.id)" href="#" class="btn btn-primary mr-2 ms-3 me-3"><i class="fas fa-link"></i> See details</button>
+                </div>
+                <div class="col-6">
+                  <button style="font-size:small" @click.prevent="addToCartHandler" href="#" class="btn btn-primary"><i class="fab fa-github"></i> Add to cart</button>
+                </div>
+              </div>                            
             </div>
         </div>
     </div>
