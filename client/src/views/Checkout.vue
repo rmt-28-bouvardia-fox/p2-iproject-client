@@ -4,10 +4,13 @@ import { useAppStore } from "../stores/user";
 
 export default {
   created() {
-    this.fetchOneMovie(this.$route.params.movieId);
+    this.checkout(this.$route.params.wishlistId);
   },
   computed: {
     ...mapState(useAppStore, ["gameIdr", "gameTitle", "gameUrl"]),
+  },
+  methods: {
+    ...mapActions(useAppStore, ["checkout"]),
   },
 };
 </script>

@@ -92,22 +92,28 @@ export const useAppStore = defineStore("app", {
         console.log(error);
       }
     },
-    async checkout(name, price, url) {
-      this.gameTitle = name;
-      this.gameUrl = url;
+    async checkout(id) {
       try {
+        const data = await axios({
+          method: "get",
+          url: `${this.urlBase}/pub/wishlist/${id}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        // console.log(data.data.dataGame);
+        this.gameTitle = data.data.dataGame.external;
+        this.gameUrl = data.data.dataGame.thumb;
         const currency = await axios({
           method: "get",
-          url: `https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to=IDR&amount=${price}`,
+          url: `https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to=IDR&amount=${data.data.dataGame.cheapest}`,
           headers: {
             "X-RapidAPI-Key":
               "97ca4703afmshfc24237fffe660fp16c760jsn46a0ccfdc419",
             "X-RapidAPI-Host": "currency-converter5.p.rapidapi.com",
           },
         });
-        console.log(currency.data.rates.IDR.rate_for_amount);
         this.gameIdr = currency.data.rates.IDR.rate_for_amount;
-        console.log(this.gameTitle, this.gameIdr, this.gameUrl);
       } catch (error) {
         console.log(error);
       }
