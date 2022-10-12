@@ -4,6 +4,7 @@ export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
     baseUrl: "http://localhost:3000",
     isLogin: false,
+    role: "",
     patientDetail: {},
     doctors: [],
     symptoms: [],
@@ -35,6 +36,7 @@ export const useAppointmentStore = defineStore("appointment", {
           data: loginData,
         });
         localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("role", "Patient");
         this.isLogin = true;
         this.router.push("/");
       } catch (error) {
@@ -49,6 +51,7 @@ export const useAppointmentStore = defineStore("appointment", {
           data: loginData,
         });
         localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("role", "Doctor");
         this.isLogin = true;
         this.router.push("/");
       } catch (error) {
@@ -218,8 +221,8 @@ export const useAppointmentStore = defineStore("appointment", {
             access_token: localStorage.access_token,
           },
           params: {
-            appointmentId: this.appointmentId
-          }
+            appointmentId: this.appointmentId,
+          },
         });
         this.diagnoses = data;
       } catch (error) {

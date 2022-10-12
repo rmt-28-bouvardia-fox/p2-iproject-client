@@ -7,7 +7,7 @@ export default {
     NavBar,
   },
   computed: {
-    ...mapWritableState(useAppointmentStore, ["isLogin"]),
+    ...mapWritableState(useAppointmentStore, ["isLogin", "role"]),
   },
   methods: {
     ...mapActions(useAppointmentStore, ["fetchDoctors"]),
@@ -16,6 +16,7 @@ export default {
     if (localStorage.access_token) {
       this.isLogin = true;
       this.fetchDoctors();
+      this.role = localStorage.role
     }
   },
 };
