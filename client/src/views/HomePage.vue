@@ -80,7 +80,9 @@ export default {
           </div>
           <div class="mt-4">
             <button class="bg-sky-600 p-2 rounded-lg shadow-lg">
-              <span class="text-white">Make an Appointment</span>
+              <RouterLink to="/appointments">
+                <span class="text-white">Make an Appointment</span>
+              </RouterLink>
             </button>
           </div>
         </div>
