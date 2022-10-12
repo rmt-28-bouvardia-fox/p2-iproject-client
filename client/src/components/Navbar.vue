@@ -33,7 +33,6 @@
                 <div class="navbar-nav ms-auto">
                     
                     <router-link to="/cart" href="#" class="nav-item nav-link">Cart</router-link>
-                    <router-link to="/" href="#" class="nav-item nav-link">Orders</router-link>
                     <router-link to="/register" href="#" class="nav-item nav-link" v-if="isLoggedIn == false">Register</router-link>
                     <router-link to="/login" href="#" class="nav-item nav-link" v-if="isLoggedIn == false">Login</router-link>
                     <router-link to="/" href="#" class="nav-item nav-link" v-if="isLoggedIn == true">Profile</router-link>

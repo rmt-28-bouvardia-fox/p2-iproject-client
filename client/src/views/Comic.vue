@@ -49,9 +49,6 @@ export default {
                         <ComicCards v-for="comic in comics" :key="comic.id" :comic="comic" />
                     </div>
                     <div class="d-flex mt-3 justify-content-center text-center">
-                        <div v-if="comics.length == 0">
-                            <h1>Comics not found</h1>
-                        </div>
                         <ul class="pagination" v-if="comics.length > 0">
                             <li class="page-item"><a @click.prevent="paginationMin" class="page-link" href="#" v-if="page > 1">Previous</a></li>
                                 <li class="page-item"><a class="page-link" href="#">{{page}}</a></li>

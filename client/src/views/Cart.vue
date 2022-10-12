@@ -1,3 +1,41 @@
+<script>
+import { mapActions, mapWritableState } from 'pinia';
+import { useCounterStore } from '../stores/counter';
+import ComicCartItems from '../components/ComicCartItems.vue';
+
+
+export default {
+    data() {
+        return {
+            totalPrice: 0
+        };
+    },
+    computed: {
+        ...mapWritableState(useCounterStore, ["cartItems"]),
+        displayTotalPrice() {
+            return this.totalPrice.toLocaleString("id-Id", { style: "currency", currency: "IDR" });
+        }
+    },
+    methods: {
+        ...mapActions(useCounterStore, ["renderCart"]),
+        shownTotalPrice() {
+            const prices = this.cartItems.map(el => {
+                return el.price;
+            });
+            this.totalPrice = prices.reduce((previousValue, currentValue) => previousValue + currentValue, 1);
+        }
+    },
+    async created() {
+        await this.renderCart();
+        this.shownTotalPrice();
+    },
+    components: { ComicCartItems }
+}
+
+</script>
+
+
+
 <template>
     <div class="container mt-5">
         <div class="card">
@@ -6,38 +44,24 @@
                     <div class="title">
                         <div class="row">
                             <div class="col"><h4><b>Shopping Cart</b></h4></div>
-                            <div class="col align-self-center text-right text-muted">3 items</div>
+                            <div class="col align-self-center text-right text-muted">{{cartItems.length}} Items</div>
                         </div>
                     </div>    
                     <div class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                            <div class="col">
-                                <div class="row text-muted">Shirt</div>
-                                <div class="row">Cotton T-shirt</div>
-                            </div>
-                            <div class="col">
-                                <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                            </div>
-                            <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                        </div>
+                        <ComicCartItems v-for="item in cartItems" :key="item.id" :item="item"/>
                     </div>
-                    <div class="back-to-shop"><router-link to="/" href="#">&leftarrow;</router-link><span class="text-muted">Back to Home</span></div>
+                    <div class="back-to-shop"><router-link to="/comics" href="#">&leftarrow;</router-link><span class="text-muted">Back to Home</span></div>
                 </div>
                 <div class="col-md-4 summary">
                     <div><h5><b>Summary</b></h5></div>
                     <hr>
-                    <div class="row">
-                        <div class="col" style="padding-left:0;">ITEMS 3</div>
-                        <div class="col text-right">&euro; 132.00</div>
-                    </div>
                     <form>
                         <p>SHIPPING</p>
                         <select><option class="text-muted">Email delivery - free</option></select>
                     </form>
                     <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                         <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right">&euro; 137.00</div>
+                        <div class="col text-right">{{displayTotalPrice}}</div>
                     </div>
                     <button class="btn">CHECKOUT</button>
                 </div>

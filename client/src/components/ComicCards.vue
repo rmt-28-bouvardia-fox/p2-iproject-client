@@ -1,5 +1,6 @@
 <script>
-import { mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
+import { useClientStore } from '../stores/client';
 import { useCounterStore } from '../stores/counter';
 
   export default {
@@ -11,24 +12,26 @@ import { useCounterStore } from '../stores/counter';
     },
     props : ['comic'],
     computed : {
+      ...mapState(useClientStore,['isLoggedIn']),
       shownPrice(){
-        return this.price.toLocaleString("en-US", {style:"currency", currency:"USD"})
+        let displayPrice = +this.price * 15500
+        return displayPrice.toLocaleString("id-Id", {style:"currency", currency:"IDR"})
       }
     },
     methods : {
-      ...mapActions(useCounterStore,['renderComic']),
+      ...mapActions(useCounterStore,['renderComic', 'addToCart']),
       comicDetail(comicId){
         this.renderComic(comicId)
         this.$router.push(`/comics/${comicId}`)
+      },
+      addToCartHandler(){
+        this.isLoggedIn == true ? this.addToCart({price : this.price, comicId : this.comic.id, comicName : this.comic.title, comicImageUrl : this.imgUrl}) : this.$router.push('/login')
       }
     }
   }
 </script>
 
 <template>
-    
-
-  
     <!--Card-->
     <div class="col-md-4" >
         <div class="card" style="width: 18rem;">
@@ -37,7 +40,7 @@ import { useCounterStore } from '../stores/counter';
               <h5 class="card-title">{{comic.title}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Price : {{ shownPrice }}</h6>
               <a @click.prevent="comicDetail(comic.id)" href="#" class="btn btn-primary mr-2 ms-3 me-3"><i class="fas fa-link"></i> See details</a>
-              <a href="#" class="btn btn-primary"><i class="fab fa-github"></i> Add to cart</a>
+              <a @click.prevent="addToCartHandler" href="#" class="btn btn-primary"><i class="fab fa-github"></i> Add to cart</a>
             </div>
         </div>
     </div>
