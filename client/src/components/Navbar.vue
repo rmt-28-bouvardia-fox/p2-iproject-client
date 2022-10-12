@@ -8,10 +8,10 @@ export default {
       title: "",
     };
   },
-  // computed: {
-  //   ...mapWritableState(useAppStore, ["isLogin"]),
-  //   ...mapState(useAppStore, ["isLogin"]),
-  // },
+  computed: {
+    ...mapWritableState(useAppStore, ["isLogin"]),
+    // ...mapState(useAppStore, ["isLogin"]),
+  },
   methods: {
     ...mapActions(useAppStore, ["fetchGames"]),
     logoutHandler() {
@@ -68,10 +68,15 @@ export default {
             <router-link class="nav-link active" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active" to="/favorite"
+            <router-link class="nav-link active" to="/wishlist"
               >Wishlist</router-link
             >
           </li>
+          <!-- <li class="nav-item">
+            <router-link class="nav-link active" to="/wishlist"
+              >Wishlist</router-link
+            >
+          </li> -->
         </ul>
 
         <a @click.prevent="logoutHandler" href="" class="btn btn-danger"

@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     ...mapWritableState(useAppStore, ["isLogin"]),
-    ...mapState(useAppStore, ["isLogin"]),
+    // ...mapState(useAppStore, ["isLogin"]),
   },
 };
 </script>

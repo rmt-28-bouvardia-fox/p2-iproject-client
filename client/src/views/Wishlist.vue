@@ -14,12 +14,9 @@ export default {
   methods: {
     ...mapActions(useAppStore, ["fetchWishList", "removeWishlist", "checkout"]),
     deleteWishListHandler(id) {
-      //   console.log(id);
       this.removeWishlist(id);
     },
     buyHandler(id) {
-      //   console.log("buy", name, price);
-      //   this.checkout(name, price, url);
       this.$router.push(`/checkout/${id}`);
     },
   },
@@ -28,12 +25,12 @@ export default {
 
 <template>
   <div class="container mt-3">
-    <h1 class="text-center">Wishlist Page</h1>
+    <h1 class="text-center text-light">Wishlist Page</h1>
     <div class="row mt-3">
       <div
         v-for="(movie, idx) in wishlist"
         :key="idx"
-        class="card mx-5 my-2"
+        class="card text-white bg-secondary mb-3 mx-3"
         style="width: 18rem"
       >
         <img
@@ -50,7 +47,7 @@ export default {
           class="btn btn-info mx-2 my-2"
           @click.prevent="buyHandler(movie.id)"
         >
-          Buy
+          Checkout
         </button>
         <button
           @click.prevent="deleteWishListHandler(movie.id)"

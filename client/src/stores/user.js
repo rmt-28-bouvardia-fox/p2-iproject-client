@@ -11,6 +11,7 @@ export const useAppStore = defineStore("app", {
     gameIdr: "",
     gameTitle: "",
     gameUrl: "",
+    transactionToken: "",
   }),
   getters: {},
   actions: {
@@ -113,7 +114,24 @@ export const useAppStore = defineStore("app", {
             "X-RapidAPI-Host": "currency-converter5.p.rapidapi.com",
           },
         });
-        this.gameIdr = currency.data.rates.IDR.rate_for_amount;
+        this.gameIdr = Math.ceil(currency.data.rates.IDR.rate_for_amount);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async payment(price) {
+      console.log(price);
+      try {
+        const data = await axios({
+          method: "get",
+          url: `${this.urlBase}/pub/buygame/${price}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        console.log(data.data.transactionToken);
+        this.transactionToken = data.data.transactionToken;
       } catch (error) {
         console.log(error);
       }

@@ -10,16 +10,16 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useAppStore, ["login"]),
+    ...mapActions(useAppStore, ["login", "gitHubSignIn"]),
     loginHandler() {
       this.login({ email: this.email, password: this.password });
     },
     toRegister() {
       this.$router.push("/register");
     },
-    // callback(response) {
-    //   this.handleCredentialResponse(response);
-    // },
+    githubHandler() {
+      this.gitHubSignIn();
+    },
   },
 };
 </script>
@@ -58,12 +58,19 @@ export default {
     <div>
       <center>or Sign In with</center>
       <br />
-      <center><GoogleLogin :callback="callback" /></center>
+      <!-- <a
+        @click.prevent="githubHandler"
+        id="github-button"
+        class="btn btn-block btn-social btn-github"
+      >
+        <i class="fa fa-github"></i> Sign in with Github
+      </a> -->
+      <!-- <center><GoogleLogin :callback="callback" /></center> -->
     </div>
     <br />
     <br />
     <span
-      >New to NetPlix?
+      >Dont have account?
       <button @click="toRegister" class="btn btn-info">Sign up now</button>
     </span>
   </div>

@@ -47,7 +47,7 @@ export default {
 
 <template>
   <div class="container mt-3">
-    <h1 class="text-center">Home Page</h1>
+    <h1 class="text-center text-light">Search Game Here</h1>
     <div class="row mt-3">
       <!-- <div>
         <div class="pagination mx-5">
@@ -67,7 +67,11 @@ export default {
           <button @click="nextButton" class="btn page-link">Next</button>
         </div>
       </div> -->
-      <form class="d-flex mx-5" role="search" @submit.prevent="submitSearch">
+      <form
+        class="d-flex mx-5 mb-5"
+        role="search"
+        @submit.prevent="submitSearch"
+      >
         <input
           class="form-control me-2"
           type="search"
@@ -78,7 +82,7 @@ export default {
           required
           width="200"
         />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-success" type="submit">Search</button>
       </form>
 
       <GameCard v-for="(game, idx) in games" :key="idx" :game="game" />

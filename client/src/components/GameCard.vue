@@ -22,30 +22,17 @@ export default {
 </script>
 
 <template>
-  <div class="card mx-5 my-2" style="width: 18rem">
+  <div class="card text-white bg-secondary mb-3 mx-3" style="width: 18rem">
     <img :src="game.thumb" class="card-img-top image-card my-2" alt="..." />
 
     <div class="card-body">
       <h5 class="card-title">{{ game.external }}</h5>
     </div>
-    <div class="card-body">
-      <button @click.prevent="addFavoriteHandler" class="btn btn-primary mx-2">
-        Wishlist
-      </button>
-    </div>
-  </div>
 
-  <!-- <div class="card mx-auto col-md-3 col-10 mt-5">
-    <img class="mx-auto img-thumbnail" :src="game.thumb" />
-    <div class="card-body text-center mx-auto">
-      <div class="cvp">
-        <h5 class="card-title font-weight-bold">{{ game.external }}</h5>
-        <p class="card-text">${{ game.cheapest }}</p>
-        <a href="#" class="btn details px-auto">view details</a><br />
-        <a href="#" class="btn cart px-auto">ADD TO WISHLIST</a>
-      </div>
-    </div>
-  </div> -->
+    <button @click.prevent="addFavoriteHandler" class="btn btn-primary">
+      Wishlist
+    </button>
+  </div>
 </template>
 
 <style>
