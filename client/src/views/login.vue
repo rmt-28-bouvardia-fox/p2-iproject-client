@@ -1,9 +1,16 @@
 <script>
-    import { mapActions } from 'pinia'
+    import { mapActions,mapWritableState } from 'pinia'
     import { useUserStore } from '../stores/user'
+    import Button from '../components/button.vue'
     export default{
         methods:{
-            ...mapActions(useUserStore,['handleCredentialResponse'])
+            ...mapActions(useUserStore,['handleCredentialResponse','loginHandler'])
+        },
+        components:{
+            Button
+        },
+        computed:{
+            ...mapWritableState(useUserStore,['loginData'])
         }
     }
 </script>
@@ -36,13 +43,13 @@
                 <form >
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input type="email" id="loginName" class="form-control" />
+                        <input type="email" id="loginName" class="form-control" v-model="loginData.email"/>
                         <label class="form-label" for="loginName">Email</label>
                     </div>
     
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="loginPassword"  class="form-control" />
+                        <input type="password" id="loginPassword"  class="form-control" v-model="loginData.password" />
                         <label class="form-label" for="loginPassword">Password</label>
                     </div>
     
@@ -50,7 +57,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6 d-flex justify-content-center">
                             <!-- Submit button -->
-                            <!-- <Button :variant="'btn btn-primary'" :name="'Log In'" :type="'submit'"></Button> -->
+                            <Button @submit.prevent="loginHandler" :variant="'btn btn-primary'" :name="'Log In'" :type="'submit'"></Button>
                         </div>
                     </div>
                 </form>
