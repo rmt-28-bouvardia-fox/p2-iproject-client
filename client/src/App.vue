@@ -10,12 +10,13 @@ export default {
     ...mapWritableState(useAppointmentStore, ["isLogin"]),
   },
   methods: {
-    ...mapActions(useAppointmentStore, ["fetchDoctors"])
+    ...mapActions(useAppointmentStore, ["fetchDoctors", "fetchSymptoms"])
   },
   created() {
     if (localStorage.access_token) {
       this.isLogin = true;
       this.fetchDoctors();
+      this.fetchSymptoms();
     }
   },
 }
