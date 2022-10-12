@@ -13,7 +13,8 @@ export const usePlayerStore = defineStore('player', {
             totalPlayers: 0,
             playerSearch: '',
             totalPages: 0,
-            player: {}
+            player: {},
+            opponents: []
         }),
     getters: {
         doubleCount: (state) => state.count * 2,
@@ -119,6 +120,34 @@ export const usePlayerStore = defineStore('player', {
                 this.router.push(`/playerDetail/${id}`)
             } catch (error) {
                 
+            }
+        },
+        async fetchOpponents() {
+            try {
+                const { data } = await axios({
+                    url: `${this.baseUrl}/opponents`,
+                    method: 'GET',
+                    headers: {
+                        access_token: localStorage.access_token
+                    }
+                })
+                this.opponents = data
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async playGame(id) {
+            try {
+                const { data } = await axios({
+                    url: `${this.baseUrl}/opponents/${id}`,
+                    method: 'GET',
+                    headers: {
+                        access_token: localStorage.access_token
+                    }
+                })
+                console.log(data);
+            } catch (error) {
+                console.log(error);
             }
         }
     },

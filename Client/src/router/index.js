@@ -11,6 +11,7 @@ import PlayerDetail from '../views/PlayerDetail.vue'
 import Formation from '../views/Formation.vue'
 import Store from '../views/BuyPlayer.vue'
 import RandomBuy from '../views/randomBuy.vue'
+import Match from '../views/Match.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +75,11 @@ const router = createRouter({
       path: '/randomBuy',
       name: 'randomBuy',
       component: RandomBuy
+    },
+    {
+      path: '/match',
+      name: 'match',
+      component: Match
     }
   ]
 })

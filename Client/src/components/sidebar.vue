@@ -39,7 +39,7 @@ export default {
                 <RouterLink class="nav-link active fw-bold" to="/profile" id="nav-dashboard">Your Team</RouterLink>
             </li>
             <li class="nav-item">
-                <a class="nav-link active fw-bold" href="" id="nav-dashboard">Play</a>
+                <RouterLink class="nav-link active fw-bold" to="/match" id="nav-dashboard">Play</RouterLink>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
