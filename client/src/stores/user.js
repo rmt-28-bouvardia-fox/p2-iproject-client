@@ -110,6 +110,11 @@ export const useUserStore = defineStore('user', {
     },
     changePage(page){
       this.page = page
+    },
+    logOut(){
+      localStorage.clear()
+      this.router.push('/login')
+      this.isLogin = false
     }
   },
 })
