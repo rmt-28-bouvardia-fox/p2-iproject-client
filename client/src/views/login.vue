@@ -40,7 +40,7 @@
     
                 <p class="text-center">or:</p>
     
-                <form >
+                <form @submit.prevent="loginHandler">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         <input type="email" id="loginName" class="form-control" v-model="loginData.email"/>
@@ -57,7 +57,7 @@
                     <div class="row mb-4">
                         <div class="col-md-6 d-flex justify-content-center">
                             <!-- Submit button -->
-                            <Button @submit.prevent="loginHandler" :variant="'btn btn-primary'" :name="'Log In'" :type="'submit'"></Button>
+                            <Button :variant="'btn btn-primary'" :name="'Log In'" :type="'submit'"></Button>
                         </div>
                     </div>
                 </form>

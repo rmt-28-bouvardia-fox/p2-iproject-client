@@ -63,6 +63,7 @@ export const useUserStore = defineStore('user', {
           timer:1500
           })
       } catch (err) {
+        console.log(err)
         Swal.fire({
           icon:"error",
           title:"Oops...",

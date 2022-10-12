@@ -29,7 +29,7 @@
 
     <section> <br>
         <div class="container">
-            <form>
+            <form @submit.prevent="registerHandler">
                 <!-- Username input -->
                 <div class="form-outline mb-4">
                     <input type="text" id="registerUsername" class="form-control" v-model="registerData.username" />
@@ -51,7 +51,7 @@
                 <div class="row mb-4">
                     <div class="col-md-6 d-flex align-self-center">
                         <!-- Submit button -->
-                        <Button @submit.prevent="registerHandler" :variant="'btn btn-primary'" :name="'Sign In'" :type="'submit'"></Button>
+                        <Button :variant="'btn btn-primary'" :name="'Sign In'" :type="'submit'"></Button>
                     </div>
                 </div>
             </form>
