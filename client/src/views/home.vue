@@ -12,9 +12,9 @@
 </script>
 
 <template>
-    <Sidebar />
+    <!-- <Sidebar /> -->
 
-    <ListMusicCard />
+    <!-- <ListMusicCard /> -->
 
     <MusicPlayer />
 </template>

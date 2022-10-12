@@ -31,7 +31,10 @@ export const useMusicStore = defineStore('music',{
           url: "https://www.youtube.com/watch?v=Lin-a2lTelg",
           favorited: true
         }
-        ]
+        ],
+        currentTrack:'',
+        currentTrackIndex:0,
+        transitionName:''
     }),
     getters:{},
     actions:{
@@ -128,31 +131,5 @@ export const useMusicStore = defineStore('music',{
         this.currentTrackIndex
       ].favorited;
     }
-  },
-  created() {
-    let vm = this;
-    this.currentTrack = this.tracks[0];
-    this.audio = new Audio();
-    this.audio.src = this.currentTrack.source;
-    this.audio.ontimeupdate = function () {
-      vm.generateTime();
-    };
-    this.audio.onloadedmetadata = function () {
-      vm.generateTime();
-    };
-    this.audio.onended = function () {
-      vm.nextTrack();
-      this.isTimerPlaying = true;
-    };
-
-    // this is optional (for preload covers)
-    for (let index = 0; index < this.tracks.length; index++) {
-      const element = this.tracks[index];
-      let link = document.createElement("link");
-      link.rel = "prefetch";
-      link.href = element.cover;
-      link.as = "image";
-      document.head.appendChild(link);
-    }
-}
+  }
 })
