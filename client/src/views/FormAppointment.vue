@@ -1,6 +1,50 @@
 <script>
+import { mapActions, mapWritableState } from 'pinia';
+import { useAppointmentStore } from '../stores/appointment';
+
 export default {
-  name: "FormAppointment"
+  name: "FormAppointment",
+  computed: {
+    ...mapWritableState(useAppointmentStore, ["symptoms", "specialists"])
+  },
+  methods: {
+    ...mapActions(useAppointmentStore, ["fetchSpecialists", "createAppointment"]),
+    fetchSuggestion() {
+      this.suggestionData = []
+      if (this.symptom != "") {
+        this.suggestionData = this.symptoms.filter(el => {
+          if (el.Name.toLowerCase().includes(this.symptom)) {
+            return el
+          }
+        })
+      }
+    },
+    selectedSymptom(symptom) {
+      this.symptom = symptom.Name
+      this.appointmentData.symptom.push(symptom.ID)
+      this.symptomList.push(symptom.Name)
+      this.suggestionData = []
+    },
+    getSpecialists() {
+      this.fetchSpecialists(this.appointmentData.symptom);
+    },
+    appointment() {
+      this.createAppointment(this.appointmentData)
+    }
+  },
+  data() {
+    return {
+      appointmentData: {
+        chiefComplaint: "",
+        symptom: [],
+        appointmentDate: "",
+        DoctorId: ""
+      },
+      symptom: "",
+      suggestionData: [],
+      symptomList: []
+    }
+  }
 }
 </script>
 <template>
@@ -18,6 +62,7 @@ export default {
                   Chief Complaint
                 </span>
                 <input type="text" id="chiefComplaint" placeholder="Enter your chief complaint..."
+                  v-model="appointmentData.chiefComplaint"
                   class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
               </label>
             </div>
@@ -26,32 +71,58 @@ export default {
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Symptoms
                 </span>
-                <input type="text" id="symptoms" placeholder="Enter your symptoms..."
-                  class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
+                <div>
+                  <input type="text" id="symptoms" placeholder="Enter your symptoms..." v-model="symptom"
+                    @keyup="fetchSuggestion"
+                    class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
+                  <div v-if="suggestionData.length" class="relative">
+                    <ul class="absolute w-full">
+                      <li class="bg-slate-50 hover:bg-slate-200 cursor-pointer border-b"
+                        v-for="symptom in suggestionData" @click="selectedSymptom(symptom)">
+                        {{symptom.Name}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </label>
             </div>
-            <div class="mb-3">
+            <div class="mt-5 text-neutral-900">
+              <p class="font-semibold">Symptom List: </p>
+              <ul>
+                <li v-for="(symptom, index) in symptomList" class="">
+                  {{index+1}}. {{symptom}}
+                </li>
+              </ul>
+            </div>
+            <div class="mt-5">
+              <button type="submit" @click.prevent="getSpecialists"
+                class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300">
+                Find doctors that suited with symptoms
+              </button>
+            </div>
+            <div class="mb-3" v-show="specialists.length">
               <label for="appointmentDate">
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Appointment Date
                 </span>
-                <input type="date" id="appointmentDate"
+                <input type="date" id="appointmentDate" v-model="appointmentData.appointmentDate"
                   class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
               </label>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" v-show="specialists.length">
               <label for="gender">
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Doctor
                 </span>
-                <select name="" id="">
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                <select name="" id="" v-model="appointmentData.DoctorId">
+                  <option :value="specialist.id" v-for="specialist in specialists">{{specialist.name}},
+                    {{specialist.specialist}}</option>
+
                 </select>
               </label>
             </div>
             <div class="mt-5">
-              <button type="submit"
+              <button type="submit" @click.prevent="appointment" v-show="specialists.length"
                 class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300">
                 Submit
               </button>

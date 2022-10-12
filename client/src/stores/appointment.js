@@ -6,6 +6,8 @@ export const useAppointmentStore = defineStore("appointment", {
     isLogin: false,
     patientDetail: {},
     doctors: [],
+    symptoms: [],
+    specialists: [],
   }),
   getters: {},
   actions: {
@@ -60,38 +62,102 @@ export const useAppointmentStore = defineStore("appointment", {
           method: "get",
           url: this.baseUrl + "/patients/patientdetails",
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
-        this.patientDetail = data
+            access_token: localStorage.access_token,
+          },
+        });
+        this.patientDetail = data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     async createPatientDetail(patientData) {
       try {
-        await axios ({
+        await axios({
           method: "post",
           url: this.baseUrl + "/patients/patientdetails",
           data: patientData,
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
-        this.router.push("/patients")
+            access_token: localStorage.access_token,
+          },
+        });
+        this.router.push("/patients");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     async fetchDoctors() {
       try {
         const { data } = await axios({
           method: "get",
-          url: this.baseUrl + "/doctors"
-        })
-        this.doctors = data
+          url: this.baseUrl + "/doctors",
+        });
+        this.doctors = data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
+      }
+    },
+    async fetchSymptoms() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/appointments/symptoms",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.symptoms = data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchSpecialists(symptoms) {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: this.baseUrl + "/appointments/specialists",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          params: {
+            symptoms: `[${symptoms}]`,
+          },
+        });
+        console.log(data);
+        let arrayId = [];
+        data.forEach((el) => {
+          arrayId.push(el.ID);
+        });
+        let specialistId = arrayId.join(",");
+        const doctors = await axios({
+          method: "get",
+          url: this.baseUrl + "/doctors/specialists",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          params: {
+            specialistId,
+          },
+        });
+        this.specialists = doctors.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async createAppointment(appointmentData) {
+      try {
+        appointmentData.symptom = appointmentData.symptom.join(",");
+        console.log(appointmentData);
+        await axios({
+          method: "post",
+          url: this.baseUrl + "/appointments",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: appointmentData,
+        });
+        this.router.push("/patients");
+      } catch (error) {
+        console.log(error);
       }
     },
   },
