@@ -3,6 +3,7 @@ import HomePage from "../views/HomePage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import CategoryPage from "../components/CategoryPage.vue";
+import WeatherPage from "../views/WeatherPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,11 @@ const router = createRouter({
       path: "/technology",
       name: "Technology",
       component: CategoryPage,
+    },
+    {
+      path: "/weather",
+      name: "Weather",
+      component: WeatherPage,
     },
   ],
 });

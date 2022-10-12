@@ -1,10 +1,14 @@
 <script>
-import { mapActions, mapWritableState } from "pinia";
+import { mapActions, mapState, mapWritableState } from "pinia";
 import { useCategoryNewsStore } from "../stores/categoryNews";
 import { useLoginStore } from "../stores/login";
+import { useWeatherStore } from "../stores/weather";
 
 export default {
-  computed: { ...mapWritableState(useLoginStore, ["isLogin"]) },
+  computed: {
+    ...mapWritableState(useLoginStore, ["isLogin"]),
+    ...mapState(useWeatherStore, ["getWeather", "getCurrentWeather"]),
+  },
   methods: {
     ...mapActions(useLoginStore, ["logout"]),
     ...mapActions(useCategoryNewsStore, [
@@ -15,10 +19,23 @@ export default {
       this.fetchCategoryNews(value);
       this.fetchInternationalCategory(value);
     },
+    ...mapActions(useWeatherStore, ["currentLocation"]),
   },
   created() {
     if (localStorage.access_token) {
       this.isLogin = true;
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.currentLocation(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+        },
+        () => {
+          this.fetchWeather("jakarta");
+        }
+      );
     } else {
       this.isLogin = false;
     }
@@ -45,6 +62,18 @@ export default {
     </div>
     <div class="line"></div>
     <div class="bottom-wrapper">
+      <div class="current-weather">
+        <p class="weather-text">{{ getCurrentWeather.weatherText }}</p>
+        <div class="content">
+          <div class="left">
+            <span class="title">City</span>
+            <p class="city">{{ getCurrentWeather.name }}</p>
+          </div>
+          <div class="right">
+            <div class="temperature">{{ getCurrentWeather.temperature }}℃</div>
+          </div>
+        </div>
+      </div>
       <ul class="link-wrapper">
         <li>
           <RouterLink to="/" class="link news-category">Latest News</RouterLink>
@@ -97,6 +126,11 @@ export default {
             >Technology</RouterLink
           >
         </li>
+        <li>
+          <RouterLink to="/weather" class="link news-category"
+            >Weather</RouterLink
+          >
+        </li>
       </ul>
       <div class="line2-top"></div>
       <div class="line2-bottom"></div>
@@ -140,6 +174,10 @@ export default {
   font-family: "Great Vibes", cursive;
 }
 
+.bottom-wrapper {
+  position: relative;
+}
+
 .link-wrapper {
   display: flex;
   align-items: center;
@@ -151,7 +189,7 @@ export default {
 }
 
 .user-btn {
-  border: 1px solid black;
+  border: 1px solid rgb(0, 0, 0);
   padding: 0.3rem 1.4rem;
   background-color: #000;
   border-radius: 5px;
@@ -168,5 +206,31 @@ export default {
   font-size: 12px;
   color: #000;
   font-weight: 400;
+}
+
+.current-weather {
+  width: 200px;
+  display: flex;
+  border: 1px solid rgba(116, 116, 116, 0.245);
+  flex-direction: column;
+  padding: 0.3rem;
+}
+
+.weather-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title {
+  font-size: 8px;
+  font-weight: 300;
+}
+.city {
+  font-size: 10px;
 }
 </style>

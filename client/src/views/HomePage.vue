@@ -6,7 +6,9 @@ import Navbar from "../components/Navbar.vue";
 import SidebarComponent from "../components/SidebarComponent.vue";
 
 export default {
-  methods: { ...mapActions(useNewsStore, ["fetchNews", "fetchDataSidebar"]) },
+  methods: {
+    ...mapActions(useNewsStore, ["fetchNews", "fetchDataSidebar"]),
+  },
   computed: { ...mapState(useNewsStore, ["getNews", "getSidebarData"]) },
   created() {
     this.fetchNews();
