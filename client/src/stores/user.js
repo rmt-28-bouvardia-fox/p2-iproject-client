@@ -14,7 +14,8 @@ export const useUserStore = defineStore('user', {
       email:'',
       password:''
     },
-    url:`http://localhost:3000`
+    url:`http://localhost:3000`,
+    page:'list'
   }),
   getters: {},
   actions: {
