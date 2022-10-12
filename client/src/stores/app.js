@@ -100,6 +100,34 @@ export const useAppStore = defineStore("app", {
         Swal.fire(error.response.data.message);
       }
     },
+    async addBidList(id) {
+      try {
+        await axios({
+          method: "post",
+          url: this.baseUrl + `/myBidList/${id}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.router.push("/mylist");
+        // console.log("berhasil nge add");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Movie added to your Watch List",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Log-In First!",
+          footer: '<a href="">Why do I have this issue?</a>',
+        });
+        // console.log(error);
+      }
+    },
     async deleteBidList(id) {
       // console.log('ke hit', id)
       try {

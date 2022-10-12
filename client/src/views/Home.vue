@@ -10,7 +10,10 @@ export default {
     this.fetchProduct();
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchProduct"]),
+    ...mapActions(useAppStore, ["fetchProduct", "addBidList"]),
+    handleAdd(id) {
+      this.addBidList(id)
+    }
   },
 };
 </script>
@@ -50,6 +53,7 @@ export default {
                     --bs-btn-padding-x: 0.5rem;
                     --bs-btn-font-size: 0.75rem;
                   "
+                  @click.prevent="handleAdd(product.id)"
                 >
                   Pick Me!
                 </button>
