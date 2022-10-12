@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 
 export const useMusicStore = defineStore('music',{
     state: () => ({
+        url:`http://localhost:3000`,
         audio:'',
         circleLeft:'',
         bandwith:'',
@@ -31,7 +32,10 @@ export const useMusicStore = defineStore('music',{
           url: "https://www.youtube.com/watch?v=Lin-a2lTelg",
           favorited: true
         }
-        ]
+        ],
+        currentTrack:'',
+        currentTrackIndex:0,
+        transitionName:''
     }),
     getters:{},
     actions:{
@@ -127,32 +131,17 @@ export const useMusicStore = defineStore('music',{
       this.tracks[this.currentTrackIndex].favorited = !this.tracks[
         this.currentTrackIndex
       ].favorited;
+    },
+    async fetchMusic(){
+      try {
+        const { data } = await axios({
+          method:'get',
+          url:`${this.url}/music`
+        })
+        this.tracks = data
+      } catch (err) {
+        console.log(err)
+      }
     }
-  },
-  created() {
-    let vm = this;
-    this.currentTrack = this.tracks[0];
-    this.audio = new Audio();
-    this.audio.src = this.currentTrack.source;
-    this.audio.ontimeupdate = function () {
-      vm.generateTime();
-    };
-    this.audio.onloadedmetadata = function () {
-      vm.generateTime();
-    };
-    this.audio.onended = function () {
-      vm.nextTrack();
-      this.isTimerPlaying = true;
-    };
-
-    // this is optional (for preload covers)
-    for (let index = 0; index < this.tracks.length; index++) {
-      const element = this.tracks[index];
-      let link = document.createElement("link");
-      link.rel = "prefetch";
-      link.href = element.cover;
-      link.as = "image";
-      document.head.appendChild(link);
-    }
-}
+  }
 })
