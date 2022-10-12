@@ -7,30 +7,21 @@
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
-                <a href="#">
-                    Start Bootstrap
-                </a>
+                <RouterLink to="#">
+                    Hello World
+                </RouterLink>
             </li>
             <li>
-                <a href="#">Dashboard</a>
+                <RouterLink to="#">Home</RouterLink>
             </li>
             <li>
-                <a href="#">Shortcuts</a>
+                <RouterLink to="#">Search</RouterLink>
             </li>
             <li>
-                <a href="#">Overview</a>
+                <RouterLink to="#">My List</RouterLink>
             </li>
             <li>
-                <a href="#">Events</a>
-            </li>
-            <li>
-                <a href="#">About</a>
-            </li>
-            <li>
-                <a href="#">Services</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
+                <RouterLink to="#">Log Out</RouterLink>
             </li>
         </ul>
     </div>
