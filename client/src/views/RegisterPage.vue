@@ -1,6 +1,22 @@
 <script>
+import { mapActions } from "pinia";
+import { useAppointmentStore } from "../stores/appointment";
 export default { 
-  name: "RegisterPage"
+  name: "RegisterPage",
+  data() {
+    return {
+      registerData: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    ...mapActions(useAppointmentStore, ["registerHandler"]),
+    register() {
+      this.registerHandler(this.registerData);
+    },
+  },
 }
 </script>
 <template>
@@ -24,7 +40,7 @@ export default {
               <span class="block text-xs md:text-lg font-semibold mb-1 after:content-['*'] after:text-rose-500">
                 Email
               </span>
-              <input type="email" id="email" placeholder="Enter your email..."
+              <input type="email" id="email" placeholder="Enter your email..." v-model="registerData.email"
                 class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
             </label>
           </div>
@@ -33,7 +49,7 @@ export default {
               <span class="block text-xs md:text-lg font-semibold mb-1 after:content-['*'] after:text-rose-500">
                 Password
               </span>
-              <input type="password" id="password" placeholder="Enter your password..."
+              <input type="password" id="password" placeholder="Enter your password..." v-model="registerData.password"
                 class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500" />
             </label>
           </div>

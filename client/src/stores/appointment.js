@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from 'axios';
+import axios from "axios";
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
     baseUrl: "http://localhost:3000",
@@ -7,6 +7,18 @@ export const useAppointmentStore = defineStore("appointment", {
   }),
   getters: {},
   actions: {
+    async registerHandler(registerData) {
+      try {
+        await axios({
+          url: this.baseUrl + "/patients/register",
+          method: "post",
+          data: registerData,
+        });
+        this.router.push("/login");
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async loginHandlerPatient(loginData) {
       try {
         const { data } = await axios({
@@ -35,10 +47,10 @@ export const useAppointmentStore = defineStore("appointment", {
         console.log(error);
       }
     },
-    logoutHandler(){
-      localStorage.clear()
-      this.isLogin = false
-      this.router.push("/")
-    }
+    logoutHandler() {
+      localStorage.clear();
+      this.isLogin = false;
+      this.router.push("/");
+    },
   },
 });
