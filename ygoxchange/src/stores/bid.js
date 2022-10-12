@@ -26,6 +26,8 @@ const q = query(
 export const useBidStore = defineStore("bid", {
   state: () => ({
     bids: [],
+    bid: {},
+    bidPageLoader: false,
     searchCardList: [],
     searchNotFound: false,
     searchQuery: {
@@ -48,6 +50,25 @@ export const useBidStore = defineStore("bid", {
     unlistenBids() {
       off(q);
     },
+    async getBid(id) {
+      this.bidPageLoader = true;
+      const swal = useSwalStore();
+      try {
+        const { data } = await api({
+          url: `/bid/${id}`,
+          method: "GET",
+          headers: {
+            access_token: localStorage?.access_token,
+          },
+        });
+
+        this.bid = data;
+      } catch (error) {
+        swal.errorHandler(error);
+      } finally {
+        this.bidPageLoader = false;
+      }
+    },
     async addNewBid(newBid) {
       const swal = useSwalStore();
       try {
@@ -66,7 +87,11 @@ export const useBidStore = defineStore("bid", {
           },
         });
 
-        swal.swalInfo("Bid started!");
+        swal.swalInfo(
+          "Bid started!",
+          "You can check your bid info in My Bids menu",
+          8000
+        );
         this.router.push("/my-bids");
       } catch (error) {
         swal.errorHandler(error);
@@ -178,6 +203,31 @@ export const useBidStore = defineStore("bid", {
         });
         this.currency.eur = data.idr.eur;
         this.currency.usd = data.idr.usd;
+      } catch (error) {
+        swal.errorHandler(error);
+      }
+    },
+    async submitBid(payload) {
+      const swal = useSwalStore();
+      try {
+        const { data } = await api({
+          url: `/bid/${payload.id}`,
+          method: "PATCH",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: {
+            currentPrice: payload.price,
+          },
+        });
+
+        swal.swalInfo(
+          data.message,
+          "Check My Winning List frequently to check if you win this bid",
+          8000,
+        );
+
+        return true;
       } catch (error) {
         swal.errorHandler(error);
       }

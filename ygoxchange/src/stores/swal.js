@@ -11,15 +11,15 @@ export const useSwalStore = defineStore("swal", {
   }),
 
   actions: {
-    swalInfo(title, text) {
+    swalInfo(title, text, timer = 1500) {
       Swal.fire({
         ...this.toastSwal,
         toast: true,
         showConfirmButton: false,
-        timer: 1500,
-        icon: 'info',
+        timer: timer,
+        icon: "info",
         title: title,
-        text: text
+        text: text,
       });
     },
     swalConfirmation(title, icon, confirmText, callback, id, cancelCallback) {

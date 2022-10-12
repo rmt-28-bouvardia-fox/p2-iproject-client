@@ -5,6 +5,11 @@ export default {
   components: {
     CardItem,
   },
+  methods: {
+    toDetailBid(id) {
+      this.$router.push(`/bid/${id}`);
+    },
+  },
 };
 </script>
 
@@ -15,6 +20,7 @@ export default {
     <CardItem
       v-if="items.length > 0"
       v-for="item in items"
+      @click="toDetailBid(item.key)"
       :key="item.key"
       :item="item"
     />

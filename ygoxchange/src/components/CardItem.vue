@@ -24,11 +24,11 @@ export default {
   methods: {
     runTimer() {
       this.interval = setInterval(() => {
-        this.timerFunction();
+        this.timerFunction(this.item.expiredBy);
       }, 1000);
     },
-    timerFunction() {
-      let deadline = new Date(this.item.expiredBy).getTime();
+    timerFunction(expired) {
+      let deadline = new Date(expired).getTime();
       let now = new Date().getTime();
       let time = deadline - now;
 

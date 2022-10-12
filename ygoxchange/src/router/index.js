@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import MyBidsView from "../views/MyBidsView.vue";
+import BidView from "../views/BidView.vue";
 import MyBidsHomeView from "../components/MyBidsHomeView.vue";
 import MyWinningList from "../components/MyWinningList.vue";
 import AddNewBidView from "../views/AddNewBidView.vue";
@@ -25,6 +26,11 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: RegisterView,
+    },
+    {
+      path: "/bid/:id",
+      name: "bid",
+      component: BidView,
     },
     {
       path: "/my-bids",

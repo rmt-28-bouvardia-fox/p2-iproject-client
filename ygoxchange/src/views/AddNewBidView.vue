@@ -191,8 +191,8 @@ export default {
                   name="condition"
                   class="border-2 rounded-lg p-1"
                 >
-                  <option value="new">New</option>
-                  <option value="used">Used</option>
+                  <option value="New">New</option>
+                  <option value="Used">Used</option>
                 </select>
               </div>
             </div>

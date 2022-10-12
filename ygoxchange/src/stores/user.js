@@ -25,6 +25,10 @@ export const useUserStore = defineStore("user", {
     async getUser() {
       const swal = useSwalStore();
       try {
+        if (!localStorage.access_token) {
+          return false;
+        }
+
         const { data } = await api({
           url: "/user",
           method: "GET",
@@ -32,8 +36,8 @@ export const useUserStore = defineStore("user", {
             access_token: localStorage.access_token,
           },
         });
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("username", data.username);
+
+        return data;
       } catch (error) {
         swal.errorHandler(error);
       }

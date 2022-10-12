@@ -37,7 +37,7 @@ export default {
 <template>
   <div
     v-if="route == 'login' || route == 'register'"
-    class="fixed flex h-[12vh] z-[9999] w-full"
+    class="fixed flex h-[12vh] z-[1000] w-full"
   >
     <div class="w-1/4">
       <router-link to="/"><LogoIcon /></router-link>
@@ -46,7 +46,7 @@ export default {
 
   <div
     v-else
-    class="fixed flex bg-darkGreyTheme h-[12vh] z-[9999] w-full items-center text-white border-b-8 border-b-[#D4BA52] drop-shadow-xl"
+    class="fixed flex bg-darkGreyTheme h-[12vh] z-[1000] w-full items-center text-white border-b-8 border-b-[#D4BA52] drop-shadow-xl"
   >
     <div class="w-1/4">
       <router-link to="/"><LogoIcon /></router-link>
