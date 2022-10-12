@@ -100,8 +100,28 @@ export const useAppStore = defineStore("app", {
         Swal.fire(error.response.data.message);
       }
     },
-    async deleteBidList() {
-      
+    async deleteBidList(id) {
+      // console.log('ke hit', id)
+      try {
+        await axios({
+          method: "delete",
+          url: this.baseUrl + `/deleteList/${id}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        await this.fetchMyBid();
+        this.router.push("/mylist");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "List removed from your Bid List",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
     }
   },
 });

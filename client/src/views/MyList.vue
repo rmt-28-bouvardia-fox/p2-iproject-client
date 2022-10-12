@@ -5,8 +5,8 @@ import { useAppStore } from "../stores/app";
 export default {
   data() {
     return {
-      // username: localStorage.username,
-    };
+      bidder: []
+    }
   },
   computed: {
     ...mapState(useAppStore, ["bidLists"]),
@@ -16,9 +16,9 @@ export default {
   },
   methods: {
     ...mapActions(useAppStore, ["fetchMyBid", "deleteBidList"]),
-    handleRemove() {
-      
-    }
+    handleRemove(id) {
+      this.deleteBidList(id)
+    },
   },
 };
 </script>
