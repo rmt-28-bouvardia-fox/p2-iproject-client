@@ -12,8 +12,11 @@ export const useLoginStore = defineStore("login", {
           data: this.login,
         });
 
-        const { access_token } = data;
+        console.log(data);
 
+        const { access_token, status } = data;
+
+        localStorage.setItem("subscriber", status);
         localStorage.setItem("access_token", access_token);
         this.isLogin = true;
         this.login.email = "";

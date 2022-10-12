@@ -5,14 +5,17 @@ import { useWeatherStore } from "../stores/weather";
 export default {
   components: { Navbar },
   methods: {
-    ...mapActions(useWeatherStore, ["fetchWeather"]),
-    ...mapActions(useWeatherStore, ["currentLocation"]),
+    ...mapActions(useWeatherStore, [
+      "fetchWeather",
+      "currentLocation",
+      "internationalWeather",
+    ]),
   },
   computed: {
     ...mapState(useWeatherStore, ["getWeather"]),
     ...mapWritableState(useWeatherStore, ["getCity"]),
   },
-  created() {
+  mounted() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.currentLocation(

@@ -2,7 +2,12 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 export const useWeatherStore = defineStore("weather", {
-  state: () => ({ getWeather: {}, getCity: "", getCurrentWeather: {} }),
+  state: () => ({
+    getWeather: {},
+    getCity: "",
+    getCurrentWeather: {},
+    internationalWeather: [],
+  }),
   actions: {
     async fetchWeather(city) {
       try {

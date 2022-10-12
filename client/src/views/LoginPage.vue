@@ -129,4 +129,8 @@ export default {
 .link {
   color: rgba(0, 0, 0, 0.555);
 }
+
+.fb-login-button {
+  margin: 1rem 0;
+}
 </style>

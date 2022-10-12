@@ -2,7 +2,12 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useNewsStore = defineStore("news", {
-  state: () => ({ getNews: [], getSidebarData: [] }),
+  state: () => ({
+    getNews: [],
+    getSidebarData: [],
+    transacToken: "",
+    isSubsribe: false,
+  }),
   actions: {
     async fetchNews(category) {
       try {
@@ -44,6 +49,33 @@ export const useNewsStore = defineStore("news", {
       } catch (error) {
         console.log(error);
       }
+    },
+    async getTransactionToken(orderId) {
+      try {
+        const { data } = await axios({
+          url: "http://localhost:3000/news/midtrans",
+          method: "post",
+          params: {
+            orderId,
+          },
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+
+        this.transacToken = data.transactionToken;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async subscribe() {
+      await axios({
+        url: "http://localhost:3000/news/status",
+        method: "patch",
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
     },
   },
 });

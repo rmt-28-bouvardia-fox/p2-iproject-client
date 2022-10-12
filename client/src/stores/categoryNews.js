@@ -41,7 +41,6 @@ export const useCategoryNewsStore = defineStore("categoryNews", {
 
         const news = data.articles.slice(0, 3);
         this.internationalCategory = news;
-        console.log(this.internationalCategory);
       } catch (error) {
         console.log(error);
       }

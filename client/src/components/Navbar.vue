@@ -3,11 +3,14 @@ import { mapActions, mapState, mapWritableState } from "pinia";
 import { useCategoryNewsStore } from "../stores/categoryNews";
 import { useLoginStore } from "../stores/login";
 import { useWeatherStore } from "../stores/weather";
+import { useNewsStore } from "../stores/news";
 
 export default {
   computed: {
     ...mapWritableState(useLoginStore, ["isLogin"]),
     ...mapState(useWeatherStore, ["getWeather", "getCurrentWeather"]),
+    ...mapState(useNewsStore, ["transacToken"]),
+    ...mapWritableState(useNewsStore, ["isSubsribe"]),
   },
   methods: {
     ...mapActions(useLoginStore, ["logout"]),
@@ -15,30 +18,56 @@ export default {
       "fetchCategoryNews",
       "fetchInternationalCategory",
     ]),
+    ...mapActions(useNewsStore, ["getTransactionToken", "subscribe"]),
     fetchCategory(value) {
       this.fetchCategoryNews(value);
       this.fetchInternationalCategory(value);
     },
     ...mapActions(useWeatherStore, ["currentLocation"]),
+    async orderToken(orderId) {
+      await this.getTransactionToken(orderId);
+
+      const cb = this.subscribe;
+
+      window.snap.pay(this.transacToken, {
+        onSuccess: function () {
+          cb();
+        },
+        onPending: function () {},
+        onError: function () {},
+        onClose: function () {
+          cb();
+        },
+      });
+    },
   },
   created() {
     if (localStorage.access_token) {
       this.isLogin = true;
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.currentLocation(
-            position.coords.latitude,
-            position.coords.longitude
-          );
-        },
-        () => {
-          this.fetchWeather("jakarta");
-        }
-      );
     } else {
       this.isLogin = false;
     }
+
+    console.log(localStorage.subscriber == "subscriber");
+
+    if (localStorage.subscriber === "subscriber") {
+      this.isSubsribe = true;
+    } else {
+      this.isSubsribe = false;
+    }
+  },
+  mounted() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.currentLocation(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+      },
+      () => {
+        this.fetchWeather("jakarta");
+      }
+    );
   },
 };
 </script>
@@ -132,6 +161,15 @@ export default {
           >
         </li>
       </ul>
+      <button
+        @click.prevent="
+          orderToken((Math.random() + 1).toString(10).substring(2))
+        "
+        v-if="!isSubsribe"
+      >
+        Subscribe
+      </button>
+      <p v-else-if="isSubsribe">Subscriber</p>
       <div class="line2-top"></div>
       <div class="line2-bottom"></div>
     </div>
