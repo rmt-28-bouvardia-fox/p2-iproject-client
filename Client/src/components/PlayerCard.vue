@@ -1,10 +1,15 @@
 <script>
+import { mapActions } from 'pinia'
+import { useUserStore } from '../stores/user'
+
 export default {
     props: ['color', 'buttonType', 'player'],
     emits: ['buttonAction'],
     methods: {
+        ...mapActions(useUserStore, ['fetchTeam']),
         buttonHandler() {
-            this.$emit('buttonAction', this.player.id)
+            this.fetchTeam()
+            this.$emit('buttonAction', this.player._id)
         }
     },
     computed: {

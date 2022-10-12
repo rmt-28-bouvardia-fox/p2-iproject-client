@@ -5,22 +5,24 @@ import { useUserStore } from '../stores/user';
 
 export default {
   computed: {
-    ...mapWritableState(useUserStore, ['isLogin'])
+    ...mapWritableState(useUserStore, ['isLogin']),
+    ...mapState(useUserStore, ['myTeam'])
   },
   methods: {
-    ...mapActions(useUserStore, ['logoutAction']),
-      ...mapActions(usePlayerStore, ['buyPlayer'])
+    ...mapActions(useUserStore, ['logoutAction', 'fetchTeam']),
   },
+  created() {
+    this.fetchTeam()
+  }
 }
 
 </script>
 <template>
-<header v-if="isLogin" class="navbar sticky-top p-2 d-flex justify-content-evenly" style="height: 70px;" id="navbar">
-  <div style="width: 25%; margin: 0 10%;" >
+<header v-if="isLogin" class="navbar sticky-top p-2 d-flex justify-content-between" style="height: 70px;" id="navbar">
+  <div class="d-flex text-light" style="width: 50%; margin-left: 100px;" >
     <RouterLink to="/home" class="nav-button btn">Home</RouterLink>
-    <RouterLink to="/" class="nav-button btn">Live Score</RouterLink>
   </div>
-  <div style="width: 8%; margin-left: 30%;">
+  <div style="width: 7%;">
     <button @click="logoutAction" class="signout-button btn">Sign Out</button>
   </div>
 </header>
@@ -37,8 +39,8 @@ export default {
     color: white;
     background-color: black;
     border-radius: 20%;
-    width: 40%;
-    margin: 0 16px;
+    width: 150px;
+    margin: 0 200px;
 }
 
 .nav-button:hover{
@@ -46,6 +48,9 @@ export default {
     transition: 600ms;
 }
 
+h4{
+  margin-right: 30px;
+}
 .signout-button {
     height: 40px;
     color: black;

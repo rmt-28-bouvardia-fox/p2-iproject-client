@@ -1,5 +1,5 @@
 <script>
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import PlayerCard from '../components/PlayerCard.vue'
 import { usePlayerStore } from '../stores/player';
 export default {
@@ -7,13 +7,23 @@ export default {
         PlayerCard
     },
     methods: {
-        ...mapActions(usePlayerStore, ['fetchPlayerStore', 'buyPlayer'])
+        ...mapActions(usePlayerStore, ['fetchPlayerStore', 'buyPlayer', 'fetchAllPlayers']),
+        nextPage() {
+            this.page++
+            this.fetchPlayerStore()
+        },
+        previousPage() {
+            this.page--
+            this.fetchPlayerStore()
+        }
     },
     computed: {
-      ...mapState(usePlayerStore, ['players'])  
+        ...mapState(usePlayerStore, ['players', 'totalPages']),
+        ...mapWritableState(usePlayerStore, ['page']),  
     },
     created() {
         this.fetchPlayerStore()
+        this.fetchAllPlayers()
     }
 }
 </script>
@@ -21,6 +31,20 @@ export default {
 <div id="store" class="d-flex justify-content-center align-items-center">
     <div id="box-store" class="text-bg-light p-4 row border border-3 mt-lg-5">
         <h1>Store</h1>
+        <div class="d-flex justify-content-end mx-1 my-4 ">
+                <div style="width:15%;">
+                    <button class="mx-3 btn btn-primary" v-if="page != 0" @click="previousPage">PREVIOUS</button>
+                </div>
+                <ul class="list-group list-group-horizontal pageButton">
+                    <div v-for="(curPage, idx) in totalPages">
+                        <li class="list-group-item active" v-if="idx == page">{{idx+1}}</li>
+                        <li class="list-group-item" v-else >{{idx+1}}</li>
+                    </div>
+                </ul>
+                <div style="width:10%;">
+                    <button class="mx-3 btn btn-warning" @click="nextPage" v-if="page < totalPages-1">NEXT</button>
+                </div>
+            </div>
         <PlayerCard @buttonAction="buyPlayer" :player="player" v-for="(player, idx) in players" buttonType="buy"/>
     </div>
 </div>
