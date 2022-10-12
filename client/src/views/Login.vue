@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
-import { useUserStore } from "@/stores/user";
+import { useAppStore } from "@/stores/user";
 
 export default {
   data() {
@@ -9,25 +9,17 @@ export default {
       password: "",
     };
   },
-  // computed: {
-  //   ...mapWritableState(useUserStore, {
-  //     id: "id",
-  //     storeEmail: "email",
-  //     username: "username",
-  //     isLogin: "isLogin",
-  //   }),
-  // },
   methods: {
-    ...mapActions(useUserStore, ["login", "handleCredentialResponse"]),
+    ...mapActions(useAppStore, ["login"]),
     loginHandler() {
       this.login({ email: this.email, password: this.password });
     },
     toRegister() {
       this.$router.push("/register");
     },
-    callback(response) {
-      this.handleCredentialResponse(response);
-    },
+    // callback(response) {
+    //   this.handleCredentialResponse(response);
+    // },
   },
 };
 </script>

@@ -1,8 +1,52 @@
 <script>
+import { mapWritableState, mapActions, mapState } from "pinia";
+import { useAppStore } from "../stores/user";
+
+export default {
+  data() {
+    return {
+      title: "",
+    };
+  },
+  // computed: {
+  //   ...mapWritableState(useAppStore, ["isLogin"]),
+  //   ...mapState(useAppStore, ["isLogin"]),
+  // },
+  methods: {
+    ...mapActions(useAppStore, ["fetchGames"]),
+    logoutHandler() {
+      Swal.fire({
+        title: "Are you sure you want to log out?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, logout!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.clear();
+          this.isLogin = false;
+          this.$router.push("/login");
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: `Logout Success!`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+    },
+    // submitSearch() {
+    //   //   console.log(this.title);
+    //   this.fetchGames(this.title);
+    // },
+  },
+};
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg sticky-top bg-light">
+  <nav class="navbar navbar-expand-lg sticky-top bg-dark navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"
         ><img src="../assets/icons8-netflix.svg" alt=""
@@ -24,33 +68,18 @@
             <router-link class="nav-link active" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="isLogin" class="nav-link active" to="/favorite"
-              >Favorite</router-link
+            <router-link class="nav-link active" to="/favorite"
+              >Wishlist</router-link
             >
           </li>
         </ul>
-        <form class="d-flex mx-5" role="search" @submit.prevent="submitSearch">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search by title..."
-            aria-label="Search"
-            name="title"
-            v-model="title"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
 
-        <a
-          v-if="isLogin"
-          @click.prevent="logoutHandler"
-          href=""
-          class="btn btn-danger"
+        <a @click.prevent="logoutHandler" href="" class="btn btn-danger"
           >Logout</a
         >
-        <router-link v-if="!isLogin" to="/login" class="btn btn-info"
+        <!-- <router-link v-if="!isLogin" to="/login" class="btn btn-info"
           >Sign In</router-link
-        >
+        > -->
       </div>
     </div>
   </nav>
