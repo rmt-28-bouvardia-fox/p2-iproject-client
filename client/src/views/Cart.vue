@@ -2,6 +2,7 @@
 import { mapActions, mapWritableState } from 'pinia';
 import { useCounterStore } from '../stores/counter';
 import ComicCartItems from '../components/ComicCartItems.vue';
+import { useClientStore } from '../stores/client';
 
 
 export default {
@@ -28,8 +29,25 @@ export default {
             await this.payment(this.totalPrice)
             var payButton = document.getElementById('pay-button');
       
-        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
-            window.snap.pay(this.transactionToken);
+            window.snap.pay(this.transactionToken, {
+          onSuccess: function(result){
+            /* You may add your own implementation here */
+            this.router.push('/profile')
+            console.log(result);
+          },
+          onPending: function(result){
+            /* You may add your own implementation here */
+            alert("wating your payment!"); console.log(result);
+          },
+          onError: function(result){
+            /* You may add your own implementation here */
+            alert("payment failed!"); console.log(result);
+          },
+          onClose: function(){
+            /* You may add your own implementation here */
+            alert('you closed the popup without finishing the payment');
+          }
+        });
         // customer will be redirected after completing payment pop-up
         }
     },
