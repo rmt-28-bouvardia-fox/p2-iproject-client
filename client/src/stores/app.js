@@ -160,6 +160,26 @@ export const useAppStore = defineStore("app", {
         Swal.fire(error.response.data.message);
       }
     },
+    async mailer() {
+      try {
+        await axios({
+          url: this.baseUrl + "/biddingHit",
+          method: 'get',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "New Bid! notification has been send to your email!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
+    },
     async deleteBidList(id) {
       // console.log('ke hit', id)
       try {

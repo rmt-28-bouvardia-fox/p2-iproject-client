@@ -12,9 +12,10 @@ export default {
     ...mapState(useAppStore, ["product"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchOneProduct", "startBidding"]),
+    ...mapActions(useAppStore, ["fetchOneProduct", "startBidding",'mailer']),
     handleBid(id) {
       this.startBidding(id);
+      this.mailer()
     },
   },
   watch: {
