@@ -22,15 +22,14 @@ export default {
     },
     data(){
         return {
-            imgUrl : '',
-            tes : {}
+            imgUrl : ''
         }
     },
 }
 </script>
 
 <template>
-    <div class="container mt-5">
+    <div class="container mt-5 ">
         <div class="row">
             <div class="container mt-3 mb-3 text-center">
                 <h1>{{comic.title}}</h1>
@@ -38,10 +37,14 @@ export default {
             <div class="d-flex text-center p-3">
 
                 <div class="container">
-                    <img :src="imgUrl" alt="" style="height:70vh;width:50vh">
+                    <img :src="imgUrl" alt="" style="height:50vh;width:40vh">
                 </div>
+                
             </div>
-
+            <div class="col border border-2">
+                <h3>Description : {{comic.description ? comic.description : comic.title}}</h3>
+            </div>
+            
         </div>
     </div>
 </template>

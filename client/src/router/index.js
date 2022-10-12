@@ -6,6 +6,7 @@ import Cart from '../views/Cart.vue'
 import ComicDetail from '../views/ComicDetail.vue'
 import Comic from '../views/Comic.vue'
 import Profile from '../views/Profile.vue'
+import Chat from '../views/Chat.vue'
 
 const routes = [
   {path: '/', name : 'home', component : Home},
@@ -13,6 +14,7 @@ const routes = [
   {path : '/register', name : 'register', component : Register},
   {path : '/cart', name : 'cart', component : Cart},
   {path : '/profile', name : 'profile', component : Profile},
+  {path : '/chat', name : 'chat', component : Chat},
   {path : '/comics', name : 'comics', component : Comic},
   {path : '/comics/:id', name : 'comicdetail', component : ComicDetail}
 ]

@@ -16,6 +16,7 @@ export const useClientStore = defineStore('client',  {
                     data : inputBody
                 })
                 localStorage.setItem('access_token', data.access_token)
+                localStorage.setItem('username', data.username)
                 this.isLoggedIn = true
                 this.router.push('/')
             } catch (error) {
