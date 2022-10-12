@@ -1,19 +1,35 @@
 <script>
 import { mapActions, mapWritableState } from 'pinia';
 import { useAppointmentStore } from '../stores/appointment';
-
+import TableItem from "../components/TableItem.vue"
 export default {
   name: "PatientDetail",
+  components: {
+    TableItem
+  },
   computed: {
-    ...mapWritableState(useAppointmentStore, ["patientDetail"])
+    ...mapWritableState(useAppointmentStore, ["patientDetail", "patientAppointments"]),
+    formatDate() {
+      if (this.patientDetail) {
+        const date = new Date(this.patientDetail.birthDate)
+        const options = { year: 'numeric', month: 'long', day: 'numeric' }
+        return date.toLocaleDateString('id-ID', options)
+      } 
+    }
   },
   methods: {
-    ...mapActions(useAppointmentStore, ["fetchPatientDetails"])
+    ...mapActions(useAppointmentStore, ["fetchPatientDetails", "fetchPatientAppointments"])
   },
-  created() {
-    this.fetchPatientDetails();
-    if(this.patientDetail.name === undefined) {
-      this.$router.push("/patientDetails")
+  data() {
+    return {
+      detail: false,
+    }
+  },
+  async created() {
+    await this.fetchPatientDetails();
+    await this.fetchPatientAppointments();
+    if (this.patientAppointments[0].status != 'Uncomplete') {
+      this.detail = true
     }
   }
 }
@@ -24,67 +40,55 @@ export default {
       <div class="flex w-[60%] border rounded-lg shadow-2xl bg-sky-200 bg-opacity-70 mx-auto">
         <div class="p-20 text-sky-900">
           <div class="flex border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Name:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.name}}</span>
+            <h2 class="text-2xl font-semibold">Name:</h2><span
+              class="text-2xl text-thin ml-4">{{patientDetail.name}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Birth Date:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.birthDate}}</span>
+            <h2 class="text-2xl font-semibold">Birth Date:</h2><span
+              class="text-2xl text-thin ml-4">{{formatDate}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Address:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.address}}</span>
+            <h2 class="text-2xl font-semibold">Address:</h2><span
+              class="text-2xl text-thin ml-4">{{patientDetail.address}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Gender:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.gender}}</span>
+            <h2 class="text-2xl font-semibold">Gender:</h2><span
+              class="text-2xl text-thin ml-4">{{patientDetail.gender}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Blood type:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.bloodType}}</span>
+            <h2 class="text-2xl font-semibold">Blood type:</h2><span
+              class="text-2xl text-thin ml-4">{{patientDetail.bloodType}}</span>
           </div>
           <div class="flex mt-4 border-b border-sky-900">
-            <h2 class="text-2xl font-semibold">Disease history:</h2><span class="text-2xl text-thin ml-4">{{patientDetail.diseaseHistory}}</span>
+            <h2 class="text-2xl font-semibold">Disease history:</h2><span
+              class="text-2xl text-thin ml-4">{{patientDetail.diseaseHistory}}</span>
           </div>
         </div>
       </div>
       <div class="flex border rounded-lg shadow-2xl bg-sky-300 bg-opacity-40 mx-auto mt-10">
-        <div class="p-1">
+        <div class="p-1 w-full">
           <div>
             <h1 class="text-2xl text-sky-900 mb-4 text-center">Medical History</h1>
           </div>
-          <table class="text-md font-light text-sky-900">
+          <table class="w-full table-auto border-spacing-1 text-md text-center font-light text-sky-900 ">
             <thead>
               <tr class="border-b-2 border-sky-900">
                 <th>#</th>
-                <th>Chief complaint</th>
+                <th>Chief Complaint</th>
                 <th>Appointment Date</th>
                 <th>Status</th>
-                <th>Diagnosis</th>
-                <th>Need surgical actions</th>
-                <th>Need medical drug</th>
-                <th>Cost</th>
-                <th>Doctor</th>
+                <div v-if="detail">
+                  <th>Diagnosis</th>
+                  <th>Need Surgical Actions</th>
+                  <th>Need Medical Drug</th>
+                  <th>Cost</th>
+                  <th>Doctor</th>
+                </div>
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-sky-900">
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-              </tr>
-              <tr class="border-b border-sky-900">
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-                <td>Lorem ipsum dolor sit amet. </td>
-              </tr>
+              <TableItem v-for="(appointment, index) in patientAppointments" :key="appointment.id" :index="index"
+                :appointment="appointment" />
             </tbody>
           </table>
         </div>

@@ -8,7 +8,7 @@ export default {
     ...mapWritableState(useAppointmentStore, ["symptoms", "specialists"])
   },
   methods: {
-    ...mapActions(useAppointmentStore, ["fetchSpecialists", "createAppointment"]),
+    ...mapActions(useAppointmentStore, ["fetchSymptoms", "fetchSpecialists", "createAppointment"]),
     fetchSuggestion() {
       this.suggestionData = []
       if (this.symptom != "") {
@@ -44,6 +44,9 @@ export default {
       suggestionData: [],
       symptomList: []
     }
+  },
+  created() {
+    this.fetchSymptoms();
   }
 }
 </script>
