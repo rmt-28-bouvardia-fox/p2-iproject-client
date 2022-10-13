@@ -22,9 +22,9 @@ export default {
 </script>
 <template>
 <div style="height: 150vh;">
-    <div class="row list text-light">
+    <div class="row list text-dark" style="margin-top:60px">
         <div class="mb-4">
-            <h1>Your Player</h1>
+            <h1>My Player</h1>
         </div>
         <PlayerCard class="pCard" @click="playerDetailHandler(player.id)" v-for="(player, idx) in myPlayers" :key="idx" :player="player" />
 
@@ -35,6 +35,10 @@ export default {
 <style scoped>
 .list {
     margin-left: 20%;
+}
+h1{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 70px;
 }
 
 

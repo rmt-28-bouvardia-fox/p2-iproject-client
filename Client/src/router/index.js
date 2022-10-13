@@ -80,6 +80,11 @@ const router = createRouter({
       path: '/match',
       name: 'match',
       component: Match
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: HomePage
     }
   ]
 })

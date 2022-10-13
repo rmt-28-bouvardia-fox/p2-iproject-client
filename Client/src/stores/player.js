@@ -17,46 +17,25 @@ export const usePlayerStore = defineStore('player', {
             opponents: [],
             match: {},
             showLoadingP: false,
-            totalSearchPlayers: 0
+            totalSearchPlayers: 0,
+            showLoadingMatch:false
         }),
     getters: {
         doubleCount: (state) => state.count * 2,
     },
     actions: {
-        async fetchPlayerStore(search) {
+        async fetchPlayerStore() {
             try {
-                this.showLoadingP = true
-                if (search) {
-                    this.page = 1
-                    const { data } = await axios({
-                        url: `${this.baseUrl}/players?page=${this.page}&search=${this.playerSearch}`,
-                        method: 'GET',
-                        headers: {
-                            access_token: localStorage.access_token
-                        }
-                    })
-                    this.players = data
-                    const result = await axios({
-                        url: `${this.baseUrl}/players?search=${this.playerSearch}`,
-                        method: 'GET',
-                        headers: {
-                            access_token: localStorage.access_token
-                        }
-                    })
-                    this.showLoadingP = false
-                    this.totalSearchPlayers = result.data.length
-                    this.totalPages = Math.ceil(this.totalSearchPlayers / 12)
-                } else {
-                    const { data } = await axios({
-                        url: `${this.baseUrl}/players?page=${this.page}`,
-                        method: 'GET',
-                        headers: {
-                            access_token: localStorage.access_token
-                        }
-                    })
-                    this.players = data
-                    this.showLoadingP = false
-                }
+                const { data } = await axios({
+                    url: `${this.baseUrl}/players?page=${this.page}&search=${this.playerSearch}`,
+                    method: 'GET',
+                    headers: {
+                        access_token: localStorage.access_token
+                    }
+                })
+                this.players = data
+                this.showLoadingP = false
+                
             } catch (error) {
                 this.showLoadingP = false
                 Swal.fire({
@@ -284,6 +263,7 @@ export const usePlayerStore = defineStore('player', {
                     confirmButtonText: `Yes, I'm sure!`
                 })
                 if (result.isConfirmed) {
+                    this.showLoadingMatch = true
                     this.showLoadingP = true
                     const { data } = await axios({
                         url: `${this.baseUrl}/opponents/${id}`,
@@ -303,10 +283,12 @@ export const usePlayerStore = defineStore('player', {
                             text: data.message
                         })
                         this.showLoadingP = false
+                        this.showLoadingMatch = false
                     }, 4000);
                 }
             } catch (error) {
                 this.showLoadingP = false
+                this.showLoadingMatch = false
                 Swal.fire({
                     icon: 'error',
                     title: `Cannot play`,

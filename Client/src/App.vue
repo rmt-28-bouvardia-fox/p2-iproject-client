@@ -5,17 +5,19 @@ import Sidebar from './components/sidebar.vue'
 import { usePlayerStore } from './stores/player';
 import { useUserStore } from './stores/user'
 import Preloader from './components/Preloader.vue'
+import PreloaderMatch from './components/PreloaderMatch.vue'
 
 
 export default {
   components: {
     Navbar,
     Sidebar,
-    Preloader
+    Preloader,
+    PreloaderMatch
   },
   computed: {
     ...mapWritableState(useUserStore, ['myTeam', 'isLogin', 'coach', 'showLoadingU']),
-    ...mapState(usePlayerStore, ['showLoadingP'])
+    ...mapState(usePlayerStore, ['showLoadingP', 'showLoadingMatch'])
   },
   created() {
     if (localStorage.access_token) {
@@ -30,6 +32,8 @@ export default {
 </script>
 
 <template>
+
+<PreloaderMatch v-if="showLoadingMatch"/>
 <Preloader v-if="showLoadingP"/>
 <Preloader v-if="showLoadingU"/>
 <Navbar v-if="isLogin"/>

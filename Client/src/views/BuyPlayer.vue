@@ -8,12 +8,14 @@ import PlayerCard from '../components/PlayerCard.vue'
 import {
     usePlayerStore
 } from '../stores/player';
+import { useUserStore } from '../stores/user';
 export default {
     components: {
         PlayerCard
     },
     methods: {
         ...mapActions(usePlayerStore, ['fetchPlayerStore', 'buyPlayer', 'fetchAllPlayers', 'refresh']),
+        ...mapActions(useUserStore, ['fetchTeam']),
         nextPage() {
             this.page++
             this.fetchPlayerStore()
@@ -41,6 +43,7 @@ export default {
     created() {
         this.fetchPlayerStore(false)
         this.fetchAllPlayers()
+        this.fetchTeam()
     }
 }
 </script>

@@ -22,7 +22,7 @@ export default {
                         <div class="d-flex justify-content-between">
                             <label for="otp-email">Input OTP <label class="text-danger text-end fw-bold">*</label></label>
                         </div>
-                        <input v-model="otpInput" type="password" class="form-control form-control-lg" id="otp-email" placeholder="Enter your email..." autocomplete="off" >
+                        <input v-model="otpInput" type="password" class="form-control form-control-lg" id="otp-email" placeholder="Enter otp" autocomplete="off" >
                     </div>
                     <div class="justify-content-around">
                         <button class="btn" style="width: 40%; background-color: blue; color:white ;" type="submit">Sign Up</button>
