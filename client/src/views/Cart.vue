@@ -95,7 +95,7 @@ export default {
                         <div class="col">TOTAL PRICE</div>
                         <div class="col text-right">{{displayTotalPrice}}</div>
                     </div>
-                    <button @click="checkout" id="button-pay" class="btn">CHECKOUT</button>
+                    <button @click="checkout" class="btn">CHECKOUT</button>
                 </div>
             </div>
             
