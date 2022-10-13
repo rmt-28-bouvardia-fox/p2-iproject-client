@@ -12,14 +12,14 @@ export const useUserStore = defineStore("user", {
       console.log("masuk store");
       return axios({
         method: "post",
-        url: "http://localhost:3000/users/login",
+        url: "https://masakapa.herokuapp.com/users/login",
         data: payload,
       });
     },
     register(payload) {
       return axios({
         method: "post",
-        url: "http://localhost:3000/users/register",
+        url: "https://masakapa.herokuapp.com/register",
         data: payload,
       });
       // this.router.push("/login");
