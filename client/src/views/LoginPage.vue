@@ -59,6 +59,8 @@
               >
                 Sign in
               </button>
+              <br>
+              <div id="buttonDiv" class="google-login"></div>
             </form>
           </div>
         </div>
@@ -76,10 +78,22 @@ export default {
     console.log("masuk login form ini bgst");
   },
   methods: {
-    ...mapActions(useUserStore, ["loginAccount"]),
+    ...mapActions(useUserStore, ["loginAccount", "handleCredentialResponse"]),
   },
   computed: {
     ...mapWritableState(useUserStore, ["login"]),
+  },
+  mounted() {
+    const cb = this.handleCredentialResponse;
+     google.accounts.id.initialize({
+      client_id:
+        "858089526355-5h2n5oueqtbn0jjm28svlhejcid706cn.apps.googleusercontent.com",
+      callback: cb,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" } // customization attributes
+    ); // also display the One Tap dialog
   },
 };
 </script>

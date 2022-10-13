@@ -21,7 +21,7 @@
             </thead>
             <tbody>
               <template v-for="(log, index) in logTransaction" :key="index">
-                <tr v-if="log.status == 'Success'">
+                <tr>
                   <td>{{ index + 1 }}</td>
                   <td>{{ formattedDate(log.createdAt) }}</td>
                   <td>{{ log.status }}</td>
@@ -29,7 +29,7 @@
                     <p v-if="log.status == 'Success'">paid off</p>
                     <button
                       v-if="log.status == 'Pending'"
-                      @click.prevent="payment()"
+                      @click.prevent="payment(log.id)"
                       class="btn btn-outline-primary"
                     >
                       Pay
@@ -47,6 +47,7 @@
 
 <script>
 import { mapActions, mapState } from "pinia";
+import L from "leaflet"
 import { useArisanStore } from "../stores/arisan";
 import NavigationBar from "../components/navigation-bar.vue";
 import moment from "moment";
@@ -73,17 +74,29 @@ export default {
     },
   },
   computed: {
-    ...mapState(useArisanStore, ["ott", "logTransaction"]),
+    ...mapState(useArisanStore, ["ott", "logTransaction", "arisanDetail"]),
   },
   components: { NavigationBar },
   created() {
     this.fetchLogTrans();
+  },
+  async mounted() {
+    await this.fetchLogTrans()
+    var long = this.logTransaction[0].User.longtitude
+    var la = this.logTransaction[0].User.latitude
+    var map = L.map("map").setView([la, long], 20);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 20,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+    L.marker([la, long]).addTo(map)
   },
 };
 </script>
 
 <style>
 #map {
-  height: 220px;
+  height: 300px;
 }
 </style>

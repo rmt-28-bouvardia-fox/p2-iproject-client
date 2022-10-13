@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import Swal from "sweetalert2";
-const base = "http://localhost:3000";
+const base = "https://rmt28-branded-things.herokuapp.com";
 
 export const useArisanStore = defineStore("arisan", {
   state: () => ({
@@ -114,7 +114,7 @@ export const useArisanStore = defineStore("arisan", {
         });
       }
     },
-    async midTrans() {
+    async midTrans(id) {
       try {
         const { data } = await axios({
           method: "post",
@@ -125,12 +125,14 @@ export const useArisanStore = defineStore("arisan", {
         });
         this.ott = data;
         this.fetchLogTrans();
+        this.payTrans(id)
       } catch (error) {
         Swal.fire({
-          title: "Data not found",
-          text: "Please try again",
-          timer: 2000,
-        });
+          title : "Redirect to Payment Gateway",
+          text : "Thanks",
+          timer : "10000",
+          confirm : true
+        })
       }
     },
     async fetchLogTrans() {

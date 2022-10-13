@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import Swal from "sweetalert2";
-const base = "http://localhost:3000";
+const base = "https://rmt28-branded-things.herokuapp.com";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -78,6 +78,7 @@ export const useUserStore = defineStore("user", {
         });
         localStorage.setItem("access_token", data.access_token);
         this.isLogin = true;
+        this.router.push("/")
       } catch (error) {
         Swal.fire({
           icon: "error",
