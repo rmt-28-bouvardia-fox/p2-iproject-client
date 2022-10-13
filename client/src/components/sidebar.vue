@@ -1,5 +1,9 @@
 <script>
+    import Img from '../components/img.vue'
     export default{
+        components:{
+            Img
+        },
         emits:['changePage','logOut'],
         methods:{
             changePage(page){
@@ -34,6 +38,9 @@
                 <RouterLink @click.prevent="logOut" to="#">Log Out</RouterLink>
             </li>
         </ul>
+    </div>
+    <div>
+        <Img />
     </div>
 </div>
 </template>
