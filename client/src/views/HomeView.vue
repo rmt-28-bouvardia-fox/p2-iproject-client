@@ -1,5 +1,7 @@
 <script>
 // import TheWelcome from '../components/TheWelcome.vue'
+import { mapActions, mapState } from "pinia";
+import { useRecipeStore } from "../stores/recipe";
 import Banner from "../components/Banner.vue";
 import RecipeCard from "../components/RecipeCard.vue";
 
@@ -7,6 +9,20 @@ export default {
   components: {
     Banner,
     RecipeCard,
+  },
+  // props: ["recipes"],
+  computed: {
+    ...mapState(useRecipeStore, ["recipes"]),
+  },
+  created() {
+    this.fetchRecipes();
+  },
+  methods: {
+    ...mapActions(useRecipeStore, ["fetchRecipes"]),
+    handleCardClick(id) {
+      this.$emit("handleDetail", id);
+      this.$router.push(`recipe/${id}`);
+    },
   },
 };
 </script>
@@ -31,7 +47,12 @@ export default {
         </div>
       </div>
       <div class="row">
-        <RecipeCard />
+        <RecipeCard
+          v-for="(recipe, index) in recipes"
+          :key="index"
+          :recipe="recipe"
+          @click="handleCardClick(recipe.idMeal)"
+        />
       </div>
     </div>
   </section>

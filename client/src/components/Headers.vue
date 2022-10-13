@@ -41,24 +41,31 @@ export default {
                   ><a href="index.html">HOME</a></RouterLink
                 >
               </li>
-              <li><a href="about.html">about</a></li>
               <li>
+                <RouterLink
+                  class="nav-link active"
+                  aria-current="page"
+                  to="/about"
+                  ><a href="">about</a></RouterLink
+                >
+              </li>
+              <li v-if="!isLogin">
                 <RouterLink
                   class="nav-link active"
                   aria-current="page"
                   to="/login"
-                  ><a href="contact-us.html">Login</a></RouterLink
+                  ><a href="">Login</a></RouterLink
                 >
               </li>
-              <li>
+              <li v-if="!isLogin">
                 <RouterLink
                   class="nav-link active"
                   aria-current="page"
                   to="/register"
-                  ><a href="elements.html">Register</a></RouterLink
+                  ><a href="">Register</a></RouterLink
                 >
               </li>
-              <li>
+              <li v-if="isLogin">
                 <a href="" @click.prevent="handleLogout">Logout</a>
               </li>
             </ul>
