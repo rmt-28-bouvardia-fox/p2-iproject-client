@@ -115,13 +115,41 @@ export const useUserStore = defineStore('user', {
       }
     },
     logoutAction() {
-      localStorage.clear()
-      this.isLogin = false
-      this.coach = ''
-      this.userLogin = {}
-      this.newUser = {}
-      this.router.push('/')
-      this.myTeam = {}
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, sign out!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.showLoadingUser = true
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Success',
+            text: "Sign Out",
+            showConfirmButton: false,
+            timer: 1000
+          })
+          localStorage.clear()
+          this.isLogin = false
+          this.coach = ''
+          this.userLogin = {}
+          this.newUser = {}
+          this.router.push('/')
+          this.myTeam = {}
+        }
+      }).catch((err) => {
+        this.showLoadingUser = false
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data
+        })
+      })
+     
     },
     async createTeam() {
       try {
