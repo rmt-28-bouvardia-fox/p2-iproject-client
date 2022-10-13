@@ -1,0 +1,102 @@
+<template>
+  <NavigationBar />
+  <section>
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Your Location</h1>
+        <div id="map"></div>
+      </div>
+    </div>
+    <div class="align-items-baseline">
+      <div class="row-md-6">
+        <div class="h-100 p-5 text-white bg-gradient rounded-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template v-for="(log, index) in logTransaction" :key="index">
+                <tr>
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ formattedDate(log.createdAt) }}</td>
+                  <td>{{ log.status }}</td>
+                  <td>
+                    <p v-if="log.status == 'Success'">paid off</p>
+                    <button
+                      v-if="log.status == 'Pending'"
+                      @click.prevent="payment(log.id)"
+                      class="btn btn-outline-primary"
+                    >
+                      Pay
+                    </button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapActions, mapState } from "pinia";
+import L from "leaflet"
+import { useArisanStore } from "../stores/arisan";
+import NavigationBar from "../components/navigation-bar.vue";
+import moment from "moment";
+
+export default {
+  name: "LeafletMap",
+  methods: {
+    ...mapActions(useArisanStore, ["midTrans", "payTrans", "fetchLogTrans"]),
+    async payment(id) {
+      this.payTrans(id);
+      await this.midTrans();
+      console.log(this.ott);
+      window.snap.pay(this.ott, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          alert("payment success!");
+          console.log(result);
+        },
+      });
+    },
+    formattedDate(date) {
+      const time = moment(date).format("dddd, MMMM Do YYYY");
+      return time;
+    },
+  },
+  computed: {
+    ...mapState(useArisanStore, ["ott", "logTransaction", "arisanDetail"]),
+  },
+  components: { NavigationBar },
+  created() {
+    this.fetchLogTrans();
+  },
+  async mounted() {
+    await this.fetchLogTrans()
+    var long = this.logTransaction[0].User.longtitude
+    var la = this.logTransaction[0].User.latitude
+    var map = L.map("map").setView([la, long], 20);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 20,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+    L.marker([la, long]).addTo(map)
+  },
+};
+</script>
+
+<style>
+#map {
+  height: 300px;
+}
+</style>
