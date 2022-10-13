@@ -16,9 +16,6 @@ export default {
     },
     methods: {
         ...mapActions(useUserStore, ['fetchTeam'])
-    },
-    async created() {
-        await this.fetchTeam()
     }
 }
 </script>

@@ -22,7 +22,6 @@
             <div class="row mx-5 d-flex" style="width: 60%;">
                 <RouterLink to="/login" class="col-3 btn btn-primary buttons">Sign In</RouterLink>
                 <RouterLink to="/register" class="col-3 btn btn-success buttons">Sign Up</RouterLink>
-                <button class="col-3 btn btn-danger buttons">Sign In with FB</button>
             </div>
         </div>
     </div>

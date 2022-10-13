@@ -11,9 +11,6 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['logoutAction', 'fetchTeam']),
   },
-  created() {
-    this.fetchTeam()
-  }
 }
 
 </script>

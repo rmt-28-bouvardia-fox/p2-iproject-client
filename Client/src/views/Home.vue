@@ -1,5 +1,5 @@
 <script>
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { useUserStore } from '../stores/user';
 
 export default {
@@ -9,7 +9,11 @@ export default {
   methods: {
     playHandler() {
       this.$router.push('/match')
-    }
+    },
+    ...mapActions(useUserStore, ['fetchTeam'])
+  },
+  created() {
+    this.fetchTeam()
   }
 }
 </script>

@@ -11,6 +11,7 @@ import Formation from '../views/Formation.vue'
 import Store from '../views/BuyPlayer.vue'
 import RandomBuy from '../views/randomBuy.vue'
 import Match from '../views/Match.vue'
+import OtpPage from '../views/verifyOtp.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,13 +23,18 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'loginPage',
+      name: 'login',
       component: LoginPage
     },
     {
       path: '/register',
-      name: 'registerPage',
+      name: 'register',
       component: RegisterPage
+    },
+    {
+      path: '/verifyOtp',
+      name: 'verifyOtp',
+      component: OtpPage
     },
     {
       path: '/createTeam',
@@ -76,6 +82,24 @@ const router = createRouter({
       component: Match
     }
   ]
+})
+
+router.beforeEach((to, from) => {
+  if (localStorage.access_token) {
+    if (to.name == 'login' || to.name == 'register' || to.name == 'landingPage') {
+      return '/home'
+    } 
+  }
+
+  if (!localStorage.access_token) {
+    if (to.name !== 'login' && to.name !== 'register' && to.name !== 'landingPage' && to.name !== 'verifyOtp') {
+      return '/'
+    } 
+  }
+
+  if (localStorage.team && to.name == 'createTeam') {
+    return '/home'
+  }
 })
 
 export default router

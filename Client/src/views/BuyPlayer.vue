@@ -22,16 +22,24 @@ export default {
             this.page--
             this.fetchPlayerStore()
         },
+        countTotalPage() {
+            if (this.totalFilterMovies > 0) {
+                this.totalPages = Math.ceil(this.totalFilterMovies / this.size)
+                this.isFilter = true
+            } else {
+                this.totalPages = Math.ceil(this.movies.length / this.size)
+            }
+        }
     },
     computed: {
         ...mapState(usePlayerStore, ['players', 'totalPages']),
         ...mapWritableState(usePlayerStore, ['page', 'playerSearch']),
         searchName() {
-            this.fetchPlayerStore()
+            this.fetchPlayerStore(true)
         }
     },
     created() {
-        this.fetchPlayerStore()
+        this.fetchPlayerStore(false)
         this.fetchAllPlayers()
     }
 }

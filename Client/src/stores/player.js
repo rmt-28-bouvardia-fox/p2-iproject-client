@@ -7,7 +7,7 @@ export const usePlayerStore = defineStore('player', {
         {
             players: [],
             myPlayers: [],
-            baseUrl: 'http://localhost:3000',
+            baseUrl: 'https://dreamfootball1.herokuapp.com',
             newPlayer: {},
             page: 0,
             totalPlayers: 0,
@@ -15,32 +15,60 @@ export const usePlayerStore = defineStore('player', {
             totalPages: 0,
             player: {},
             opponents: [],
-            match: {}
+            match: {},
+            showLoadingP: false,
+            totalSearchPlayers: 0
         }),
     getters: {
         doubleCount: (state) => state.count * 2,
     },
     actions: {
-        async fetchPlayerStore() {
+        async fetchPlayerStore(search) {
             try {
-                const { data } = await axios({
-                    url: `${this.baseUrl}/players?page=${this.page}&search=${this.playerSearch}`,
-                    method: 'GET',
-                    headers: {
-                        access_token: localStorage.access_token
-                    }
-                })
-                this.players = data
+                this.showLoadingP = true
+                if (search) {
+                    this.page = 1
+                    const { data } = await axios({
+                        url: `${this.baseUrl}/players?page=${this.page}&search=${this.playerSearch}`,
+                        method: 'GET',
+                        headers: {
+                            access_token: localStorage.access_token
+                        }
+                    })
+                    this.players = data
+                    const result = await axios({
+                        url: `${this.baseUrl}/players?search=${this.playerSearch}`,
+                        method: 'GET',
+                        headers: {
+                            access_token: localStorage.access_token
+                        }
+                    })
+                    this.showLoadingP = false
+                    this.totalSearchPlayers = result.data.length
+                    this.totalPages = Math.ceil(this.totalSearchPlayers / 12)
+                } else {
+                    const { data } = await axios({
+                        url: `${this.baseUrl}/players?page=${this.page}`,
+                        method: 'GET',
+                        headers: {
+                            access_token: localStorage.access_token
+                        }
+                    })
+                    this.players = data
+                    this.showLoadingP = false
+                }
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: error.response.data
+                    text: error
                 })
             }
         },
         async refresh() {
             try {
+                this.page = 0
                 const { data } = await axios({
                     url: `${this.baseUrl}/players?page=${this.page}`,
                     method: 'GET',
@@ -48,6 +76,7 @@ export const usePlayerStore = defineStore('player', {
                         access_token: localStorage.access_token
                     }
                 })
+                this.totalPages = Math.ceil(this.totalPlayers / 12)
                 this.players = data
                 this.playerSearch = ''
             } catch (error) {
@@ -79,6 +108,7 @@ export const usePlayerStore = defineStore('player', {
         },
         async fetchMyPlayers() {
             try {
+                this.showLoadingP = true
                 const { data } = await axios({
                     url: `${this.baseUrl}/players/myPlayers`,
                     method: 'GET',
@@ -87,7 +117,9 @@ export const usePlayerStore = defineStore('player', {
                     }
                 })
                 this.myPlayers = data
+                this.showLoadingP = false
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -106,6 +138,7 @@ export const usePlayerStore = defineStore('player', {
                     confirmButtonText: `Yes, I'm sure!`
                 })
                 if (result.isConfirmed) {
+                    this.showLoadingP = true
                     const { data } = await axios({
                         url: `${this.baseUrl}/players/${id}`,
                         method: 'POST',
@@ -121,7 +154,9 @@ export const usePlayerStore = defineStore('player', {
                         timer: 1800
                     })
                 }
+                this.showLoadingP = false
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -131,6 +166,7 @@ export const usePlayerStore = defineStore('player', {
         },
         async randomBuy() {
             try {
+                this.showLoadingP = true
                 const { data } = await axios({
                     url: `${this.baseUrl}/players/randomBuy`,
                     method: 'POST',
@@ -145,7 +181,9 @@ export const usePlayerStore = defineStore('player', {
                     showConfirmButton: false,
                     timer: 1800
                 })
+                this.showLoadingP = false
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -155,6 +193,7 @@ export const usePlayerStore = defineStore('player', {
         },
         async sellPlayer(id) {
             try {
+                this.showLoadingP = true
                 let result = await Swal.fire({
                     title: 'Are you sure sell this player ?',
                     icon: 'warning',
@@ -171,6 +210,7 @@ export const usePlayerStore = defineStore('player', {
                             access_token: localStorage.access_token
                         }
                     })
+                    this.showLoadingP = false
                     this.router.push('/myPlayers')
                     this.fetchMyPlayers()
                     Swal.fire({
@@ -182,6 +222,7 @@ export const usePlayerStore = defineStore('player', {
                     })
                 }
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -191,6 +232,7 @@ export const usePlayerStore = defineStore('player', {
         },
         async findOnePlayer(id) {
             try {
+                this.showLoadingP = true
                 const { data } = await axios({
                     url: `${this.baseUrl}/players/myPlayers/${id}`,
                     method: 'GET',
@@ -200,7 +242,9 @@ export const usePlayerStore = defineStore('player', {
                 })
                 this.player = data
                 this.router.push(`/playerDetail/${id}`)
+                this.showLoadingP = false
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -210,6 +254,7 @@ export const usePlayerStore = defineStore('player', {
         },
         async fetchOpponents() {
             try {
+                this.showLoadingP = true
                 const { data } = await axios({
                     url: `${this.baseUrl}/opponents`,
                     method: 'GET',
@@ -218,7 +263,9 @@ export const usePlayerStore = defineStore('player', {
                     }
                 })
                 this.opponents = data
+                this.showLoadingP = false
             } catch (error) {
+                his.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -237,53 +284,29 @@ export const usePlayerStore = defineStore('player', {
                     confirmButtonText: `Yes, I'm sure!`
                 })
                 if (result.isConfirmed) {
-                    let timerInterval = 0
-                    Swal.fire({
-                        title: 'Match in progress!',
-                        width: 800,
-                        background: '#fff url(/ images / trees.png)',
-                        backdrop: `
-                                rgba(0,0,0,0.7)
-                                url("/images/nyan-cat.gif")
-                                left top
-                                no-repeat
-                            `,
-                        imageUrl: 'https://news.motability.co.uk/wp-content/uploads/2017/09/thumbnail-6a7a7e916f7922880d413497f8f79362-1140x618.jpeg',
-                        imageHeight: 400,
-                        html: 'Match will end in <b></b> milliseconds.',
-                        timer: 4000,
-                        timerProgressBar: true,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                                b.textContent = Swal.getTimerLeft()
-                            }, 100)
-                        },
-                        willClose: async () => {
-                            clearInterval(timerInterval)
-                            const { data } = await axios({
-                                url: `${this.baseUrl}/opponents/${id}`,
-                                method: 'GET',
-                                headers: {
-                                    access_token: localStorage.access_token
-                                }
-                            })
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: data.result,
-                                showConfirmButton: false,
-                                timer: 1500,
-                                text: data.score
-                            })
-                            this.match.result = data.result
-                            this.match.score = data.score
+                    this.showLoadingP = true
+                    const { data } = await axios({
+                        url: `${this.baseUrl}/opponents/${id}`,
+                        method: 'GET',
+                        headers: {
+                            access_token: localStorage.access_token
                         }
                     })
+
+                    setTimeout(() =>{
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title:'Score: ' + data.score,
+                            showConfirmButton: false,
+                            timer: 2300,
+                            text: data.message
+                        })
+                        this.showLoadingP = false
+                    }, 4000);
                 }
             } catch (error) {
+                this.showLoadingP = false
                 Swal.fire({
                     icon: 'error',
                     title: `Cannot play`,

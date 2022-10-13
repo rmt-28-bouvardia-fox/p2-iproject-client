@@ -6,13 +6,16 @@ import {
 import {
     usePlayerStore
 } from '../stores/player';
+import { useUserStore } from '../stores/user';
 
 export default {
     methods: {
-        ...mapActions(usePlayerStore, ['fetchOpponents', 'playGame'])
+        ...mapActions(usePlayerStore, ['fetchOpponents', 'playGame']),
+        ...mapActions(useUserStore, ['fetchTeam'])
     },
     created() {
         this.fetchOpponents()
+        this.fetchTeam()
     },
     computed: {
         ...mapState(usePlayerStore, ['opponents'])
