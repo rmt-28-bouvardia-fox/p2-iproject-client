@@ -23,7 +23,6 @@ export default {
         <div class="col-8 mx-4 mt-4" style="">
             <p><b>Club Name:</b> {{myTeam.name}}</p>
             <p><b>Total Players:</b> {{totalPlayers}} players</p>
-            <p><b>Overall Rating:</b> 8.5</p>
             <p><b>Play:</b> {{myTeam.plays}}</p>
             <p><b>Win:</b> {{myTeam.wins}}</p>
             <p><b>Money:</b> $ {{myTeam.money}}</p>
