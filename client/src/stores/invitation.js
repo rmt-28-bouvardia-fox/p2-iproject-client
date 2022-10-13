@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useInvitationStore = defineStore({
   id: "invitation",
   state: () => ({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://iproject-wedding-invitation.herokuapp.com",
     groomName: "",
     fatherGroom: "",
     motherGroom: "",
