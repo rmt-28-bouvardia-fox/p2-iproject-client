@@ -30,6 +30,7 @@ export const useUserStore = defineStore('user', {
       localStorage.setItem('email',data.email)
       localStorage.setItem('status',data.status)
       localStorage.setItem('id',data.id)
+      localStorage.setItem('img',data.img)
       this.isLogin = true
       this.router.push('/')
       this.loginData.email = ''
