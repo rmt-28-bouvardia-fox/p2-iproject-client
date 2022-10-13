@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +6,39 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('../views/home.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/login.vue')
+    },
+    {
+      path:'/register',
+      name:'register',
+      component: () => import('../views/register.vue')
+    },
+    {
+      path:'/:pathMatch(.*)*',
+      name:'notFound',
+      component: () => import('../views/notFound.vue')
     }
   ]
+})
+
+router.beforeEach((to,from) => {
+
+  if(to.name == 'login' && localStorage.access_token){
+    return({name:'home'})
+  }
+
+  if(to.name == 'register' && localStorage.access_token){
+    return({name:'home'})
+  }
+
+  if(to.name == 'home' && !localStorage.access_token){
+    return({name:'login'})
+  }
 })
 
 export default router
