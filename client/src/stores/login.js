@@ -13,8 +13,6 @@ export const useLoginStore = defineStore("login", {
           data: this.login,
         });
 
-        console.log(data);
-
         const { access_token, status } = data;
 
         localStorage.setItem("subscriber", status);
