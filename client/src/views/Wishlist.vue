@@ -1,12 +1,10 @@
 <script>
 import { mapActions, mapState } from "pinia";
-// import GameCard from "../components/GameCard.vue";
 import { useAppStore } from "@/stores/user";
 
 export default {
   created() {
     this.fetchWishList();
-    // console.log(this.wishlist);
   },
   computed: {
     ...mapState(useAppStore, ["wishlist", "rows"]),

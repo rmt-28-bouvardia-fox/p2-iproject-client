@@ -13,9 +13,7 @@ export default {
   components: {
     GameCard,
   },
-  created() {
-    // this.fetchGames();
-  },
+  created() {},
   computed: {
     ...mapState(useAppStore, ["games", "rows"]),
   },
@@ -38,7 +36,6 @@ export default {
       }
     },
     submitSearch() {
-      //   console.log(this.title);
       this.fetchGames(this.title);
     },
   },
@@ -49,24 +46,6 @@ export default {
   <div class="container mt-3">
     <h1 class="text-center text-light">Search Game Here</h1>
     <div class="row mt-3">
-      <!-- <div>
-        <div class="pagination mx-5">
-          <button @click="previousButton" class="btn page-link">
-            Previous
-          </button>
-          <span
-            v-for="(item, idx) in new Array(
-              Math.ceil(this.rows / this.perPage)
-            )"
-            :key="idx"
-          >
-            <button @click="handlePageChange(idx + 1)" class="btn page-link">
-              {{ idx + 1 }}
-            </button>
-          </span>
-          <button @click="nextButton" class="btn page-link">Next</button>
-        </div>
-      </div> -->
       <form
         class="d-flex mx-5 mb-5"
         role="search"

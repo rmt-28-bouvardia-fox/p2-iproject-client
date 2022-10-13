@@ -16,7 +16,6 @@ export const useAppStore = defineStore("app", {
   getters: {},
   actions: {
     async login(payload) {
-      console.log(payload);
       try {
         const data = await axios({
           method: "post",
@@ -27,6 +26,13 @@ export const useAppStore = defineStore("app", {
         localStorage.setItem("access_token", data.data.access_token);
         this.isLogin = true;
         this.router.push("/");
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: `Success login`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -40,6 +46,13 @@ export const useAppStore = defineStore("app", {
           data: payload,
         });
         this.router.push("/login");
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: `Success register`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -60,7 +73,6 @@ export const useAppStore = defineStore("app", {
       }
     },
     async addWishList(value) {
-      // console.log(value);
       try {
         const data = await axios({
           method: "post",
@@ -70,6 +82,14 @@ export const useAppStore = defineStore("app", {
           },
           data: value,
         });
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: `Success add to wishlist!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.router.push("/wishlist");
       } catch (error) {
         console.log(error);
       }
@@ -84,7 +104,6 @@ export const useAppStore = defineStore("app", {
             access_token: localStorage.access_token,
           },
         });
-        console.log(data);
         this.wishlist = data.data;
       } catch (error) {
         console.log(error);
@@ -101,7 +120,13 @@ export const useAppStore = defineStore("app", {
           },
         });
         this.fetchWishList();
-        console.log(data);
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: `Success remove wishlist!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -115,7 +140,6 @@ export const useAppStore = defineStore("app", {
             access_token: localStorage.access_token,
           },
         });
-        // console.log(data.data.dataGame);
         this.gameTitle = data.data.dataGame.external;
         this.gameUrl = data.data.dataGame.thumb;
         const currency = await axios({
@@ -134,7 +158,6 @@ export const useAppStore = defineStore("app", {
     },
 
     async payment(price) {
-      console.log(price);
       try {
         const data = await axios({
           method: "get",
@@ -143,7 +166,6 @@ export const useAppStore = defineStore("app", {
             access_token: localStorage.access_token,
           },
         });
-        console.log(data.data.transactionToken);
         this.transactionToken = data.data.transactionToken;
       } catch (error) {
         console.log(error);
@@ -151,7 +173,6 @@ export const useAppStore = defineStore("app", {
     },
 
     async addOrder(payload) {
-      console.log(payload);
       try {
         const data = await axios({
           method: "post",
@@ -161,7 +182,6 @@ export const useAppStore = defineStore("app", {
           },
           data: payload,
         });
-        console.log(data);
       } catch (error) {
         console.log(error);
       }

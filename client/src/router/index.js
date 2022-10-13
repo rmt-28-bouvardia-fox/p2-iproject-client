@@ -34,13 +34,6 @@ router.beforeEach((to, from) => {
   if (to.name == "checkout" && !localStorage.access_token) {
     return "/login";
   }
-  // if (to.name == "login" && !localStorage.access_token) {
-  //   return "/login";
-  // }
-
-  // if (to.name == "register" && !localStorage.access_token) {
-  //   return "/register";
-  // }
 });
 
 export default router;

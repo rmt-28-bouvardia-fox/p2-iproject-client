@@ -48,9 +48,6 @@ export default {
 <template>
   <nav class="navbar navbar-expand-lg sticky-top bg-dark navbar-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"
-        ><img src="../assets/icons8-netflix.svg" alt=""
-      /></a>
       <button
         class="navbar-toggler"
         type="button"
