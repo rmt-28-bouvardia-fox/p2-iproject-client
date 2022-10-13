@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import TemplateView from '../views/TemplateView.vue'
 import CreateView from '../views/CreateView.vue'
 import FinalView from '../views/FinalView.vue'
+import NotFound from '../views/NotFound.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,7 @@ const router = createRouter({
       name: 'final',
       component: FinalView
     },
+    { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   ]
 })
 
