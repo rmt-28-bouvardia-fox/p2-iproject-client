@@ -9,7 +9,7 @@ export default {
     CardListSearch,
   },
   computed: {
-    ...mapWritableState(useBidStore, ["sellingBids", "searchNotFound"]),
+    ...mapWritableState(useBidStore, ["sellingBids", "searchNotFound", "listLoader"]),
   },
   methods: {
     ...mapActions(useBidStore, ["sellingBid", "clearQuery"]),
@@ -32,5 +32,6 @@ export default {
     :searchNotFound="searchNotFound"
     :cardList="sellingBids"
     :listType="'selling'"
+    :listLoader="listLoader"
   />
 </template>

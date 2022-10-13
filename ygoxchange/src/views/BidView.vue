@@ -3,9 +3,11 @@ import { mapActions, mapState } from "pinia";
 import { useBidStore } from "@/stores/bid.js";
 import { useUserStore } from "@/stores/user.js";
 import CustomButton from "@/components/CustomButton.vue";
+import CardSpinningLoader from "@/components/CardSpinningLoader.vue";
 export default {
   components: {
     CustomButton,
+    CardSpinningLoader
   },
   data() {
     return {
@@ -87,6 +89,11 @@ export default {
 </script>
 
 <template>
+  <div v-if="bidPageLoader" class="fixed top-0 left-0 w-screen h-screen z-[999] bg-goldTheme/90" >
+    <div class="absolute top-1/2 left-1/2 mr-[-50%] translate-x-[-50%] translate-y-[-50%]">
+      <CardSpinningLoader />
+    </div>
+  </div>
   <div v-if="!bidPageLoader" class="pb-[10vh] md:flex">
     <div class="md:mr-5 md:w-1/2 flex justify-center">
       <img

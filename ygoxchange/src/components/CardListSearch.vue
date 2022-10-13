@@ -1,12 +1,15 @@
 <script>
+import CardList from "@/components/CardList.vue";
+import CardSpinningLoader from "@/components/CardSpinningLoader.vue";
 import CardItemSearch from "../components/CardItemSearch.vue";
 import CustomButton from "@/components/CustomButton.vue";
 export default {
-  props: ["cardList", "searchNotFound", "searchQuery", "listType", "currency"],
+  props: ["cardList", "searchNotFound", "searchQuery", "listType", "currency", "listLoader"],
   emits: ["prevHandler", "nextHandler", "handlePrimary", "handleSecondary"],
   components: {
     CardItemSearch,
     CustomButton,
+    CardSpinningLoader,
   },
   methods: {
     prevHandler() {
@@ -30,6 +33,9 @@ export default {
     v-if="listType == 'addBid' || listType == 'database'"
     class="bg-lightGreyTheme border-1 rounded-lg px-24 py-8"
   >
+    <div class="flex justify-center items-center">
+      <CardSpinningLoader v-if="listLoader" />
+    </div>
     <div v-if="searchNotFound" class="text-center">Card not found</div>
     <div v-if="!searchNotFound">
       <CardItemSearch
@@ -60,6 +66,9 @@ export default {
     </div>
   </div>
   <div v-else class="bg-lightGreyTheme border-1 rounded-lg px-24 py-8">
+    <div class="flex justify-center items-center">
+      <CardSpinningLoader v-if="listLoader" />
+    </div>
     <CardItemSearch
       v-for="card in cardList"
       :listType="listType"
@@ -68,8 +77,6 @@ export default {
       @handlePrimary="handlePrimary"
       @handleSecondary="handleSecondary"
     />
-    <div v-if="searchNotFound" class="text-center">
-      No item available
-    </div>
+    <div v-if="searchNotFound" class="text-center">No item available</div>
   </div>
 </template>

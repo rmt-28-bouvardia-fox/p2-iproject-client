@@ -9,7 +9,7 @@ export default {
     CardListSearch,
   },
   computed: {
-    ...mapWritableState(useBidStore, ["winningBids", "searchNotFound"]),
+    ...mapWritableState(useBidStore, ["winningBids", "searchNotFound", "listLoader"]),
   },
   methods: {
     ...mapActions(useBidStore, ["winningBid", "payment", "clearQuery"]),
@@ -28,6 +28,7 @@ export default {
       :cardList="winningBids"
       :listType="'winning'"
       :searchNotFound="searchNotFound"
+      :listLoader="listLoader"
       @handlePrimary="payment"
     />
   </div>

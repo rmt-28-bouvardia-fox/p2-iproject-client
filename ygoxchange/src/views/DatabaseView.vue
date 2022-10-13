@@ -93,7 +93,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useBidStore, ["currency", "searchNotFound", "searchCardList"]),
+    ...mapState(useBidStore, ["currency", "searchNotFound", "searchCardList", "listLoader"]),
     ...mapWritableState(useBidStore, ["searchCard", "searchQuery"]),
   },
   methods: {
@@ -179,6 +179,7 @@ export default {
         :searchNotFound="searchNotFound"
         :searchQuery="searchQuery"
         :listType="'database'"
+        :listLoader="listLoader"
         @nextHandler="searchCardNextHandler"
         @prevHandler="searchCardPrevHandler"
       />

@@ -44,6 +44,8 @@ export const useBidStore = defineStore("bid", {
     bids: [],
     bid: {},
     bidPageLoader: false,
+    mainLoader: false,
+    listLoader: false,
     searchCardList: [],
     searchNotFound: false,
     searchQuery: {
@@ -129,10 +131,12 @@ export const useBidStore = defineStore("bid", {
 
         return cards.data;
       } catch (error) {
+        this.mainLoader = false;
         swal.errorHandler(error);
       }
     },
     async onBidsChange(snapshot) {
+      this.mainLoader = true;
       if (!snapshot.val()) {
         return;
       }
@@ -174,8 +178,10 @@ export const useBidStore = defineStore("bid", {
       });
 
       this.bids = newBids;
+      this.mainLoader = false;
     },
     async searchCard() {
+      this.listLoader = true;
       const swal = useSwalStore();
       this.searchNotFound = false;
       const { num, page, query, type, attribute, race } = this.searchQuery;
@@ -210,9 +216,12 @@ export const useBidStore = defineStore("bid", {
         } else {
           swal.errorHandler(error);
         }
+      } finally {
+        this.listLoader = false;
       }
     },
     async winningBid() {
+      this.listLoader = true;
       const swal = useSwalStore();
       try {
         const { data } = await api({
@@ -228,7 +237,9 @@ export const useBidStore = defineStore("bid", {
           this.searchNotFound = true;
         } else {
           swal.errorHandler(error);
-        }
+        } 
+      } finally {
+        this.listLoader = false;
       }
     },
     async payment(payload) {
@@ -280,6 +291,7 @@ export const useBidStore = defineStore("bid", {
       }
     },
     async sellingBid() {
+      this.listLoader = true;
       const swal = useSwalStore();
       try {
         const { data } = await api({
@@ -296,6 +308,8 @@ export const useBidStore = defineStore("bid", {
         } else {
           swal.errorHandler(error);
         }
+      } finally {
+        this.listLoader = false;
       }
     },
     clearQuery() {

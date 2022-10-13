@@ -24,7 +24,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useBidStore, ["currency"]),
+    ...mapState(useBidStore, ["currency", "listLoader"]),
     ...mapWritableState(useBidStore, [
       "searchQuery",
       "searchNotFound",
@@ -119,6 +119,7 @@ export default {
       :searchQuery="searchQuery"
       :currency="currency"
       :listType="'addBid'"
+      :listLoader="listLoader"
       @nextHandler="searchCardNextHandler"
       @prevHandler="searchCardPrevHandler"
       @handlePrimary="selectCard"
