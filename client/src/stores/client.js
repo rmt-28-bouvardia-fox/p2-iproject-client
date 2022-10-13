@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const useClientStore = defineStore('client',  {
     state : () => ({
-        basedUrl : `http://localhost:3002`,
+        basedUrl : `https://cryptic-waters-99430.herokuapp.com`,
         isLoggedIn : localStorage.access_token ? true : false,
         user : {}
     }),
@@ -31,6 +31,7 @@ export const useClientStore = defineStore('client',  {
                     method : 'post',
                     data : inputBody
                 })
+                Swal.fire('Your account has been Created!')
                 this.router.push('/login')
             } catch (error) {
                 Swal.fire(error.response.data.message)

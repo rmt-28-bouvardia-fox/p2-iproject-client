@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const useCounterStore = defineStore('counter',  {
   state : () => ({
-    basedUrl : `http://localhost:3002`,
+    basedUrl : `https://cryptic-waters-99430.herokuapp.com`,
     comics : [],
     comic : {},
     page : 1,
