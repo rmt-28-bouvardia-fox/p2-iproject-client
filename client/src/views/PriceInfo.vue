@@ -1,21 +1,28 @@
 <script>
-import { mapActions, mapState } from 'pinia';
-import { useAppStore } from '../stores/app';
+import { mapActions, mapState } from "pinia";
+import { useAppStore } from "../stores/app";
 
 export default {
-    computed: {
-        ...mapState(useAppStore, ['PriceInfo'])
+  data() {
+    return {
+      form: {
+        search: "",
+      },
+    };
+  },
+  computed: {
+    ...mapState(useAppStore, ["PriceInfo"]),
+  },
+  created() {
+    this.comodityPrice();
+  },
+  methods: {
+    ...mapActions(useAppStore, ["comodityPrice"]),
+    async handleSearch() {
+      this.comodityPrice(this.form.search? this.form.search : '');
     },
-    created(){
-        this.comodityPrice()
-    },
-    methods: {
-        ...mapActions(useAppStore, ['comodityPrice']),
-       async handleSearch() {
-        
-        }
-    }
-}
+  },
+};
 </script>
 
 <template>
@@ -26,10 +33,10 @@ export default {
     <br />
     <div class="row md-6">
       <div class="container d-flex justify-content-center">
-        <form>
+        <form @submit.prevent="handleSearch">
           <div class="mb-3">
             <label class="form-label">Comodity Search:</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" v-model="form.search" />
             <div id="emailHelp" class="form-text">
               (please use Capitalize, ex: "Daging Ayam")
             </div>
@@ -48,10 +55,10 @@ export default {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+          <tr v-for="(info, idx) in PriceInfo" :key="idx" >
+            <th scope="row">{{idx + 1}}</th>
+            <td>{{info.name}}</td>
+            <td>{{info.display}}</td>
           </tr>
         </tbody>
       </table>

@@ -222,8 +222,21 @@ export const useAppStore = defineStore("app", {
         Swal.fire(error.response.data.message);
       }
     },
-    async comodityPrice() {
-
+    async comodityPrice(payload) {
+      // console.log(payload)
+      try {
+        const {data}  = await axios({
+          method: 'get',
+          url: this.baseUrl + `/mainComodity?search=${payload}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.PriceInfo = data
+        console.log(data)
+      } catch (error) {
+        Swal.fire(error.response.data.message);
+      }
     }
   },
 });
