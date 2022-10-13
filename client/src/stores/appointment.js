@@ -106,6 +106,38 @@ export const useAppointmentStore = defineStore("appointment", {
         this.isLoading = false;
       }
     },
+    async handleCredentialResponse(response) {
+      this.isLoading = true;
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + "/patients/google-sign-in",
+          method: "post",
+          headers: {
+            google_token: response.credential,
+          },
+        });
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("role", "Patient")
+        this.role = "Patient";
+        this.isLogin = true;
+        this.router.push("/");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login success!",
+          toast: true,
+          iconColor: "#4fc3f7",
+          timerProgressBar: true,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } catch (error) {
+        console.log(error)
+        this.errorHandler(error.response.data.message);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     logoutHandler() {
       Swal.fire({
         title: "Are you sure want to log out?",
