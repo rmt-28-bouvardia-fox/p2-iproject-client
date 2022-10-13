@@ -26,13 +26,10 @@
                 </RouterLink>
             </li>
             <li>
-                <RouterLink to="#">Home</RouterLink>
+                <RouterLink @click.prevent="changePage('list')" to="#">Home</RouterLink>
             </li>
             <li>
                 <RouterLink @click.prevent="changePage('music')" to="#">Play</RouterLink>
-            </li>
-            <li>
-                <RouterLink @click.prevent="changePage('list')" to="#">My List</RouterLink>
             </li>
             <li>
                 <RouterLink @click.prevent="logOut" to="#">Log Out</RouterLink>
