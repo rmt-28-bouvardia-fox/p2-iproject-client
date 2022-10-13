@@ -140,7 +140,11 @@ export const useMusicStore = defineStore('music',{
         })
         this.tracks = data
       } catch (err) {
-        console.log(err)
+        Swal.fire({
+          icon:"error",
+          title:"Oops...",
+          text:`${err.response.data.message}`
+        })
       }
     }
   }
