@@ -19,7 +19,11 @@ export default {
       "fetchCategoryNews",
       "fetchInternationalCategory",
     ]),
-    ...mapActions(useNewsStore, ["getTransactionToken", "subscribe"]),
+    ...mapActions(useNewsStore, [
+      "getTransactionToken",
+      "subscribe",
+      "sendMail",
+    ]),
     fetchCategory(value) {
       if (localStorage.subscriber === "subscriber") {
         this.fetchCategoryNews(value);
@@ -33,10 +37,12 @@ export default {
       await this.getTransactionToken(orderId);
 
       const cb = this.subscribe;
+      const cb2 = this.sendMail;
 
       window.snap.pay(this.transacToken, {
         onSuccess: function () {
           cb();
+          cb2();
         },
         onPending: function () {},
         onError: function () {},

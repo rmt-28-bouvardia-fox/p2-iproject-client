@@ -69,15 +69,32 @@ export const useNewsStore = defineStore("news", {
       }
     },
     async subscribe() {
-      await axios({
-        url: "https://hacktive-times.herokuapp.com/news/status",
-        method: "patch",
-        headers: {
-          access_token: localStorage.access_token,
-        },
-      });
+      try {
+        await axios({
+          url: "https://hacktive-times.herokuapp.com/news/status",
+          method: "patch",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
       localStorage.setItem("subscriber", "subscriber");
+    },
+    async sendMail() {
+      try {
+        await axios({
+          url: "https://hacktive-times.herokuapp.com/news/mail",
+          method: "post",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });
