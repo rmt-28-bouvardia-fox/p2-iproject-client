@@ -7,8 +7,8 @@ import FormPatientDetail from "../views/FormPatientDetail.vue";
 import FormAppointment from "../views/FormAppointment.vue";
 import FormConsultReport from "../views/FormConsultReport.vue";
 import AppointmentList from "../views/AppointmentList.vue";
-import DoctorList from "../views/DoctorList.vue"
-import Swal from 'sweetalert2'
+import DoctorList from "../views/DoctorList.vue";
+import Swal from "sweetalert2";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -60,7 +60,10 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, from, next) => {
-  if ((to.name === 'LoginPage' || to.name === 'RegisterPage') && localStorage.access_token){
+  if (
+    (to.name === "LoginPage" || to.name === "RegisterPage") &&
+    localStorage.access_token
+  ) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
@@ -68,8 +71,13 @@ router.beforeEach((to, from, next) => {
       background: "#e3f2fd",
       confirmButtonColor: "#4fc3f7",
     });
-    next({ name: 'HomePage' })
-  } else if ((to.name === 'PatientDetail' || to.name === 'FormPatientDetail' || to.name === 'FormAppointment') && localStorage.role === 'Doctor') {
+    next({ name: "HomePage" });
+  } else if (
+    (to.name === "PatientDetail" ||
+      to.name === "FormPatientDetail" ||
+      to.name === "FormAppointment") &&
+    localStorage.role === "Doctor"
+  ) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
@@ -77,8 +85,11 @@ router.beforeEach((to, from, next) => {
       background: "#e3f2fd",
       confirmButtonColor: "#4fc3f7",
     });
-    next({ name: 'HomePage' })
-  } else if ((to.name === 'FormConsultReport' || to.name === 'AppointmentList') && localStorage.role === 'Patient') {
+    next({ name: "HomePage" });
+  } else if (
+    (to.name === "FormConsultReport" || to.name === "AppointmentList") &&
+    localStorage.role === "Patient"
+  ) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
@@ -86,9 +97,9 @@ router.beforeEach((to, from, next) => {
       background: "#e3f2fd",
       confirmButtonColor: "#4fc3f7",
     });
-    next({ name: 'HomePage' })
+    next({ name: "HomePage" });
   } else {
-    next()
+    next();
   }
-})
+});
 export default router;

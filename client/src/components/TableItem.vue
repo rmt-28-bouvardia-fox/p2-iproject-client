@@ -22,10 +22,13 @@ export default {
     },
     formatPrice() {
       if (this.appointment.ConsultationReport.cost) {
-        return this.appointment.ConsultationReport.cost.toLocaleString("id-ID", {
-          style: "currency",
-          currency: "IDR",
-        });
+        return this.appointment.ConsultationReport.cost.toLocaleString(
+          "id-ID",
+          {
+            style: "currency",
+            currency: "IDR",
+          }
+        );
       } else {
         return "";
       }
@@ -38,13 +41,16 @@ export default {
       this.$router.push("/consultReports");
     },
     payBill() {
-      this.midtransHandler(this.appointment.id, this.appointment.ConsultationReport.cost)
-    }
+      this.midtransHandler(
+        this.appointment.id,
+        this.appointment.ConsultationReport.cost
+      );
+    },
   },
 };
 </script>
 <template>
-  <tr class="border-b border-sky-900" v-if="appointment">
+  <tr class="border-b border-sky-900 font-semibold" v-if="appointment">
     <td>{{ index + 1 }}</td>
     <td>{{ appointment.chiefComplaint }}</td>
     <td>{{ formatDate }}</td>
@@ -58,15 +64,29 @@ export default {
     </td>
     <td>
       <span v-if="appointment.ConsultationReport">
-        {{ appointment.ConsultationReport.needSurgicalAction }}
+        <i
+          class="fi fi-rr-check"
+          v-if="appointment.ConsultationReport.needSurgicalAction === true"
+        ></i>
+        <i
+          class="fi fi-rr-cross"
+          v-if="appointment.ConsultationReport.needSurgicalAction === false"
+        ></i>
       </span>
     </td>
     <td>
       <span v-if="appointment.ConsultationReport">
-        {{ appointment.ConsultationReport.needMedicalDrug }}
+        <i
+          class="fi fi-rr-check"
+          v-if="appointment.ConsultationReport.needMedicalDrug === true"
+        ></i>
+        <i
+          class="fi fi-rr-cross"
+          v-if="appointment.ConsultationReport.needMedicalDrug === false"
+        ></i>
       </span>
     </td>
-    <td >
+    <td>
       <span v-if="appointment.ConsultationReport">
         {{ formatPrice }}
       </span>
@@ -76,22 +96,31 @@ export default {
         {{ appointment.status }}
       </span>
       <span v-if="appointment.status === 'Complete'">
-        <button @click.prevent="payBill" class="text-slate-900 bg-rose-300 hover:bg-rose-400 rounded p-1 shadow-lg">Pay
-          Hospital Bill</button>
+        <button
+          @click.prevent="payBill"
+          class="text-slate-900 bg-rose-300 hover:bg-rose-400 rounded p-1 shadow-lg"
+        >
+          Pay Hospital Bill
+        </button>
       </span>
     </td>
   </tr>
-  <tr class="border-b border-sky-900" v-if="doctorAppointment">
+  <tr class="border-b border-sky-900 font-semibold" v-if="doctorAppointment">
     <td>{{ index + 1 }}</td>
     <td>{{ doctorAppointment.Patient.PatientDetail.name }}</td>
     <td>{{ doctorAppointment.chiefComplaint }}</td>
     <td>{{ formatDate }}</td>
-    <div v-if="doctorAppointment.status == 'Uncomplete'">
-      <td class="flex justify-center">
-        <button class="p-0.5 rounded-lg shadow-md bg-sky-700" @click.prevent="createConsultReport">
-          <span class="text-neutral-200">Start Appointment</span>
-        </button>
-      </td>
-    </div>
+    <td class="flex justify-center">
+      <button
+        v-if="doctorAppointment.status == 'Uncomplete'"
+        class="p-0.5 rounded-lg shadow-md bg-sky-700"
+        @click.prevent="createConsultReport"
+      >
+        <span class="text-neutral-200">Start Appointment</span>
+      </button>
+      <span v-if="doctorAppointment.status != 'Uncomplete'">{{
+        doctorAppointment.status
+      }}</span>
+    </td>
   </tr>
 </template>

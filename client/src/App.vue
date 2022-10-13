@@ -2,11 +2,11 @@
 import { mapActions, mapWritableState } from "pinia";
 import { useAppointmentStore } from "./stores/appointment";
 import NavBar from "./components/NavBar.vue";
-import PreLoader from "./components/PreLoader.vue"
+import PreLoader from "./components/PreLoader.vue";
 export default {
   components: {
     NavBar,
-    PreLoader
+    PreLoader,
   },
   computed: {
     ...mapWritableState(useAppointmentStore, ["isLogin", "isLoading", "role"]),
@@ -15,10 +15,10 @@ export default {
     ...mapActions(useAppointmentStore, ["fetchDoctors"]),
   },
   created() {
+    this.fetchDoctors();
     if (localStorage.access_token) {
       this.isLogin = true;
-      this.fetchDoctors();
-      this.role = localStorage.role
+      this.role = localStorage.role;
     }
   },
 };
