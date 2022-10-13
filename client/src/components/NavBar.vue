@@ -19,30 +19,29 @@ export default {
 };
 </script>
 <template>
-  <section class="container mx-auto">
+  <section class="container mx-auto pt-2">
     <div class="flex justify-between h-10 rounded-b-sm">
-      <div class="mx-auto flex flex-1 max-w-10">
+      <div class="flex mx-auto ">
         <img
-          src="../assets/givenchy-4.svg"
+          src="../assets/pngegg3.png"
           alt="Logo"
-          style="max-width: 150px"
-          class="px-2"
         />
+        <span class="text-sm sm:text-lg lg:text-2xl font-semibold rounded-sm p-1 text-sky-600 italic">YULJE Medical Center</span> 
       </div>
       <div class="mx-auto flex items-center pr-5">
         <div
-          class="mx-4 text-sm sm:text-lg font-semibold text-sky-600 hover:underline decoration-slate-400 rounded-sm p-1"
+          class="mx-4 text-sm sm:text-xl font-semibold text-sky-600 hover:underline decoration-slate-400 rounded-sm p-1"
         >
           <RouterLink to="/">Home</RouterLink>
         </div>
         <div
-          class="mx-4 text-sm sm:text-lg font-semibold text-sky-900 hover:underline decoration-slate-400 rounded-sm p-1"
+          class="mx-4 text-sm sm:text-xl font-semibold text-sky-900 hover:underline decoration-slate-400 rounded-sm p-1"
         >
           <RouterLink to="/doctors">Doctors</RouterLink>
         </div>
         <div
           v-if="!isLogin"
-          class="mx-4 text-sm sm:text-lg font-semibold text-slate-700 hover:underline decoration-slate-400 rounded-sm p-1"
+          class="mx-4 text-sm sm:text-xl font-semibold text-slate-700 hover:underline decoration-slate-400 rounded-sm p-1"
         >
           <RouterLink to="/login">Login</RouterLink>
         </div>
