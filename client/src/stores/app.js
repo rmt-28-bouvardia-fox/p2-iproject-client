@@ -10,6 +10,7 @@ export const useAppStore = defineStore("app", {
     bidLists: [],
     product: {},
     transaction_token: "",
+    PriceInfo: []
   }),
   getters: {},
   actions: {
@@ -221,5 +222,8 @@ export const useAppStore = defineStore("app", {
         Swal.fire(error.response.data.message);
       }
     },
+    async comodityPrice() {
+
+    }
   },
 });

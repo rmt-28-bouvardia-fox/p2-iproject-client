@@ -44,8 +44,8 @@ export default {
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#"
-              >Analytic Prices</a
+            <RouterLink class="nav-link active" aria-current="page" to="/priceinfo"
+              >Analytic Prices</RouterLink
             >
           </li>
         </ul>
