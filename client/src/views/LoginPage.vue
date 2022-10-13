@@ -1,8 +1,12 @@
 <script>
 import { mapActions } from "pinia";
 import { useAppointmentStore } from "../stores/appointment";
+import GoogleButton from "../components/GoogleButton.vue"
 export default {
   name: "LoginPage",
+  components: {
+    GoogleButton
+  },
   data() {
     return {
       loginData: {
@@ -104,9 +108,9 @@ export default {
         <div class="text-center text-md font-semibold md:mb-4">
           <h1>Or Sign In with Google</h1>
         </div>
-        <!-- <div class="mb-4 justify-center">
+        <div class="mb-4 justify-center">
           <GoogleButton />
-        </div> -->
+        </div>
         <div class="text-center text-md md:text-2xl font-semibold md:mb-2">
           <h1>New Patient</h1>
         </div>
