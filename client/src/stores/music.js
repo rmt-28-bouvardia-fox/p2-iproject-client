@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 
 export const useMusicStore = defineStore('music',{
     state: () => ({
-        url:`http://localhost:3000`,
+        url:`https://iprojectmusic.herokuapp.com`,
         audio:'',
         circleLeft:'',
         bandwith:'',

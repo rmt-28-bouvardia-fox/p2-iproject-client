@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', {
       email:'',
       password:''
     },
-    url:`http://localhost:3000`,
+    url:`https://iprojectmusic.herokuapp.com`,
     page:'list',
     img:''
   }),
