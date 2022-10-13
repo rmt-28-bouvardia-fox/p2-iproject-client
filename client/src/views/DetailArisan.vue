@@ -28,9 +28,10 @@
                   <td>
                     <p v-if="log.status == 'Success'">paid off</p>
                     <button
-                        v-if="log.status == 'Pending'"
+                      v-if="log.status == 'Pending'"
                       @click.prevent="payment()"
-                      class="btn btn-outline-primary">
+                      class="btn btn-outline-primary"
+                    >
                       Pay
                     </button>
                   </td>
@@ -51,6 +52,7 @@ import NavigationBar from "../components/navigation-bar.vue";
 import moment from "moment";
 
 export default {
+  name: "LeafletMap",
   methods: {
     ...mapActions(useArisanStore, ["midTrans", "payTrans", "fetchLogTrans"]),
     async payment(id) {
@@ -82,6 +84,6 @@ export default {
 
 <style>
 #map {
-  height: 180px;
+  height: 220px;
 }
 </style>

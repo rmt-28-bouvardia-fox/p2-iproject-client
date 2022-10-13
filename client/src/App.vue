@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     ...mapWritableState(useUserStore, ["register", "isLogin"]),
-    ...mapWritableState(useArisanStore, ["spot"])
+    ...mapWritableState(useArisanStore, ["spot"]),
   },
   components: { FooterBar },
   methods: {

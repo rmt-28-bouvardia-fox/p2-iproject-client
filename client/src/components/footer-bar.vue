@@ -9,7 +9,8 @@
         </li>
         <li class="nav-item">
           <a
-            href="https://instagram.com/sumurperjuangan" target="blank"
+            href="https://instagram.com/sumurperjuangan"
+            target="blank"
             class="nav-link px-2 text-muted"
             >Instagram</a
           >
@@ -21,7 +22,7 @@
         </li>
       </ul>
       <p class="text-center text-muted">
-        © 2022 Individual Project Phase 3, Bagus Tri Prasetyo, Batch-28
+        © 2022 Individual Project Phase 2, Bagus Tri Prasetyo, Batch-28
       </p>
     </footer>
   </div>

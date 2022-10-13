@@ -69,7 +69,7 @@ export default {
     ...mapActions(useArisanStore, ["fetchMyArisan", "getArisanDetail"]),
   },
   created() {
-    console.log(window.location)
+    console.log(window.location);
     this.fetchMyArisan();
     console.log(this.myArisan);
   },

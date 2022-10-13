@@ -7,8 +7,8 @@
           <div
             class="card cascading-right"
             style="
-              background:hsla(0, 0%, 100%, 0.55);
-              backdrop-filter:blur(30px);
+              background: hsla(0, 0%, 100%, 0.55);
+              backdrop-filter: blur(30px);
             "
           >
             <div class="card-body p-5 shadow-5 text-center">
@@ -27,13 +27,23 @@
 
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                  <input v-model="register.email" type="email" id="form3Example3" class="form-control" />
+                  <input
+                    v-model="register.email"
+                    type="email"
+                    id="form3Example3"
+                    class="form-control"
+                  />
                   <label class="form-label" for="form3Example3"
                     >Email address</label
                   >
                 </div>
                 <div class="form-outline mb-4">
-                  <input v-model="register.phoneNumber" type="number" id="form3Example3" class="form-control" />
+                  <input
+                    v-model="register.phoneNumber"
+                    type="number"
+                    id="form3Example3"
+                    class="form-control"
+                  />
                   <label class="form-label" for="form3Example3"
                     >Phone Number</label
                   >
@@ -50,7 +60,11 @@
                   <label class="form-label" for="form3Example4">Password</label>
                 </div>
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">
+                <button
+                  @click.prevent="registerAccount"
+                  type="submit"
+                  class="btn btn-primary btn-block mb-4"
+                >
                   Sign up
                 </button>
 
@@ -78,16 +92,16 @@
 </template>
 
 <script>
-import { mapActions, mapWritableState } from 'pinia';
-import { useUserStore } from '../stores/user';
+import { mapActions, mapWritableState } from "pinia";
+import { useUserStore } from "../stores/user";
 
 export default {
-  methods :{
-    ...mapActions(useUserStore, ["registerAccount"])
+  methods: {
+    ...mapActions(useUserStore, ["registerAccount"]),
   },
-  computed : {
-    ...mapWritableState(useUserStore, ["register"])
-  }
+  computed: {
+    ...mapWritableState(useUserStore, ["register"]),
+  },
 };
 </script>
 

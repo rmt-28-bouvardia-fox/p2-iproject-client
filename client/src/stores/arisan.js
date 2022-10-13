@@ -102,6 +102,7 @@ export const useArisanStore = defineStore("arisan", {
           headers: {
             access_token: localStorage.access_token,
           },
+          data: this.spot,
         });
         this.fetchMyArisan();
         this.fetchLogTrans();
@@ -159,8 +160,8 @@ export const useArisanStore = defineStore("arisan", {
             access_token: localStorage.access_token,
           },
         });
-        this.arisanDetail = data
-        this.router.push(`/myarisan/${id}`)
+        this.arisanDetail = data;
+        this.router.push(`/myarisan/${id}`);
       } catch (error) {
         Swal.fire({
           title: "Data not found",

@@ -39,7 +39,9 @@
             </div>
             <small class="text-muted"
               ><font style="vertical-align: inherit"
-                ><font style="vertical-align: inherit">{{batch.people}} People</font></font
+                ><font style="vertical-align: inherit"
+                  >{{ batch.people }} People</font
+                ></font
               ></small
             >
           </div>
