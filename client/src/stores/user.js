@@ -32,6 +32,19 @@ export const useAppStore = defineStore("app", {
       }
     },
 
+    async register(payload) {
+      try {
+        const data = await axios({
+          method: "post",
+          url: `${this.urlBase}/pub/register`,
+          data: payload,
+        });
+        this.router.push("/login");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async fetchGames(title) {
       try {
         const { data } = await axios({
@@ -132,6 +145,38 @@ export const useAppStore = defineStore("app", {
         });
         console.log(data.data.transactionToken);
         this.transactionToken = data.data.transactionToken;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async addOrder(payload) {
+      console.log(payload);
+      try {
+        const data = await axios({
+          method: "post",
+          url: `${this.urlBase}/pub/order`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: payload,
+        });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async fetchOrder() {
+      try {
+        const data = await axios({
+          method: "get",
+          url: `${this.urlBase}/pub/order`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        console.log(data);
       } catch (error) {
         console.log(error);
       }

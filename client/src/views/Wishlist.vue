@@ -12,11 +12,17 @@ export default {
     ...mapState(useAppStore, ["wishlist", "rows"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchWishList", "removeWishlist", "checkout"]),
+    ...mapActions(useAppStore, [
+      "fetchWishList",
+      "removeWishlist",
+      "checkout",
+      "addOrder",
+    ]),
     deleteWishListHandler(id) {
       this.removeWishlist(id);
     },
-    buyHandler(id) {
+    buyHandler(id, title, price, imageUrl) {
+      this.addOrder({ title, price: Math.floor(price), imageUrl });
       this.$router.push(`/checkout/${id}`);
     },
   },
@@ -45,7 +51,14 @@ export default {
         </div>
         <button
           class="btn btn-info mx-2 my-2"
-          @click.prevent="buyHandler(movie.id)"
+          @click.prevent="
+            buyHandler(
+              movie.id,
+              movie.dataGame.external,
+              movie.dataGame.cheapest,
+              movie.dataGame.thumb
+            )
+          "
         >
           Checkout
         </button>

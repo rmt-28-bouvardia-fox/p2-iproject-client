@@ -15,10 +15,8 @@ export default {
       this.login({ email: this.email, password: this.password });
     },
     toRegister() {
+      console.log("masuk");
       this.$router.push("/register");
-    },
-    githubHandler() {
-      this.gitHubSignIn();
     },
   },
 };
@@ -55,18 +53,16 @@ export default {
     </form>
 
     <br />
-    <div>
-      <center>or Sign In with</center>
-      <br />
-      <!-- <a
+
+    <!-- <a
         @click.prevent="githubHandler"
         id="github-button"
         class="btn btn-block btn-social btn-github"
       >
         <i class="fa fa-github"></i> Sign in with Github
       </a> -->
-      <!-- <center><GoogleLogin :callback="callback" /></center> -->
-    </div>
+    <!-- <center><GoogleLogin :callback="callback" /></center> -->
+
     <br />
     <br />
     <span
