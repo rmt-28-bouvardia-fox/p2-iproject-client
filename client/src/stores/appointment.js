@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 export const useAppointmentStore = defineStore("appointment", {
   state: () => ({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://iproject-achfhm.herokuapp.com",
     isLogin: false,
     isLoading: false,
     role: "",
@@ -117,7 +117,7 @@ export const useAppointmentStore = defineStore("appointment", {
           },
         });
         localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("role", "Patient")
+        localStorage.setItem("role", "Patient");
         this.role = "Patient";
         this.isLogin = true;
         this.router.push("/");
@@ -132,7 +132,7 @@ export const useAppointmentStore = defineStore("appointment", {
           timer: 2000,
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         this.errorHandler(error.response.data.message);
       } finally {
         this.isLoading = false;

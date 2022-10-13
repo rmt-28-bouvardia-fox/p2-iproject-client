@@ -69,6 +69,7 @@ export default {
     this.symptom = "";
     this.suggestionData = [];
     this.symptomList = [];
+    this.specialists = [];
   },
 };
 </script>

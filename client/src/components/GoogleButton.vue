@@ -1,10 +1,10 @@
 <script>
-import { mapActions } from 'pinia';
-import { useAppointmentStore } from '../stores/appointment';
+import { mapActions } from "pinia";
+import { useAppointmentStore } from "../stores/appointment";
 export default {
   name: "GoogleButton",
   methods: {
-    ...mapActions(useAppointmentStore, ["handleCredentialResponse"])
+    ...mapActions(useAppointmentStore, ["handleCredentialResponse"]),
   },
   mounted() {
     const callbackGoogle = this.handleCredentialResponse;

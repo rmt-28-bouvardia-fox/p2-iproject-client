@@ -21,12 +21,12 @@ export default {
 <template>
   <section class="container mx-auto pt-2">
     <div class="flex justify-between h-10 rounded-b-sm">
-      <div class="flex mx-auto ">
-        <img
-          src="../assets/pngegg3.png"
-          alt="Logo"
-        />
-        <span class="text-sm sm:text-lg lg:text-2xl font-semibold rounded-sm p-1 text-sky-600 italic">YULJE Medical Center</span> 
+      <div class="flex mx-auto">
+        <img src="../assets/pngegg3.png" alt="Logo" />
+        <span
+          class="text-sm sm:text-lg lg:text-2xl font-semibold rounded-sm p-1 text-sky-600 italic"
+          >YULJE Medical Center</span
+        >
       </div>
       <div class="mx-auto flex items-center pr-5">
         <div

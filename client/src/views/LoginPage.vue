@@ -1,11 +1,11 @@
 <script>
 import { mapActions } from "pinia";
 import { useAppointmentStore } from "../stores/appointment";
-import GoogleButton from "../components/GoogleButton.vue"
+import GoogleButton from "../components/GoogleButton.vue";
 export default {
   name: "LoginPage",
   components: {
-    GoogleButton
+    GoogleButton,
   },
   data() {
     return {

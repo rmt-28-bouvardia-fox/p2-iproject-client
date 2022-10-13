@@ -4,7 +4,7 @@ export default {
 };
 </script>
 <template>
-  <section>
+  <section class="h-full">
     <div class="container mx-auto">
       <div class="flex w-full h-80">
         <div class="flex flex-col-reverse w-[35%] px-12 pb-6">

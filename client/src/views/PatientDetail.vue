@@ -45,7 +45,7 @@ export default {
 };
 </script>
 <template>
-  <section>
+  <section class="h-screen">
     <div class="container h-full mx-auto mt-20">
       <div
         class="flex w-[60%] border rounded-lg shadow-2xl bg-sky-200 bg-opacity-70 mx-auto"
@@ -123,7 +123,6 @@ export default {
           </table>
         </div>
       </div>
-      <div class="pb-12 h-full"></div>
     </div>
   </section>
 </template>
