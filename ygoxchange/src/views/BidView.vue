@@ -89,54 +89,54 @@ export default {
 </script>
 
 <template>
-  <div v-if="bidPageLoader" class="fixed top-0 left-0 w-screen h-screen z-[999] bg-goldTheme/90" >
+  <div v-if="bidPageLoader" class="fixed top-0 left-0 w-screen h-screen z-[999] glass" >
     <div class="absolute top-1/2 left-1/2 mr-[-50%] translate-x-[-50%] translate-y-[-50%]">
       <CardSpinningLoader />
     </div>
   </div>
-  <div v-if="!bidPageLoader" class="pb-[10vh] md:flex">
-    <div class="md:mr-5 md:w-1/2 flex justify-center">
+  <div v-if="!bidPageLoader" class="pb-[10vh] lg:flex">
+    <div class="lg:mr-5 md:w-1/2 flex justify-center items-center">
       <img
         :src="bid.cardDetail.card_images[0].image_url"
         :alt="bid.cardDetail.name"
         class="min-w-[400px] h-[600px]"
       />
     </div>
-    <div class="sm:mt-5 md:mt-0 md:w-1/2">
-      <div class="text-3xl text-blueTheme font-semibold">
+    <div class="md:mt-5 lg:mt-0 md:w-1/2 bg-lightGreyTheme p-8 rounded-lg text-white glass">
+      <div class="text-3xl text-white font-semibold pb-5">
         {{ bid.cardDetail.name }}
       </div>
 
       <div class="flex font-noto pb-3">
-        <div class="w-1/4 font-bold text-blueTheme">Bid Creator</div>
-        <div class="w-3/4">
+        <div class="w-1/4  text-white">Bid Creator</div>
+        <div class="w-3/4 font-semibold">
           {{ bid.createdBy }}
         </div>
       </div>
 
       <div class="flex font-noto pb-3">
-        <div class="w-1/4 font-bold text-blueTheme">Posted At</div>
-        <div class="w-3/4">{{ msToDate(bid.createdAt) }}</div>
+        <div class="w-1/4 text-white">Posted At</div>
+        <div class="w-3/4 font-semibold">{{ msToDate(bid.createdAt) }}</div>
       </div>
 
       <div class="flex font-noto pb-3">
-        <div class="w-1/4 font-bold text-blueTheme">Condition</div>
-        <div class="w-3/4">{{ bid.condition }}</div>
+        <div class="w-1/4  text-white">Condition</div>
+        <div class="w-3/4 font-semibold">{{ bid.condition }}</div>
       </div>
 
       <div class="flex font-noto pb-3">
-        <div class="w-1/4 font-bold text-blueTheme">Notes</div>
-        <div class="w-3/4">{{ bid.note }}</div>
+        <div class="w-1/4  text-white">Notes</div>
+        <div class="w-3/4 font-semibold">{{ bid.note }}</div>
       </div>
 
-      <div class="pt-3 pb-2 text-xl text-blueTheme font-semibold text-center">
+      <div class="pt-3 pb-2 text-xl text-white font-semibold text-center">
         Current Bid
       </div>
-      <div class="pb-2 text-lg text-redTheme font-semibold text-center">
+      <div class="pb-2 text-lg text-goldTheme font-semibold text-center">
         {{ formatPrice(bid.currentPrice) }}
       </div>
 
-      <div class="pt-3 pb-2 text-xl text-blueTheme font-semibold text-center">
+      <div class="pt-3 pb-2 text-xl text-white font-semibold text-center">
         Available Until
       </div>
       <div class="flex gap-5 text-2xl text-white text-center justify-center">
@@ -153,7 +153,7 @@ export default {
           {{ timer.second }}
         </div>
       </div>
-      <div class="flex gap-5 text-lg text-blueTheme text-center justify-center">
+      <div class="flex gap-5 text-lg text-white text-center justify-center">
         <div class="min-w-[80px]">Days</div>
         <div class="min-w-[80px]">Hours</div>
         <div class="min-w-[80px]">Minutes</div>
@@ -166,7 +166,7 @@ export default {
             type="text"
             id="bid"
             name="bid"
-            class="border-2 rounded-lg p-1 px-10 disabled:bg-greyTheme"
+            class="border-2 rounded-lg p-1 px-10 disabled:bg-greyTheme text-black"
             v-model="bidPrice"
             :disabled="bidded"
           />
@@ -178,7 +178,7 @@ export default {
               :active="true"
             />
           </div>
-          <div v-if="bidded" class="text-xl text-redTheme text-center mt-5">
+          <div v-if="bidded" class="text-xl text-goldTheme text-center mt-5">
             Thank you for joining this bid. We will inform you if you win this
             one!
           </div>
@@ -186,13 +186,23 @@ export default {
       </div>
       <div
         v-else-if="currentUser && owner"
-        class="text-xl text-blueTheme text-center mt-10"
+        class="text-xl text-goldTheme text-center mt-10"
       >
         You owner of this bid.
       </div>
-      <div v-else class="text-xl text-redTheme text-center mt-10">
+      <div v-else class="text-xl text-goldTheme text-center mt-10">
         You must login to join this bid.
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.glass {
+  background: rgba(255, 255, 255, 0.205);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.7px);
+  -webkit-backdrop-filter: blur(7.7px);
+}
+</style>

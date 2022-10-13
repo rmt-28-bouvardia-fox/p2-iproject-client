@@ -93,7 +93,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(useBidStore, ["currency", "searchNotFound", "searchCardList", "listLoader"]),
+    ...mapState(useBidStore, [
+      "currency",
+      "searchNotFound",
+      "searchCardList",
+      "listLoader",
+    ]),
     ...mapWritableState(useBidStore, ["searchCard", "searchQuery"]),
   },
   methods: {
@@ -127,9 +132,9 @@ export default {
 <template>
   <div>
     <div class="pl-5">
-      <div class="font-semibold text-3xl">Database</div>
+      <div class="font-semibold text-white text-3xl">Database</div>
       <form class="py-9" @submit.prevent="searchCardHandler">
-        <label for="search" class="pr-5">Search Card</label>
+        <label for="search" class="pr-5 text-white">Search Card</label>
         <input
           type="text"
           id="search"
@@ -137,16 +142,16 @@ export default {
           class="border-2 rounded-lg mr-5 p-1"
           v-model="query"
         />
-        <button
+        <CustomButton
+          class="rounded-full text-white shadow-lg px-5 py-1"
           type="submit"
-          class="bg-redTheme rounded-full text-white shadow-lg px-5 py-1"
-        >
-          Search
-        </button>
+          name="Search"
+          :active="true"
+        />
       </form>
       <div class="pb-9">
         <select
-          class="border p-2 border-redTheme mr-4 rounded-xl"
+          class="border p-2 border-goldTheme mr-4 rounded-xl"
           v-model="filter.type"
         >
           <option selected value="">No Type</option>
@@ -155,7 +160,7 @@ export default {
           </option>
         </select>
         <select
-          class="border p-2 border-redTheme mr-4 rounded-xl"
+          class="border p-2 border-goldTheme mr-4 rounded-xl"
           v-model="filter.race"
         >
           <option selected value="">No Race</option>
@@ -164,7 +169,7 @@ export default {
           </option>
         </select>
         <select
-          class="border p-2 border-redTheme mr-4 rounded-xl"
+          class="border p-2 border-goldTheme mr-4 rounded-xl"
           v-model="filter.attribute"
         >
           <option selected value="">No Attribute</option>

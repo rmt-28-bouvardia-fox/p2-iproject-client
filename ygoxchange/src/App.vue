@@ -26,13 +26,14 @@ export default {
 
 <template>
   <div :class="{ 'yugi-bg': useBg }"></div>
+  <div class="general-bg"></div>
   <NavBar />
   <div class="h-screen mx-40 pt-[15vh]">
     <router-view />
   </div>
 </template>
 
-<style scoped>
+<style>
 * {
   margin: 0;
 }
@@ -43,5 +44,14 @@ export default {
   width: 100vw;
   position: fixed;
   z-index: -1;
+}
+
+.general-bg {
+  background-image: linear-gradient(to right, #141e30, #243b55);
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: -2;
 }
 </style>

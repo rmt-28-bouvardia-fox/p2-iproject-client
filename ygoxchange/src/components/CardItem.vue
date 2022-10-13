@@ -49,21 +49,23 @@ export default {
 </script>
 
 <template>
-  <div v-if="!expired" class="font-semibold min-w-[250px] shadow-lg">
+  <div v-if="!expired" class="font-semibold min-w-[250px] p-3 glass">
     <div class="flex justify-center item-center py-4">
       <img :src="item.cardDetail.card_images[0].image_url" width="130" alt="" />
     </div>
-    <div class="bg-blueTheme text-white p-4 rounded-lg">
+    <div class="text-white p-4 pb-3">
       <div class="truncate">{{ item.cardDetail.name }}</div>
       <div class="flex item-center">
-        <p class="w-1/2 text-xs text-greyTheme flex items-center">Current Bid</p>
+        <p class="w-1/2 text-xs text-greyTheme flex items-center">
+          Current Bid
+        </p>
         <p class="w-1/2">{{ item.currentPrice }}</p>
       </div>
       <div class="flex item-center">
         <p class="w-1/2 text-xs text-greyTheme flex items-center">Created By</p>
         <p class="w-1/2">{{ item.createdBy }}</p>
       </div>
-      <div class="flex item-center">
+      <div class="flex item-center pt-1">
         <div class="flex-1">
           <div class="pl-4">
             <IconifyIcon icon="fa6-regular:clock" class="text-2xl" />
@@ -73,8 +75,17 @@ export default {
           {{ timer.day }} : {{ timer.hour }} : {{ timer.minute }} :
           {{ timer.second }}
         </p>
-        <p v-if="expired" class="flex-1 text-redTheme">Expired</p>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.glass {
+  background: rgba(90, 90, 90, 0.502);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.7px);
+  -webkit-backdrop-filter: blur(5.7px);
+}
+</style>

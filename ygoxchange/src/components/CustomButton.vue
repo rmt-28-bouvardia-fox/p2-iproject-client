@@ -6,7 +6,7 @@ export default {
 <template>
   <button
     v-if="active"
-    class="h-10 bg-redTheme rounded-full text-white shadow-lg px-5"
+    class="h-10 bg-goldTheme rounded-full text-black shadow-lg px-5"
   >
     {{ name }}
   </button>

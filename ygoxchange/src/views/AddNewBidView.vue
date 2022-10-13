@@ -94,9 +94,9 @@ export default {
 <template>
   <div v-if="step === 1">
     <div class="pl-5">
-      <div class="font-semibold text-3xl">New Auction</div>
-      <form class="py-9" @submit.prevent="searchCardHandler">
-        <label for="search" class="pr-5">Search Card</label>
+      <div class="font-semibold text-white text-3xl">New Auction</div>
+      <form class="py-9 " @submit.prevent="searchCardHandler">
+        <label for="search " class="pr-5 text-white">Search Card</label>
         <input
           type="text"
           id="search"
@@ -104,12 +104,12 @@ export default {
           class="border-2 rounded-lg mr-5 p-1"
           v-model="query"
         />
-        <button
+        <CustomButton
+          class="rounded-full text-white shadow-lg px-5 py-1"
           type="submit"
-          class="bg-redTheme rounded-full text-white shadow-lg px-5 py-1"
-        >
-          Search
-        </button>
+          name="Search"
+          :active="true"
+        />
       </form>
     </div>
 

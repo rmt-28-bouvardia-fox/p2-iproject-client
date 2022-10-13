@@ -24,8 +24,13 @@ export default {
 </script>
 
 <template>
-  <div v-if="mainLoader" class="fixed top-0 left-0 w-screen h-screen z-[999] bg-goldTheme/90" >
-    <div class="absolute top-1/2 left-1/2 mr-[-50%] translate-x-[-50%] translate-y-[-50%]">
+  <div
+    v-if="mainLoader"
+    class="fixed top-0 left-0 w-screen h-screen z-[999] glass"
+  >
+    <div
+      class="absolute top-1/2 left-1/2 mr-[-50%] translate-x-[-50%] translate-y-[-50%]"
+    >
       <CardSpinningLoader />
     </div>
   </div>
@@ -33,3 +38,13 @@ export default {
     <CardList :items="bids" />
   </div>
 </template>
+
+<style scoped>
+.glass {
+  background: rgba(255, 255, 255, 0.205);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.7px);
+  -webkit-backdrop-filter: blur(7.7px);
+}
+</style>
