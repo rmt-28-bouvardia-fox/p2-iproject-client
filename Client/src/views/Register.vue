@@ -4,7 +4,7 @@ import { useUserStore } from '../stores/user';
 
 export default {
     methods: {
-        ...mapActions(useUserStore, ['registerAction'])
+        ...mapActions(useUserStore, ['registerAction', 'verifyEmail']),
     },
     computed: {
         ...mapWritableState(useUserStore, ['newUser'])
@@ -17,12 +17,12 @@ export default {
         <div class="p-4" style="margin: auto;" id="register-card">
             <h1>Sign Up</h1>
             <div id="register">
-                <form @submit.prevent="registerAction" id="register-from" style="width: 80%;">
+                <form @submit.prevent="verifyEmail" id="register-from" style="width: 80%;">
                     <div class="mb-3 mt-3">
                         <div class="d-flex justify-content-between">
                             <label for="register-name">Name <label class="text-danger text-end fw-bold">*</label></label>
                         </div>
-                        <input v-model="newUser.name" type="text" class="form-control form-control-lg" id="register-name" placeholder="ex: Samsul Sobirin" autocomplete="off" >
+                        <input required v-model="newUser.name" type="text" class="form-control form-control-lg" id="register-name" placeholder="ex: Samsul Sobirin" autocomplete="off" >
                     </div>
                     <div class="mb-3 mt-3">
                         <div class="d-flex justify-content-between">

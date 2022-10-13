@@ -5,12 +5,13 @@ import RegisterPage from '../views/Register.vue'
 import CreateTeam from '../views/CreateTeam.vue'
 import HomePage from '../views/Home.vue'
 import TeamProfile from '../views/TeamProfile.vue'
-import EditTeam from '../views/EditTeam.vue'
 import ListPlayers from '../views/PlayersPage.vue'
 import PlayerDetail from '../views/PlayerDetail.vue'
 import Formation from '../views/Formation.vue'
 import Store from '../views/BuyPlayer.vue'
 import RandomBuy from '../views/randomBuy.vue'
+import Match from '../views/Match.vue'
+import OtpPage from '../views/verifyOtp.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,13 +23,18 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'loginPage',
+      name: 'login',
       component: LoginPage
     },
     {
       path: '/register',
-      name: 'registerPage',
+      name: 'register',
       component: RegisterPage
+    },
+    {
+      path: '/verifyOtp',
+      name: 'verifyOtp',
+      component: OtpPage
     },
     {
       path: '/createTeam',
@@ -51,11 +57,6 @@ const router = createRouter({
       component: Formation
     },
     {
-      path: '/editTeam',
-      name: 'editTeam',
-      component: EditTeam
-    },
-    {
       path: '/myPlayers',
       name: 'myPlayers',
       component: ListPlayers
@@ -74,8 +75,31 @@ const router = createRouter({
       path: '/randomBuy',
       name: 'randomBuy',
       component: RandomBuy
+    },
+    {
+      path: '/match',
+      name: 'match',
+      component: Match
     }
   ]
+})
+
+router.beforeEach((to, from) => {
+  if (localStorage.access_token) {
+    if (to.name == 'login' || to.name == 'register' || to.name == 'landingPage') {
+      return '/home'
+    } 
+  }
+
+  if (!localStorage.access_token) {
+    if (to.name !== 'login' && to.name !== 'register' && to.name !== 'landingPage' && to.name !== 'verifyOtp') {
+      return '/'
+    } 
+  }
+
+  if (localStorage.team && to.name == 'createTeam') {
+    return '/home'
+  }
 })
 
 export default router

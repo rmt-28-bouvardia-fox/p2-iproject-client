@@ -19,7 +19,7 @@ export default {
         </div>
         <div class="d-flex justify-content-center">
             <div id="text-gatcha"  class="rounded-pill border border-3 text-bg-success text-center">
-                <h4>Get random player <br> with price $ 1000</h4>
+                <h4>Get random player <br> Just pay $ 2000</h4>
             </div>
         </div>
         <div class="d-flex mt-3 justify-content-center">
@@ -41,7 +41,7 @@ export default {
 }
 
 #box-gatcha{
-    background-color: sandybrown;
+    background-color: rgb(144, 8, 8);
     width: 120vh;
     border-radius: 5%;
     height: 480px;

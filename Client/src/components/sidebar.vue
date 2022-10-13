@@ -16,9 +16,6 @@ export default {
     },
     methods: {
         ...mapActions(useUserStore, ['fetchTeam'])
-    },
-    async created() {
-        await this.fetchTeam()
     }
 }
 </script>
@@ -37,9 +34,6 @@ export default {
         <ul id="sidebar-link" class="nav flex-column mx-2" style="margin-top: 18%;">
             <li class="nav-item">
                 <RouterLink class="nav-link active fw-bold" to="/profile" id="nav-dashboard">Your Team</RouterLink>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active fw-bold" href="" id="nav-dashboard">Play</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
