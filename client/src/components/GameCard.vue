@@ -11,7 +11,6 @@ export default {
   methods: {
     ...mapActions(useAppStore, ["fetchGames", "addWishList"]),
     addFavoriteHandler() {
-      // console.log(this.game);
       this.addWishList({ dataGame: this.game });
     },
     detailHandler(id) {

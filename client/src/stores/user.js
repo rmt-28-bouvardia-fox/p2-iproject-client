@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
-    urlBase: "http://localhost:3000",
+    urlBase: "https://game-steam-h8.herokuapp.com",
     isLogin: false,
     games: [],
     wishlist: [],
@@ -22,7 +22,6 @@ export const useAppStore = defineStore("app", {
           url: `${this.urlBase}/pub/login`,
           data: payload,
         });
-        // console.log(data);
         localStorage.setItem("access_token", data.data.access_token);
         this.isLogin = true;
         this.router.push("/");
@@ -34,7 +33,12 @@ export const useAppStore = defineStore("app", {
           timer: 1500,
         });
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
 
@@ -54,7 +58,12 @@ export const useAppStore = defineStore("app", {
           timer: 1500,
         });
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Oops...",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
 
@@ -69,7 +78,12 @@ export const useAppStore = defineStore("app", {
         });
         this.games = data;
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
     async addWishList(value) {
@@ -91,7 +105,12 @@ export const useAppStore = defineStore("app", {
         });
         this.router.push("/wishlist");
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
 
@@ -106,11 +125,15 @@ export const useAppStore = defineStore("app", {
         });
         this.wishlist = data.data;
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
     async removeWishlist(id) {
-      // console.log(id, "masuk pinia");
       try {
         const data = await axios({
           method: "delete",
@@ -128,7 +151,12 @@ export const useAppStore = defineStore("app", {
           timer: 1500,
         });
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
     async checkout(id) {
@@ -153,7 +181,12 @@ export const useAppStore = defineStore("app", {
         });
         this.gameIdr = Math.ceil(currency.data.rates.IDR.rate_for_amount);
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
 
@@ -168,7 +201,12 @@ export const useAppStore = defineStore("app", {
         });
         this.transactionToken = data.data.transactionToken;
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          title: "Error!",
+          text: `${error.response.data.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
 

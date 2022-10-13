@@ -20,7 +20,6 @@ export default {
       this.removeWishlist(id);
     },
     buyHandler(id, title, price, imageUrl) {
-      this.addOrder({ title, price: Math.floor(price), imageUrl });
       this.$router.push(`/checkout/${id}`);
     },
   },
