@@ -37,10 +37,10 @@
             <li>
                 <RouterLink @click.prevent="logOut" to="#">Log Out</RouterLink>
             </li>
+            <li>
+                <Img />
+            </li>
         </ul>
-    </div>
-    <div>
-        <Img />
     </div>
 </div>
 </template>
