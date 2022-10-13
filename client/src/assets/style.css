@@ -1,0 +1,48 @@
+/* Container holding the image and the text */
+.home {
+  position: fixed;
+  text-align: center;
+}
+.register {
+  position: fixed;
+  text-align: center;
+}
+.login {
+  position: fixed;
+  text-align: center;
+}
+.template {
+  position: fixed;
+  text-align: center;
+}
+.final {
+  position: fixed;
+  text-align: center;
+}
+/* Centered text */
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Sofia", sans-serif;
+  font-size: large;
+  margin-top: 100px;
+  margin-left: 25px;
+}
+
+.background {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.circle {
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  border-radius: 50%;
+  color: #000;
+  font-size: small;
+  text-align: center;
+  background: aliceblue;
+}
