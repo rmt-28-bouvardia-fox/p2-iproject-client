@@ -85,7 +85,7 @@ export const useUserStore = defineStore({
         });
         localStorage.setItem("access_token", data.data.access_token);
         this.isLogin = true;
-        this.router.push("/create");
+        this.router.push("/template");
       } catch (error) {
         Swal.fire({
           title: "Error!",
