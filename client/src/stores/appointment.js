@@ -24,7 +24,7 @@ export const useAppointmentStore = defineStore("appointment", {
   getters: {},
   actions: {
     async registerHandler(registerData) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         await axios({
           url: this.baseUrl + "/patients/register",
@@ -36,6 +36,7 @@ export const useAppointmentStore = defineStore("appointment", {
           icon: "success",
           title: "Your account has been created",
           toast: true,
+          iconColor: "#4fc3f7",
           timerProgressBar: true,
           showConfirmButton: false,
           timer: 2000,
@@ -48,7 +49,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async loginHandlerPatient(loginData) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "post",
@@ -57,6 +58,7 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("role", "Patient");
+        this.role = "Patient";
         this.isLogin = true;
         this.router.push("/");
         Swal.fire({
@@ -76,7 +78,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async loginHandlerDoctor(loginData) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "post",
@@ -86,6 +88,7 @@ export const useAppointmentStore = defineStore("appointment", {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("role", "Doctor");
         this.isLogin = true;
+        this.role = "Doctor";
         this.router.push("/");
         Swal.fire({
           position: "top-end",
@@ -118,6 +121,7 @@ export const useAppointmentStore = defineStore("appointment", {
           localStorage.clear();
           this.isLogin = false;
           this.role = "";
+          this.patientDetail = {};
           this.router.push("/");
           Swal.fire({
             icon: "success",
@@ -131,7 +135,7 @@ export const useAppointmentStore = defineStore("appointment", {
       });
     },
     async fetchPatientDetails() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -142,13 +146,24 @@ export const useAppointmentStore = defineStore("appointment", {
         });
         this.patientDetail = data;
       } catch (error) {
-        this.errorHandler(error.response.data.message);
+        if (error.response.status == 404) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `You need to register your patient data first!`,
+            background: "#e3f2fd",
+            confirmButtonColor: "#4fc3f7",
+          });
+          this.router.push("/patientDetails");
+        } else {
+          this.errorHandler(error.response.data.message);
+        }
       } finally {
         this.isLoading = false;
       }
     },
     async createPatientDetail(patientData) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         await axios({
           method: "post",
@@ -176,7 +191,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async fetchDoctors() {
-      this.isLoading = true
+      this.isLoading = true;
       let query = {};
       if (this.page.number !== 1 || this.page.size !== 8) {
         query.page = this.page;
@@ -195,7 +210,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async fetchSymptoms() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -212,7 +227,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async fetchSpecialists(symptoms) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -247,9 +262,12 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async createAppointment(appointmentData) {
-      this.isLoading = true
+      this.isLoading = true;
+      console.log(appointmentData);
       try {
-        appointmentData.symptom = appointmentData.symptom.join(",");
+        if (typeof appointmentData.symptom === "object") {
+          appointmentData.symptom = appointmentData.symptom.join(",");
+        }
         await axios({
           method: "post",
           url: this.baseUrl + "/appointments",
@@ -270,13 +288,14 @@ export const useAppointmentStore = defineStore("appointment", {
           timer: 2000,
         });
       } catch (error) {
+        console.log(error);
         this.errorHandler(error.response.data.message);
       } finally {
         this.isLoading = false;
       }
     },
     async fetchPatientAppointments() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -293,7 +312,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async fetchDoctorAppointments() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -310,7 +329,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async createConsultReport(consultReportData) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         await axios({
           method: "post",
@@ -340,7 +359,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async fetchDiagnoses() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -360,7 +379,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async midtransHandler(appointmentId, cost) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         const { data } = await axios({
           method: "get",
@@ -402,7 +421,7 @@ export const useAppointmentStore = defineStore("appointment", {
       }
     },
     async updateStatus(appointmentId) {
-      this.isLoading = true
+      this.isLoading = true;
       try {
         await axios({
           method: "patch",

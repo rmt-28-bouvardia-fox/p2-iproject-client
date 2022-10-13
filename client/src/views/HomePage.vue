@@ -7,7 +7,7 @@ export default {
   <section>
     <div class="container mx-auto">
       <div class="flex w-full h-80">
-        <div class="flex flex-col-reverse w-[35%] p-12">
+        <div class="flex flex-col-reverse w-[35%] px-12 pb-6">
           <h1
             class="xl:text-6xl lg:text-5xl text-2xl font-semibold tracking-wide"
           >
@@ -15,7 +15,7 @@ export default {
             TOP PRIORITY
           </h1>
         </div>
-        <div class="flex flex-col-reverse w-[65%] p-12">
+        <div class="flex flex-col-reverse w-[65%] px-12 pb-6">
           <h1 class="lg:text-2xl text-lg font-medium tracking-wide">
             Check how your families health is by professional team doctor with
             complete and modern facilities services

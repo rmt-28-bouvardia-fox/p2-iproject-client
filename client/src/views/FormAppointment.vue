@@ -12,6 +12,7 @@ export default {
       "fetchSymptoms",
       "fetchSpecialists",
       "createAppointment",
+      "fetchPatientDetails",
     ]),
     fetchSuggestion() {
       this.suggestionData = [];
@@ -29,11 +30,16 @@ export default {
       this.symptomList.push(symptom.Name);
       this.suggestionData = [];
     },
+    removeSymptom(index) {
+      this.symptomList.splice(index, 1);
+    },
     getSpecialists() {
       this.fetchSpecialists(this.appointmentData.symptom);
     },
-    appointment() {
-      this.createAppointment(this.appointmentData);
+    async appointment() {
+      await this.createAppointment(this.appointmentData);
+      this.symptomList = [];
+      this.appointmentData.symptom = [];
     },
   },
   data() {
@@ -50,18 +56,32 @@ export default {
     };
   },
   created() {
+    this.fetchPatientDetails();
     this.fetchSymptoms();
+  },
+  unmounted() {
+    this.appointmentData = {
+      chiefComplaint: "",
+      symptom: [],
+      appointmentDate: "",
+      DoctorId: "",
+    };
+    this.symptom = "";
+    this.suggestionData = [];
+    this.symptomList = [];
   },
 };
 </script>
 <template>
-  <section class="flex container mx-auto h-screen">
+  <section class="flex h-screen container mx-auto">
     <div
       class="flex w-[40%] max-h-[70%] border rounded-lg shadow-2xl bg-sky-200 bg-opacity-70 mx-auto mt-10"
     >
       <div class="w-[80%] p-2 mt-4 text-sky-900 mx-auto">
         <div>
-          <h1 class="text-3xl mb-3">Create appointment</h1>
+          <h1 class="text-3xl mb-4 text-center font-bold">
+            Create appointment
+          </h1>
         </div>
         <div>
           <form action="">
@@ -108,23 +128,24 @@ export default {
                 </div>
               </label>
             </div>
-            <div class="mt-5 text-neutral-900">
+            <div class="mt-5 text-neutral-900" v-if="symptomList.length">
               <p class="font-semibold">Symptom List:</p>
-              <ul>
-                <li
-                  v-for="(symptom, index) in symptomList"
-                  :key="index"
-                  class=""
-                >
-                  {{ index + 1 }}. {{ symptom }}
+              <p class="text-sm text-slate-600">*Click to delete symptom</p>
+              <ul class="mt-2">
+                <li v-for="(symptom, index) in symptomList" :key="index">
+                  <span
+                    @click.prevent="removeSymptom(index)"
+                    class="hover:text-rose-500 cursor-pointer"
+                    >{{ index + 1 }}. {{ symptom }}</span
+                  >
                 </li>
               </ul>
             </div>
-            <div class="mt-5">
+            <div class="mt-5 mb-3">
               <button
                 type="submit"
                 @click.prevent="getSpecialists"
-                class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300"
+                class="w-full bg-slate-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-slate-600 active:bg-slate-700 text-slate-100 active:text-slate-50"
               >
                 Find doctors that suited with symptoms
               </button>
@@ -138,7 +159,7 @@ export default {
                   type="date"
                   id="appointmentDate"
                   v-model="appointmentData.appointmentDate"
-                  class="md:p-1 border rounded w-full block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500"
+                  class="md:p-1 border rounded w-[50%] block text-sm text-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 invalid:text-rose-500 invalid:focus:ring-rose-500 invalid:focus:border-rose-500"
                 />
               </label>
             </div>
@@ -147,7 +168,12 @@ export default {
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Doctor
                 </span>
-                <select name="" id="" v-model="appointmentData.DoctorId">
+                <select
+                  name=""
+                  id=""
+                  class="h-7 text-slate-50 rounded-lg bg-slate-500 text-center"
+                  v-model="appointmentData.DoctorId"
+                >
                   <option
                     :value="specialist.id"
                     v-for="specialist in specialists"
@@ -163,7 +189,7 @@ export default {
                 type="submit"
                 @click.prevent="appointment"
                 v-show="specialists.length"
-                class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300"
+                class="w-full bg-slate-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-slate-600 active:bg-slate-700 text-slate-100 active:text-slate-50"
               >
                 Submit
               </button>

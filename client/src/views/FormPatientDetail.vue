@@ -22,6 +22,16 @@ export default {
       },
     };
   },
+  unmounted() {
+    this.patientData = {
+      name: "",
+      birthDate: "",
+      address: "",
+      gender: "",
+      bloodType: "",
+      diseaseHistory: "",
+    };
+  },
 };
 </script>
 <template>
@@ -31,7 +41,9 @@ export default {
     >
       <div class="w-[80%] p-2 mt-4 text-sky-900 mx-auto">
         <div>
-          <h1 class="text-3xl mb-3">Create patient detail</h1>
+          <h1 class="text-3xl mb-3 text-center font-bold">
+            Create patient detail
+          </h1>
         </div>
         <div>
           <form action="">
@@ -81,9 +93,17 @@ export default {
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Gender
                 </span>
-                <select name="" id="" v-model="patientData.gender">
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                <select
+                  name=""
+                  id=""
+                  class="h-7 w-32 text-slate-50 rounded-lg bg-slate-500 text-center"
+                  v-model="patientData.gender"
+                >
+                  <option value="" selected disabled class="text-slate-50">
+                    --Select--
+                  </option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                 </select>
               </label>
             </div>
@@ -92,11 +112,19 @@ export default {
                 <span class="block text-xs md:text-lg font-semibold mb-1">
                   Blood type
                 </span>
-                <select name="" id="" v-model="patientData.bloodType">
-                  <option value="a">A</option>
-                  <option value="b">B</option>
-                  <option value="ab">AB</option>
-                  <option value="o">O</option>
+                <select
+                  name=""
+                  id=""
+                  class="h-7 w-32 text-slate-50 rounded-lg bg-slate-500 text-center"
+                  v-model="patientData.bloodType"
+                >
+                  <option value="" selected disabled class="text-slate-50">
+                    --Select--
+                  </option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="AB">AB</option>
+                  <option value="O">O</option>
                 </select>
               </label>
             </div>
@@ -119,7 +147,7 @@ export default {
               <button
                 type="submit"
                 @click.prevent="createPD"
-                class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300"
+                class="w-full bg-slate-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-slate-600 active:bg-slate-700 text-slate-100 active:text-slate-50"
               >
                 Submit
               </button>

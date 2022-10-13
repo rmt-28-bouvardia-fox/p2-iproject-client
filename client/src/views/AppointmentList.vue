@@ -1,7 +1,7 @@
 <script>
 import { mapActions, mapWritableState } from "pinia";
-import TableItem from "../components/TableItem.vue";
 import { useAppointmentStore } from "../stores/appointment";
+import TableItem from "../components/TableItem.vue";
 export default {
   name: "AppointmentList",
   components: {
@@ -25,7 +25,7 @@ export default {
     >
       <div class="p-2 w-full">
         <div>
-          <h1 class="text-2xl text-sky-900 mb-4 text-center">
+          <h1 class="text-3xl text-sky-900 mb-4 text-center font-bold">
             Appointment List
           </h1>
         </div>

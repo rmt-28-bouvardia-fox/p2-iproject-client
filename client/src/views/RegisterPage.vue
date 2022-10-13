@@ -76,7 +76,7 @@ export default {
             <button
               type="submit"
               @click.prevent="register"
-              class="w-full bg-sky-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-sky-600 active:bg-sky-700 active:text-sky-300"
+              class="w-full bg-slate-500 rounded-lg py-1 px-2 font-semibold text-center hover:bg-slate-600 active:bg-slate-700 text-slate-100 active:text-slate-50"
             >
               Register
             </button>
