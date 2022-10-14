@@ -1,5 +1,15 @@
 <script>
+import { mapActions, mapWritableState } from 'pinia';
+import { useCounterStore } from '../stores/counter';
 
+export default{
+    methods: {
+        ...mapActions(useCounterStore,['logout'])
+    },
+    computed:{
+        ...mapWritableState(useCounterStore,['isLogin'])
+    }
+}
 </script>
 
 <template>
@@ -14,8 +24,8 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" ><RouterLink class="btn btn-dark" to="/">Home</RouterLink></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><RouterLink class="btn btn-dark" to="">Log Out</RouterLink></a>
+            <li class="nav-item" v-if="isLogin === true">
+              <a class="nav-link" href="#"><RouterLink class="btn btn-dark" to="/login" @click.prevent="">Log Out</RouterLink></a>
             </li>
           </ul>
         </div>

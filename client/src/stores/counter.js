@@ -22,7 +22,9 @@ export const useCounterStore = defineStore('counter', {
     dataProduct: {},
     invoiceBase64: '',
     username: '',
-    isLogin: false
+    isLogin: false,
+    page: 0,
+    validity: true
   }),
   actions:{
     getInvoiceData(data){
@@ -90,18 +92,28 @@ export const useCounterStore = defineStore('counter', {
     },
     async getRegister(){
       try{
-        const data = await axios({
-          url: basicUrl+'/register',
-          method: 'post',
-          data: this.register
-        })
-        await Swal.fire({
-          icon: 'Success',
-          title: 'Succesfully registered!',
-          text: `Username ${data.username} successfully registered !`,
-          footer: 'Click Anywhere to continue!'
-        })
-        router.push('/login')
+        this.registerValidation(this.register.email)
+        if(this.validity === false){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Email is not exist!!',
+            footer: 'Click Anywhere to Try Again !'
+          })
+        }else{
+          const data = await axios({
+            url: basicUrl+'/register',
+            method: 'post',
+            data: this.register
+          })
+          await Swal.fire({
+            icon: 'success',
+            title: 'Succesfully registered!',
+            text: `Username ${data.username} successfully registered !`,
+            footer: 'Click Anywhere to continue!'
+          })
+          router.push('/login')
+        }
       }catch(err){
         Swal.fire({
           icon: 'error',
@@ -119,7 +131,11 @@ export const useCounterStore = defineStore('counter', {
           headers: {
             access_token : localStorage.getItem('access_token')
           },
+          query:{
+            page: 1
+          }
         })
+        this.page = 1
         localStorage.setItem('page', '1')
         this.products = vehicles.data
       }catch(err){
@@ -145,8 +161,76 @@ export const useCounterStore = defineStore('counter', {
             page
           }
         })
-        localStorage.setItem('page', `${page}`)
+        if(vehicles.data[0] !== null){
+          this.page = page
+          localStorage.setItem('page', `${page}`)
+        }
         this.products = vehicles.data
+      }catch(err){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.message,
+          footer: 'Click Anywhere to Try Again !'
+        })
+      }
+    },
+    logout(){
+      localStorage.clear()
+      this.router.push('/login')
+      this.isLogin = false
+      Swal.fire({
+        icon: 'success',
+        text: 'Logged out!',
+        footer: 'Click Anywhere to continue !'
+      })
+    },
+    async previousPage(){
+      try{
+        const currentPage = Number(localStorage.getItem('page'))
+        const page = currentPage - 1
+        const vehicles = await axios({
+          url: basicUrl+'/vehicles/vehicles',
+          method: 'get',
+          headers: {
+            access_token : localStorage.getItem('access_token')
+          },
+          params:{
+            page
+          }
+        })
+        if(vehicles.data[0] !== null){
+          this.page = page
+          localStorage.setItem('page', `${page}`)
+        }
+        this.products = vehicles.data
+      }catch(err){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.message,
+          footer: 'Click Anywhere to Try Again !'
+        })
+      }
+    },
+    loginValidation(){
+      const access_token = localStorage.getItem('access_token')
+      if(access_token){
+        this.isLogin = true
+      }
+    },
+    async registerValidation(email){
+      try{
+        const data = axios({
+          url: basicUrl+'/tpapi/verify',
+          method: 'get',
+          data: {
+            email
+          }
+        })
+        if(data.deliverability === 'UNDELIVERABLE'){
+          this.validity = false
+        }
       }catch(err){
         Swal.fire({
           icon: 'error',
