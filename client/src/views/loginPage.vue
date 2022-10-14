@@ -1,13 +1,14 @@
 <script>
 import { mapActions, mapWritableState } from 'pinia';
-import { customerStore } from '../stores/customer'
+import { useCounterStore } from '../stores/counter';
+
 
 export default{
     methods: {
-      ...mapActions(customerStore, ['getLogin'])
+      ...mapActions(useCounterStore, ['getLogin'])
     },
     computed: {
-      ...mapWritableState(customerStore, ['login'])
+      ...mapWritableState(useCounterStore, ['login'])
     }
 }
 </script>
@@ -30,6 +31,9 @@ export default{
                 </div>
                 <div class="mb-3">
                   <button type="submit" class="btn btn-dark" >Login</button>
+                </div>
+                <div class="mb-3">
+                    <RouterLink to="/register" class="btn btn-link">Got no account yet? Register</RouterLink>
                 </div>
               </div>
             </div>

@@ -95,12 +95,18 @@ export const useCounterStore = defineStore('counter', {
           method: 'post',
           data: this.register
         })
+        await Swal.fire({
+          icon: 'Success',
+          title: 'Succesfully registered!',
+          text: `Username ${data.username} successfully registered !`,
+          footer: 'Click Anywhere to continue!'
+        })
         router.push('/login')
       }catch(err){
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: err.message,
+          text: err.errors[0].message,
           footer: 'Click Anywhere to Try Again !'
         })
       }
