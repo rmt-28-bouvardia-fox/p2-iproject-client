@@ -93,7 +93,7 @@ export default {
 
 <template>
   <div v-if="step === 1">
-    <div class="pl-5">
+    <div class="pl-5 ">
       <div class="font-semibold text-white text-3xl">New Auction</div>
       <form class="py-9 " @submit.prevent="searchCardHandler">
         <label for="search " class="pr-5 text-white">Search Card</label>
@@ -126,7 +126,7 @@ export default {
     />
   </div>
   <div v-if="step === 2">
-    <div>
+    <div class="bg-white p-10 rounded-lg">
       <div>
         <div class="font-semibold text-3xl pb-9">New Auction</div>
         <CustomButton @click="backStep" :name="'Back'" :active="true" />
