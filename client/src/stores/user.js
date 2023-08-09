@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useAppStore = defineStore("app", {
   state: () => ({
-    urlBase: "https://game-steam-h8.herokuapp.com",
+    urlBase: "https://p2-iproject-server-giovanni-production.up.railway.app",
     isLogin: false,
     games: [],
     wishlist: [],
@@ -12,6 +12,7 @@ export const useAppStore = defineStore("app", {
     gameTitle: "",
     gameUrl: "",
     transactionToken: "",
+    usdToIdr: ""
   }),
   getters: {},
   actions: {
@@ -66,6 +67,18 @@ export const useAppStore = defineStore("app", {
         });
       }
     },
+   async convertUsdToIdr(){
+       const currency = await axios({
+          method: "get",
+          url: `https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to=IDR&amount=1`,
+          headers: {
+            "X-RapidAPI-Key":
+              "97ca4703afmshfc24237fffe660fp16c760jsn46a0ccfdc419",
+            "X-RapidAPI-Host": "currency-converter5.p.rapidapi.com",
+          },
+        });
+        this.usdToIdr = Math.ceil(currency.data.rates.IDR.rate_for_amount);
+    },
 
     async fetchGames(title) {
       try {
@@ -76,6 +89,10 @@ export const useAppStore = defineStore("app", {
             access_token: localStorage.access_token,
           },
         });
+        data.map(el=>{
+          el.cheapest = Math.ceil(el.cheapest * this.usdToIdr);
+          return el
+        })
         this.games = data;
       } catch (error) {
         Swal.fire({
@@ -170,16 +187,7 @@ export const useAppStore = defineStore("app", {
         });
         this.gameTitle = data.data.dataGame.external;
         this.gameUrl = data.data.dataGame.thumb;
-        const currency = await axios({
-          method: "get",
-          url: `https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to=IDR&amount=${data.data.dataGame.cheapest}`,
-          headers: {
-            "X-RapidAPI-Key":
-              "97ca4703afmshfc24237fffe660fp16c760jsn46a0ccfdc419",
-            "X-RapidAPI-Host": "currency-converter5.p.rapidapi.com",
-          },
-        });
-        this.gameIdr = Math.ceil(currency.data.rates.IDR.rate_for_amount);
+        this.gameIdr = data.data.dataGame.cheapest;
       } catch (error) {
         Swal.fire({
           title: "Error!",

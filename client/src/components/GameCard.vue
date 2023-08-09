@@ -26,6 +26,7 @@ export default {
 
     <div class="card-body">
       <h5 class="card-title">{{ game.external }}</h5>
+      <h5 class="card-title">Rp {{ game.cheapest }}</h5>
     </div>
 
     <button @click.prevent="addFavoriteHandler" class="btn btn-primary">

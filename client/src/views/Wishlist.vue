@@ -44,7 +44,7 @@ export default {
 
         <div class="card-body">
           <h5 class="card-title">{{ movie.dataGame.external }}</h5>
-          <span>${{ movie.dataGame.cheapest }}</span>
+          <span>Rp {{ movie.dataGame.cheapest }}</span>
         </div>
         <button
           class="btn btn-info mx-2 my-2"

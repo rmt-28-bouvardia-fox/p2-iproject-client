@@ -13,12 +13,14 @@ export default {
   components: {
     GameCard,
   },
-  created() {},
+  created() {
+    this.convertUsdToIdr()
+  },
   computed: {
     ...mapState(useAppStore, ["games", "rows"]),
   },
   methods: {
-    ...mapActions(useAppStore, ["fetchGames", "paginationMovie"]),
+    ...mapActions(useAppStore, ["fetchGames", "paginationMovie", "convertUsdToIdr"]),
     handlePageChange(val) {
       this.pageNumber = val;
       this.paginationMovie(this.perPage, this.pageNumber);
